@@ -33,7 +33,7 @@ class ProjectExpGeneralIncomeIncrementalController extends Controller
              }
              public function project_exp_general_income_icremental_detail_store(Request $request)
              {
-
+                //dd($request->all());
                 $counRequest = count($request->all());
                 if( $counRequest == 1){
                     $result = ProjectExpGeneralIncomeIncremental::where('project_id',1)->delete();

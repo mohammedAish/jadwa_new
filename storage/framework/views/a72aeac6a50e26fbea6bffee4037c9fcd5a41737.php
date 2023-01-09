@@ -159,7 +159,7 @@
                                     <div class="col-md-4" style="float: left">
                                         <button type="button" value="حفظ ومتابعة ->" name="save_btn_1" class="btn btn-warning" id="save_btn_1" >
                                             حفظ ومتابعة -->
-                                            <span class="spinner-border spinner-border-sm" id="spinner_1" role="status" aria-hidden="true"></span>
+                                            
                                         </button>
 
                                     </div>
@@ -205,7 +205,7 @@
                                         </button>
                                         <button style="float: left" type="button" value="حفظ والتالي" name="save_btn_2" class="btn btn-warning" id="save_btn_2" >
                                             حفظ ومتابعة
-                                            <span class="spinner-border spinner-border-sm" id="spinner_2" role="status" aria-hidden="true"></span>
+                                            
                                         </button>
 
 
@@ -222,7 +222,6 @@
                                     <table class="GeneratedTable" id="summry_table">
                                         <thead>
                                         <tr>
-                                            <th>الرقم</th>
                                             <th>الخدمة</th>
                                             <th>عدد الوحدات شهريا</th>
                                             <th>قيمة الوحدة</th>
@@ -421,7 +420,7 @@
                                         </button>
                                         <button type="button" style="float: left" value="حفظ ومتابعة" name="save_btn_3" class="btn btn-warning" id="save_btn_3"  >
                                             حفظ ومتابعة
-                                            <span class="spinner-border spinner-border-sm" id="spinner_3" role="status" aria-hidden="true"></span>
+                                            
                                         </button>
 
 
@@ -436,7 +435,6 @@
                             <h4 class="mb-4"><strong>نسبة نمو التكاليف</strong></h4>
 
                             <form id="form_4" name="form_4" class="form-horizontal">
-                                <form   name="form_value_exp_incremental" class="form-horizontal">
                                     <div class="mb-3 price">
                                         <label for="verticalnav-pancard-input"><strong>نسبة نمو التكاليف</strong></label>
                                         <input type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
@@ -447,10 +445,9 @@
                                         background: none;
                                         border: none;
                                         color: rgb(249 170 28);" class="" id="value_exp_incremental_button" >
-                                  تخصيص نسبة الايرادات +
+                                  تخصيص نسبة التكاليف +
                                     </button>
 
-                                </form>
 
                                 <div class="row">
 
@@ -467,7 +464,7 @@
                                         </button>
                                         <button type="button" style="float: left" value="حفظ ومتابعة" name="save_btn_4" class="btn btn-warning" id="save_btn_4" >
                                             حفظ ومتابعة
-                                            <span class="spinner-border spinner-border-sm" id="spinner_4" role="status" aria-hidden="true"></span>
+                                            
                                         </button>
 
                                 </div>
@@ -937,6 +934,10 @@ $('#vertical-example-p-5').removeAttr('style');
                         method: 'get',
                         dataType: 'json',
                         success: function (result) {
+                            $('#earning_summery').empty();
+                            $('#earning_summery_totle').empty();
+                            $('#earning_summery_totle_avrage').empty();
+                            $('#earning_summery').append('<tr id="earning_summery_crrunt"></tr>')
                             console.log(result);
                             $('#earning_summery_crrunt').append( '\
                             <td>' + result.yearCurrent + '</td>\
@@ -1133,7 +1134,6 @@ jQuery.ajax({
                         $.each(result.data, function (key, item) {
                             $('#incremental_data_totle').append('\
                                           <tr>\
-                                            <td>' +formatter.format( item.id) + '</td>\
                                 <td>' + (item.item) + '</td>\
                                 <td>' + formatter.format(item.quantity) +'</td>\
                                 <td>' + formatter.format(item.value) +'</td>\
@@ -1152,7 +1152,7 @@ jQuery.ajax({
                         $('#incremental_data_totle').append('\
                         <tr>\
                                                 <th>الاجمالي</th>\
-                                                <th></th><th></th><th></th>\
+                                                <th></th><th></th>\
                                                 <th>'+formatter.format(result.totleIncomeMounth)+'</th>\
                                                 <th>'+formatter.format(result.totleIncomeToEndYear)+'</th>\
                                                 <th>'+ formatter.format(result.totleIncomeYear)+'</th>\
@@ -1392,7 +1392,7 @@ jQuery.ajax({
                             ');
 
                     $('#view_incremental_data_avareg_persent').append(
-                 '%'+ result.IncomeAvargePersent
+                  result.IncomeAvargePersent +'%'
                             );
                     $('#total_revenue_totle_icome').append(
                         formatter.format(result.totleIncomee)
@@ -1404,7 +1404,7 @@ jQuery.ajax({
                             );
                             $('#total_revenue_totle_icome_avarge_persent').append(
 
-                                '%'+result.IncomeAvargePersent
+                               result.IncomeAvargePersent +'%'
                             );
                     $('#total_revenue_current_head').append(
                              result.yearCurrent
@@ -1474,7 +1474,7 @@ $('#view_exp_incremental_data').append('\
                                         <td id="total_exp_revenue_current"></td>\
                             ');
                     $('#view_exp_incremental_data_avareg_persent').append(
-                 '%'+ result.IncomeAvargePersent
+                result.IncomeAvargePersent +'%'
                             );
                     $('#total_exp_revenue_totle_icome').append(
                         formatter.format(result.totleIncomee)
@@ -1486,7 +1486,7 @@ $('#view_exp_incremental_data').append('\
                             );
                             $('#total_exp_revenue_totle_icome_avarge_persent').append(
 
-                                '%'+result.IncomeAvargePersent
+                               result.IncomeAvargePersent  +'%'
                             );
                     $('#total_exp_revenue_current_head').append(
                              result.yearCurrent
