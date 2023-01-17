@@ -1,18 +1,17 @@
-@extends('layouts.master')
+<?php $__env->startSection('title'); ?>
+    <?php echo e('دراسة جدوى'); ?>
 
-@section('title')
-    {{ 'دراسة جدوى' }}
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             الخدمات
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             دراسة جدوى
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
 
     <div class="row">
         <div class="col-lg-12">
@@ -35,7 +34,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                     <a href="{{ route('strategic-plan') }}" class="btn btn-outline-warning">الخطة الإستراتيجية</a>
+                     <a href="<?php echo e(route('strategic-plan')); ?>" class="btn btn-outline-warning">الخطة الإستراتيجية</a>
                     </div>
                         <span class="font-size-20"  style="color: green ;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -47,7 +46,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a href="{{ route('market-study') }}" class="btn btn-outline-warning">دراسة السوق</a>
+                        <a href="<?php echo e(route('market-study')); ?>" class="btn btn-outline-warning">دراسة السوق</a>
                     </div>
                     <span class="font-size-20" style="color: green  ;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -59,7 +58,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a href="{{ route('administrators') }}" class="btn btn-outline-warning">الإداريين</a>
+                        <a href="<?php echo e(route('administrators')); ?>" class="btn btn-outline-warning">الإداريين</a>
                     </div>
                     <span class="font-size-20" style="color: green;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -71,7 +70,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a href="{{ route('revenues') }}" class="btn btn-outline-warning">الإيرادات وتكاليف الإيرادات</a>
+                        <a href="<?php echo e(route('revenues')); ?>" class="btn btn-outline-warning">الإيرادات وتكاليف الإيرادات</a>
                     </div>
                     <span class="font-size-20" style="color: grey;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -83,7 +82,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a class="btn btn-outline-warning" href="{{route('employe.index')}}">الموظفين</a>
+                        <a class="btn btn-outline-warning" href="<?php echo e(route('employe.index')); ?>">الموظفين</a>
                     </div>
                     <span class="font-size-20" style="color: gray;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -95,7 +94,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a class="btn btn-outline-warning" href="{{route('balance_sheet.index')}}">الميزانية العمومية</a>
+                        <a class="btn btn-outline-warning" href="<?php echo e(route('balance_sheet.index')); ?>">الميزانية العمومية</a>
                     </div>
                     <span class="font-size-20" style="color: gray;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -105,4 +104,6 @@
     </div>
     <!-- end row -->
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/mac/Documents/GitHub/jadwa_new/resources/views/admin/forms/feasibility_study.blade.php ENDPATH**/ ?>

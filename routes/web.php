@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdministExpenController;
+use App\Http\Controllers\BalanceProjectsController;
+use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\EmployeesDetailsController;
 use App\Http\Controllers\ExpensisModalController;
 use App\Http\Controllers\FeasibilityStudiesController;
 use App\Http\Controllers\GeneralProjectIncomeController;
@@ -23,6 +26,7 @@ use App\Http\Controllers\SystemPageController;
 use App\Http\Controllers\SystemServicesController;
 use App\Http\Controllers\UsersController;
 use App\Models\AdministExpen;
+use App\Models\EmployeesDetails;
 use App\Models\ProjectExpGeneralIncomeIncremental;
 use App\Models\ProjectFsGeneralIncome;
 use Illuminate\Support\Facades\Auth;
@@ -164,5 +168,25 @@ Route::get('project_exp_general_income_icremental_detail_get',[ProjectExpGeneral
 Route::get('project_exp_general_income_icremental_total_revenue',[ProjectExpGeneralIncomeController::class,'project_exp_general_income_icremental_total_revenue'])->name('project_exp_general_income_icremental_total_revenue');
 
 Route::get('allـearnings',[ProjectExpGeneralIncomeIncrementalDetailController::class,'allـearnings'])->name('allـearnings');
+
+//*************************************************************** EmployeController  ****************************************************************************************
+
+Route::get('employees',[EmployeController::class,'index'])->name('employe.index');
+Route::post('employees',[EmployeController::class,'store'])->name('employe.store');
+Route::post('employees_store_detial',[EmployeesDetailsController::class,'employees_store_detial'])->name('employe.employees_store_detial');
+Route::post('employees_store_detial2',[EmployeesDetailsController::class,'employees_store_detial2'])->name('employe.employees_store_detial2');
+
+//*************************************************************** BalanceProjectsController  ****************************************************************************************
+
+Route::get('balance_sheet',[BalanceProjectsController::class,'index'])->name('balance_sheet.index');
+Route::post('equipment_buildings',[BalanceProjectsController::class,'equipment_buildings_store'])->name('equipment_buildings.store');
+
+Route::post('transport',[BalanceProjectsController::class,'transport_store'])->name('transport.store');
+Route::post('equipments',[BalanceProjectsController::class,'equipments_store'])->name('equipments.store');
+Route::post('furniture',[BalanceProjectsController::class,'furniture_store'])->name('furniture.store');
+Route::post('intangible_assets',[BalanceProjectsController::class,'intangible_assets_store'])->name('intangible_assets.store');
+Route::post('other_assets',[BalanceProjectsController::class,'other_assets_store'])->name('other_assets.store');
+Route::post('reserve',[BalanceProjectsController::class,'reserve_store'])->name('reserve.store');
+
 
 
