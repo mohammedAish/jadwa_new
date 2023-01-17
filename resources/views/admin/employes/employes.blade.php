@@ -855,8 +855,15 @@ $('#table_salary_employes').empty();
 $('#totole_salary_employes').empty();
 $('#totole_salary_employes').append('<td>الاجمالي</td>');
 $('#avarage_salary_employes').empty();
+$('#avarage_Fs_income').empty();
+$('#avarage_Fs_incomea_enployes').empty();
 $('#avarage_salary_employes').append('<td>متوسط الرواتب</td>');
 $('#table_salary_employes').append('<tr id="salary_employes"> </tr>');
+$('#avarage_Fs_income').append('<td>الايرادات</td>');
+$('#avarage_Fs_incomea_enployes').append('<td>نسبة الرواتب من الايرادات</td>');
+$('#yearCurrent').empty();
+
+
 $('#yearCurrent').append(result.yearCurrent);
 $.each(result.employeesDetailsS, function (key, item) {
     console.log(item);

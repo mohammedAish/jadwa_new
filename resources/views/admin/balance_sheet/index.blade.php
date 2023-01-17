@@ -239,7 +239,7 @@
                                      @endforeach
                                 </tr>
                                 </thead>
-                         <tbody>
+                         <tbody id="equipment_buildings_depreciation">
                             <tr  id="summery_equipment_buildings_depreciation"></tr>
                          </tbody>
                          {{-- <tfoot style="font-weight: bold;" id="totle_summeryـequipment_buildings_currentYear">
@@ -479,7 +479,7 @@
                                  @endforeach
                             </tr>
                             </thead>
-                     <tbody>
+                     <tbody id="transport_depreciationsss">
                         <tr  id="transport_depreciation"></tr>
                      </tbody>
                      {{-- <tfoot style="font-weight: bold;" id="totle_summeryـequipment_buildings_currentYear">
@@ -709,7 +709,7 @@
                                          @endforeach
                                     </tr>
                                     </thead>
-                             <tbody>
+                             <tbody id="equipments_depreciationsss">
                                 <tr  id="equipments_depreciation"></tr>
                              </tbody>
                              {{-- <tfoot style="font-weight: bold;" id="totle_summeryـequipment_buildings_currentYear">
@@ -938,7 +938,7 @@
                                          @endforeach
                                     </tr>
                                     </thead>
-                             <tbody>
+                             <tbody id="furniture_depreciationsss">
                                 <tr  id="furniture_depreciation"></tr>
                              </tbody>
                              {{-- <tfoot style="font-weight: bold;" id="totle_summeryـequipment_buildings_currentYear">
@@ -1168,7 +1168,7 @@
                                          @endforeach
                                     </tr>
                                     </thead>
-                             <tbody>
+                             <tbody id="intangible_assets_depreciationsss">
                                 <tr  id="intangible_assets_depreciation"></tr>
                              </tbody>
                              {{-- <tfoot style="font-weight: bold;" id="totle_summeryـequipment_buildings_currentYear">
@@ -1399,7 +1399,7 @@
                                          @endforeach
                                     </tr>
                                     </thead>
-                             <tbody>
+                             <tbody id="other_assets_depreciationsss">
                                 <tr  id="other_assets_depreciation"></tr>
                              </tbody>
                              {{-- <tfoot style="font-weight: bold;" id="totle_summeryـequipment_buildings_currentYear">
@@ -2236,6 +2236,15 @@ $('#vertical-example-p-12').removeAttr('style');
                         $('#vertical-example-p-1').removeAttr('style');
                         $('#vertical-example-t-0').parent().removeClass('current');
                         $('#vertical-example-t-1').parent().attr('class','current');
+                        $('#summery_equipment_buildings_currentYear').empty();
+                        $('#totle_summeryـequipment_buildings_currentYear').empty();
+                        $('#summery_equipment_buildings').empty();
+                        $('#totle_summeryـequipment_buildings').empty();
+                          $('#equipment_buildings_depreciation').empty();
+                          $('#equipment_buildings_depreciation').append('\
+                          <tr id="summery_equipment_buildings_depreciation"></tr>');
+
+
                         console.log(result.data);
 
                         let sumCost=0;
@@ -2330,6 +2339,11 @@ $('#summery_equipment_buildings_depreciations').append('<td>' +formatter.format(
                         console.log(result.data);
                         $('#summery_transport').empty();
                         $('#totle_transport').empty();
+                        $('#summery_transport_currentYear').empty();
+                        $('#totle_transport_currentYear').empty();
+                          $('#transport_depreciationsss').empty();
+                          $('#transport_depreciationsss').append('\
+                          <tr id="transport_depreciation"></tr>');
                         let sumCost=0;
                         let sumTotleCost=0;
         $.each(result.data, function (key, item) {
@@ -2421,7 +2435,12 @@ jQuery.ajax({
         $('#vertical-example-t-4').parent().removeClass('current');
         $('#vertical-example-t-5').parent().attr('class','current');
         $('#summery_equipments').empty();
-        $('#totle_equipments').empty();
+                        $('#totle_equipments').empty();
+                        $('#summery_equipments_currentYear').empty();
+                        $('#totle_equipments_currentYear').empty();
+                          $('#equipments_depreciationsss').empty();
+                          $('#equipments_depreciationsss').append('\
+                          <tr id="equipments_depreciation"></tr>');
         console.log(result.data);
         let sumCost=0;
         let sumTotleCost=0;
@@ -2515,7 +2534,12 @@ jQuery.ajax({
         $('#vertical-example-t-6').parent().removeClass('current');
         $('#vertical-example-t-7').parent().attr('class','current');
         $('#summery_furniture').empty();
-        $('#totle_furniture').empty();
+                        $('#totle_furniture').empty();
+                        $('#summery_furniture_currentYear').empty();
+                        $('#totle_furniture_currentYear').empty();
+                          $('#furniture_depreciationsss').empty();
+                          $('#furniture_depreciationsss').append('\
+                          <tr id="furniture_depreciation"></tr>');
         console.log(result.data);
         let sumCost=0;
         let sumTotleCost=0;
@@ -2608,7 +2632,12 @@ jQuery.ajax({
         $('#vertical-example-t-8').parent().removeClass('current');
         $('#vertical-example-t-9').parent().attr('class','current');
         $('#summery_intangible_assets').empty();
-        $('#totle_intangible_assets').empty();
+                        $('#totle_intangible_assets').empty();
+                        $('#summery_intangible_assets_currentYear').empty();
+                        $('#totle_intangible_assets_currentYear').empty();
+                          $('#intangible_assets_depreciationsss').empty();
+                          $('#intangible_assets_depreciationsss').append('\
+                          <tr id="intangible_assets_depreciation"></tr>');
         console.log(result.data);
         let sumCost=0;
         let sumTotleCost=0;
@@ -2701,7 +2730,12 @@ jQuery.ajax({
         $('#vertical-example-t-10').parent().removeClass('current');
         $('#vertical-example-t-11').parent().attr('class','current');
         $('#summery_other_assets').empty();
-        $('#totle_other_assets').empty();
+                        $('#totle_other_assets').empty();
+                        $('#summery_other_assets_currentYear').empty();
+                        $('#totle_other_assets_currentYear').empty();
+                          $('#other_assets_depreciationsss').empty();
+                          $('#other_assets_depreciationsss').append('\
+                          <tr id="other_assets_depreciation"></tr>');
         console.log(result.data);
         let sumCost=0;
         let sumTotleCost=0;
@@ -2794,6 +2828,10 @@ jQuery.ajax({
         $('#vertical-example-p-13').removeAttr('style');
         $('#vertical-example-t-12').parent().removeClass('current');
         $('#vertical-example-t-13').parent().attr('class','current');
+        $('#summery_allBalance').empty();
+        $('#totle_allBalance').empty();
+        $('#summery_allBalance_currentYear').empty();
+        $('#totle_allBalance_currentYear').empty();
         let sumCost=0;
         let sumTotleCost=0;
 $.each(result.data, function (key, item) {

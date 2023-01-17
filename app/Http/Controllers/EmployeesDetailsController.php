@@ -219,6 +219,11 @@ for($i = 0; $i<6; $i++){
 //dd($fs_salary_employs);
 // $totleIncomee=  array_sum($totleYear);
 //dd($totleYear);
+$empDataQ =array_reverse($empDataQ);
+$empDataI =array_reverse($empDataI);
+$empDataS =array_reverse($empDataS);
+
+
  return response()->json(['message'=>'success','data'=>$employees,'remainingmonths'=>$remainingmonths,
  'totleEmployeMounth'=>$totleEmployeMounth,'totleEmployeToEndYear'=>$totleEmployeToEndYear,
  'totleEmployeYear'=>$totleEmployeYear,'employeesDetailsQ'=>$empDataQ,'employeesDetailsI'=>$empDataI,
