@@ -133,6 +133,14 @@ Route::controller(FeasibilityStudiesController::class)->group(function (){
     Route::post('delete-project-product-service', 'delete_service')->name('delete_project_product_service');
     Route::get('fetch_project_services', 'fetch_project_services')->name('fetch_project_services');
 });
+    Route::resource('fs-account-receivable',\App\Http\Controllers\FsAccountReceivableController::class);
+    Route::resource('fs-working-capital',\App\Http\Controllers\FsWorkingCapitalController::class);
+    Route::resource('fs-startup-cost',\App\Http\Controllers\FsStartupCostController::class);
+    Route::delete('fs_startup_cost/delete', [\App\Http\Controllers\FsStartupCostController::class, 'destroy'])->name('fs_startup_cost.del');
+    Route::get('fs_startup_cost/startupCosts', [App\Http\Controllers\FsStartupCostController::class, 'fetchStartupCost'])->name('fetch_startupCosts')->middleware('auth');
+    Route::resource('funding-source',\App\Http\Controllers\FundingSourceController::class);
+    Route::resource('capital-structure',\App\Http\Controllers\CapitalStructureController::class);
+    Route::resource('loan-detail',\App\Http\Controllers\LoanDetailController::class);
 
 //*************************************************************** General Project Income ****************************************************************************************
 Route::post('general_project_value_incremental_store',[GeneralProjectIncomeController::class,'value_incremental_store'])->name('general_project_income.value_incremental_store');

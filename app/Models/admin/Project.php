@@ -2,6 +2,10 @@
 
 namespace App\Models\admin;
 
+use App\Models\CapitalStructure;
+use App\Models\FsAccountReceivable;
+use App\Models\FsWorkingCapital;
+use App\Models\FundingSource;
 use App\Models\ProjectType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,9 +15,9 @@ use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
 {
-    
+
     use HasFactory ,SoftDeletes;
-    protected $guarded = [];  
+    protected $guarded = [];
 
     public $timestamps = true;
 
@@ -26,6 +30,22 @@ class Project extends Model
 
     public function projectType(){
         return $this->belongsTo(ProjectType::class );
+    }
+
+    public function fsAccountReceivable(){
+        return $this->belongsTo(FsAccountReceivable::class );
+    }
+
+    public function fsWorkingCapital(){
+        return $this->belongsTo(FsWorkingCapital::class );
+    }
+
+    public function fundingResource(){
+        return $this->belongsTo(FundingSource::class );
+    }
+
+    public function capitalStructure(){
+        return $this->belongsTo(CapitalStructure::class );
     }
 
     // public function setCreatedByAttribute() {
