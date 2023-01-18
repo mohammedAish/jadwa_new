@@ -373,14 +373,14 @@
                                                         <span class="text-danger error-text item_error"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-2">
                                                     <div class="mb-3">
                                                         <label for="verticalnav-pancard-input"><strong>القيمة</strong></label>
                                                         <input type="text" name="value[]"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                                         <span class="text-danger error-text value_error"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2">
+                                                <div class="col-lg-3">
                                                     <div class="mb-3">
                                                         <label for="verticalnav-pancard-input"><strong>عدد الوحدات شهريا</strong></label>
                                                         <input type="text" name="quantity[]" value="<?php echo e($projectIncome->quantity); ?>"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
@@ -714,7 +714,7 @@
                                                         <div class="mb-3">
 
                                                             <label for="verticalnav-pancard-input"><strong>البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
-                                                            <select onchange="checkAlert(event)" id="executive"  class="form-control"  name="item[]">
+                                                            <select onchange="checkAlert(event)" id="executive"  class="form-control my-2"  name="item[]">
                                                                 <?php $__currentLoopData = $projectIncomes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectIncome): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($projectIncome->item); ?>"><?php echo e($projectIncome->item); ?> </option>
 
@@ -751,21 +751,10 @@
                                                              <?php endif; ?>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="mb-3">
-
-                                                          <?php if($project->revenu_entry == "m"): ?>
-                                                            <label for="verticalnav-pancard-input"><strong>عدد الوحدات شهريا</strong></label>
-                                                            <?php else: ?>
-                                                            <label for="verticalnav-pancard-input"><strong>عدد الوحدات سنوي</strong></label>
-                                                            <?php endif; ?>
-                                                            <input type="text" name="quantity[]" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text quantity_error"></span>
-                                                        </div>
-                                                    </div>
 
 
-                                                    <div class="col-lg-1">
+
+                                                    <div class="col-lg-2">
                                                         <div class="mb-3">
                                                             <h4></h4>
                                                             <label for="verticalnav-pancard-input"></label>

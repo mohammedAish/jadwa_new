@@ -385,14 +385,14 @@
                                                         <span class="text-danger error-text item_error"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-2">
                                                     <div class="mb-3">
                                                         <label for="verticalnav-pancard-input"><strong>القيمة</strong></label>
                                                         <input type="text" name="value[]"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                                         <span class="text-danger error-text value_error"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2">
+                                                <div class="col-lg-3">
                                                     <div class="mb-3">
                                                         <label for="verticalnav-pancard-input"><strong>عدد الوحدات شهريا</strong></label>
                                                         <input type="text" name="quantity[]" value="{{$projectIncome->quantity}}"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
@@ -740,7 +740,7 @@
                                                         <div class="mb-3">
 
                                                             <label for="verticalnav-pancard-input"><strong>البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
-                                                            <select onchange="checkAlert(event)" id="executive"  class="form-control"  name="item[]">
+                                                            <select onchange="checkAlert(event)" id="executive"  class="form-control my-2"  name="item[]">
                                                                 @foreach($projectIncomes as $projectIncome)
                                                             <option value="{{$projectIncome->item}}">{{$projectIncome->item}} </option>
 
@@ -777,21 +777,10 @@
                                                              @endif
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="mb-3">
-
-                                                          @if($project->revenu_entry == "m")
-                                                            <label for="verticalnav-pancard-input"><strong>عدد الوحدات شهريا</strong></label>
-                                                            @else
-                                                            <label for="verticalnav-pancard-input"><strong>عدد الوحدات سنوي</strong></label>
-                                                            @endif
-                                                            <input type="text" name="quantity[]" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text quantity_error"></span>
-                                                        </div>
-                                                    </div>
 
 
-                                                    <div class="col-lg-1">
+
+                                                    <div class="col-lg-2">
                                                         <div class="mb-3">
                                                             <h4></h4>
                                                             <label for="verticalnav-pancard-input"></label>

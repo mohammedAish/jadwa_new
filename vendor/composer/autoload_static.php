@@ -37,6 +37,7 @@ class ComposerStaticInitd3289b6aef653d968bdbc75943f3f31e
         '6b34c85f7b1ad6faa15aa12109e030f2' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
         'b4e3f29b106af37a2bb239f73cdf68c7' => __DIR__ . '/../..' . '/app/helpers.php',
+        'b20092bb944cb9543c8144f38dce59df' => __DIR__ . '/../..' . '/app/fs_helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -540,6 +541,7 @@ class ComposerStaticInitd3289b6aef653d968bdbc75943f3f31e
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
+        'App\\Http\\Controllers\\BalanceProjectsController' => __DIR__ . '/../..' . '/app/Http/Controllers/BalanceProjectsController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\EmployeController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmployeController.php',
         'App\\Http\\Controllers\\EmployeesDetailsController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmployeesDetailsController.php',
