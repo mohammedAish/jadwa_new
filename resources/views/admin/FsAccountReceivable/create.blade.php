@@ -25,7 +25,7 @@
                             <form id="form1" class="form-horizontal" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="mb-3 @error('account_receivable') is-invalid @enderror">
                                             <h4>
                                                 <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,9 +43,9 @@
 {{--                                            <input type="text" name="account_receivable" class="form-control" id="verticalnav-pancard-input">--}}
                                            <div class="row " id="selectInputt">
 
-                                               <div class="col-md-12" id="divselect">
+                                               <div class="col-md-6" id="divselect">
                                                    <select name="account_receivable" id="selectreceivable" onchange="checkAlert(event)" class=" form-control" id="receivableselect">
-                                                       @if( isset($fsAccountReceivable))
+                                                       @if( isset($fsAccountReceivable[0]))
                                                            @foreach($fsAccountReceivable as $item)
                                                                <option id="receivable" selected value="{{$item->account_receivable}}" >{{$item->account_receivable}}</option>
                                                                <?php
@@ -95,7 +95,7 @@
                                             <div class="col-md-6">
                                              <select name="account_payable" class="form-control" id="payableselect">
 
-                                                @if(isset($fsAccountReceivable))
+                                                @if(isset($fsAccountReceivable[0]))
                                                     @foreach($fsAccountReceivable as $item)
                                                         <option id="payable" selected value="{{$item->account_payable}}" >{{$item->account_payable}}</option>
                                                         <?php
@@ -145,7 +145,7 @@
                                             <div class="row " id="selectInputt3">
                                                 <div class="col-md-6">
                                             <select name="inventory" class="form-control" id="inventoryselect">
-                                                @if(isset($fsAccountReceivable))
+                                                @if(isset($fsAccountReceivable[0]))
                                                     @foreach($fsAccountReceivable as $item)
                                                         <option id="inventory" selected value="{{$item->inventory}}" >{{$item->inventory}}</option>
                                                         <?php
