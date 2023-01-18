@@ -90,6 +90,42 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="card text-center" style="border: 3px solid #F9AA1C ;border-radius: 7px;">
+                <div class="card-body ">
+
+                    <div class="col-sm center">
+                        <a  href="{{ route('fs-account-receivable.create') }}" class="btn btn-outline-warning">رأس المال العامل</a>
+                    </div>
+                    <span class="font-size-20" style="color: gray;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center" style="border: 3px solid #F9AA1C ;border-radius: 7px;">
+                <div class="card-body ">
+
+                    <div class="col-sm center">
+                        <a href="{{ route('fs-startup-cost.create') }}" class="btn btn-outline-warning">مصاريف التأسيس</a>
+                    </div>
+                    <span class="font-size-20" style="color: green;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center" style="border: 3px solid #F9AA1C ;border-radius: 7px;">
+                <div class="card-body ">
+
+                    <div class="col-sm center">
+                        <a href="{{ route('funding-source.create') }}" class="btn btn-outline-warning">مصادر التمويل</a>
+                    </div>
+                    <span class="font-size-20" style="color: green;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
+
+                </div>
+            </div>
+        </div>
     </div>
     <!-- end row -->
 
