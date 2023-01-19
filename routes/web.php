@@ -161,6 +161,8 @@ Route::get('total_expenses',[GeneralProjectIncomeExpensesController::class,'tota
 
 //*************************************************************** Project Fs General  Income  ****************************************************************************************
 Route::post('project_fs_general_income_store',[ProjectFsGeneralIncomeController::class,'project_fs_general_income_store'])->name('project_fs_general_income_store');
+Route::post('project_fs_general_income_update/{id}',[ProjectFsGeneralIncomeController::class,'project_fs_general_income_update'])->name('project_fs_general_income_update');
+
 Route::post('project_fs_general_income_icremental_store',[ProjectFsGeneralIncomeIncrementalController::class,'project_fs_general_income_icremental_store'])->name('project_fs_general_income_icremental_store');
 Route::post('project_fs_general_income_icremental_detail_store',[ProjectFsGeneralIncomeIncrementalController::class,'project_fs_general_income_icremental_detail_store'])->name('project_fs_general_income_icremental_detail_store');
 Route::get('project_fs_general_income_icremental_detail_get',[ProjectFsGeneralIncomeIncrementalController::class,'project_fs_general_income_icremental_detail_get'])->name('project_fs_general_income_icremental_detail_get');

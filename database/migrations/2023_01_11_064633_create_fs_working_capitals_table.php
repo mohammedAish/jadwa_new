@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('fs_working_capitals', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id')->unique();
+            $table->unsignedBigInteger('project_id');
             $table->enum('type',['cogs','rent','salary','marketing','admin-expenses','spare']);
             $table->integer('period');
             $table->foreign('project_id')->references('id')->on('projects')->cascadeOnDelete();

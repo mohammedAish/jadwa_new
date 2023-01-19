@@ -51,7 +51,7 @@ class ProjectFsGeneralIncomeController extends Controller
             'item','value','quantity',
         ]);
 
-        $result = ProjectFsGeneralIncome::where('project_id',1)->delete();
+        //$result = ProjectFsGeneralIncome::where('project_id',1)->delete();
         foreach ($data['item'] as $key => $item){
             if (!is_null($item)){
                 ProjectFsGeneralIncome::query()->create([
@@ -67,6 +67,29 @@ class ProjectFsGeneralIncomeController extends Controller
 
         return response()->json(['message'=>'success','success'=>'تم تخزين البيانات بنجاح']);
 
+    }
+    function project_fs_general_income_update(Request $request,$id){
+        //dd($id);
+        $projectFsGeneralIncome=ProjectFsGeneralIncome::findOrFail($id);
+        $data = $request->only([
+            'item','value','quantity',
+        ]);
+
+        //$result = ProjectFsGeneralIncome::where('project_id',1)->delete();
+        foreach ($data['item'] as $key => $item){
+            if (!is_null($item)){
+                ProjectFsGeneralIncome::whereId($id)->update([
+                    'project_id' => '1',
+                    'item' => $data['item'][$key],
+                    'value' => $data['value'][$key],
+                    'quantity' => $data['quantity'][$key],
+
+                ]);
+            }
+
+        }
+
+        return response()->json(['message'=>'success','success'=>'تم تخزين البيانات بنجاح']);
     }
 
     /**

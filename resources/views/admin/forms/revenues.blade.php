@@ -19,6 +19,14 @@
     /* color: #fff; */
     background: #e8e3e3;
     padding: 2px;}
+
+ .addItem{
+border:1px solid #3CC0B9;
+background: #FFFFFF;
+border-radius: 8px;
+color: #3CC0B9;
+font-size: 20px;
+ }
 </style>
 @section('content')
     @component('components.breadcrumb')
@@ -30,6 +38,7 @@
         @endslot
     @endcomponent
 
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -39,80 +48,70 @@
                         <section>
                             <h4 class="mb-4"><strong>الإيرادات</strong></h4>
                             <form id="form_1" name="form_1" class="form-horizontal">
-                                @foreach($projectIncomes as $projectIncome)
-                                <div class="row">
-                                    <div class="inner-repeater mb-4" style="">
+                            <table data-repeater-item  class="table table-bordered text-center inner-repeater " id="summry_table">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>المنتج/الخدمة</th>
+                                    <th>القيمة</th>
+                                    <th>عدد الوحدات <span>"شهريا"</span></th>
+                                    <th>العمليات</th>
+                                </tr>
+                                </thead>
+                                <tbody data-repeater-list="inner-group" class="inner ">
+                                    @foreach($projectIncomes as $projectIncome)
+                                    <tr id="lable_{{$projectIncome->id}}">
+                                        <td>{{$projectIncome->item}}</td>
+                                        <td>{{$projectIncome->value}}</td>
+                                        <td>{{$projectIncome->quantity}}</td>
+                                        <td>
+                                            <button type="button" class="edit" title="تعديل" style="cursor: pointer; border-radius:60%;
+                                            border: none;"
+                                             data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger ">
+                                             <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="show_edit(this.id)"></i>
+                                            </button>
+                                            <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
+                                            border: none;"
+                                             data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger delete">
+                                             <i class="p-2 fas fa-trash-alt font-size-15" style="cursor: pointer;color: #ec6868;" id=""></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr id="input_{{$projectIncome->id}}" style="display: none">
 
-                                        <div data-repeater-list="inner-group" class="inner mb-4">
-                                                <div data-repeater-item class=" mb-2 row">
-                                                    <div class="col-lg-4">
-                                                        <div class="mb-4">
+                                        <td><input type="text" name="item[]" value="{{$projectIncome->item}}" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td><input type="text" name="value[]" value="{{$projectIncome->value}}" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td><input type="text" name="quantity[]" value="{{$projectIncome->quantity}}" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td>
+                                            <button type="button" class="" title="تعديل" style="cursor: pointer; border-radius:60%;
+                                            border: none;"
+                                             data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger ">
+                                             <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="editInput(this.id)"></i>
+                                            </button>
+                                            <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
+                                            border: none;"
+                                             data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger delete">
+                                             <i class="p-2 fas fa-trash-alt font-size-15" style="cursor: pointer;color: #ec6868;" id=""></i>
+                                            </button>
+                                        </td>
+                                    </tr>
 
-                                                            <label for="verticalnav-pancard-input"><strong>المنتج / الخدمة</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
+                                    @endforeach
 
-                                                            <input type="text" name="item[]" value="{{$projectIncome->item}}" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text item_error"></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="mb-2 price">
-                                                            <label for="verticalnav-pancard-input"><strong>القيمة</strong></label>
-                                                            <input type="text" name="value[]"  value="{{$projectIncome->value}}"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text value_error"></span>
-                                                            @if($project->currency == "ksa")
-                                                            <span class="ral">رس</span>
-                                                            @else
-                                                             <span class="ral">USD</span>
-                                                             @endif
 
-                                                        </div>
-                                                    </div>
-                                                    {{-- <div class="col-lg-2">
-                                                        <div class="mb-3">
-                                                            <label for="verticalnav-pancard-input"><strong>نسبة نمو الوحدات</strong></label>
-                                                            <input type="text" name="quantity_incremental[]" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text quantity_incremental_error"></span>
-                                                        </div>
-                                                    </div> --}}
-                                                    <div class="col-lg-3">
-                                                        <div class="mb-2">
 
-                                                          @if($project->revenu_entry == "m")
-                                                            <label for="verticalnav-pancard-input"><strong>عدد الوحدات شهريا</strong></label>
-                                                            @else
-                                                            <label for="verticalnav-pancard-input"><strong>عدد الوحدات سنوي</strong></label>
-                                                            @endif
-                                                            <input type="text" name="quantity[]" value="{{$projectIncome->quantity}}"   onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text quantity_error"></span>
-                                                        </div>
-                                                    </div>
-                                                    {{-- <div class="col-lg-2">
-                                                        <div class="mb-3 price">
-                                                            <label for="verticalnav-pancard-input"><strong>نسبة نمو الايرادات</strong></label>
-                                                            <input type="text" name="value_incremental[]" value="{{$projectIncome->value_incremental}}"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text value_incremental_error"></span>
-                                                            <span class="ral text-center pt-2">٪</span>
-                                                        </div>
-                                                    </div> --}}
-                                                    <div class="col-lg-1">
-                                                        <div class="mb-3 pt-4 table-responsive">
+                                </tbody>
+                                <tfoot   class="inner mb-3  income">
+                                </tfoot>
 
-                                                                <button type="button" class="destroy" title="حذف" style="cursor: pointer;    background: none;
-                                                                border: none;"
-                                                                 data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger delete">
-                                                                 <i class=" mdi mdi-delete font-size-20" style="cursor: pointer;color: #ee0e0e;" id="delete_income_item"></i>
-                                                                </button>
 
-                                                        </div>
-                                                    </div>
+                            </table>
+                            <div class="mt-5">
+                                <input data-repeater-create id="add_income_item" type="button"
+                                       class=" add addItem" value="+ اضافة " />
+                            </div>
 
-                                                </div>
 
-                                            </div>
-                                    </div>
-                                </div >
-                                @endforeach
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="inner-repeater mb-4" style="">
 
                                             <div data-repeater-list="inner-group" class="inner mb-4">
@@ -161,11 +160,11 @@
 
                                                 <div class="col-md-4 col-4 ">
                                                     <input data-repeater-create id="add_income_item" type="button"
-                                                           class="add btn btn-outline-dark inner" value="اضافة " />
+                                                           class=" add  inner addItem" value="+ اضافة " />
                                                 </div>
                                             </div>
                                     </div>
-                                </div >
+                                </div > --}}
 
                                 <div class="col-md-6 col-6" style="float: left">
                                     <div class="col-md-4" style="float: left">
@@ -690,49 +689,10 @@
 
             // start clone element
             if (e.target.id == 'add_income_item') {
-                $(".income").after(`<div data-repeater-item class="inner mb-3 row">
-                                                        <div class="col-lg-4">
-                                                        <div class="mb-3">
-
-                                                            <label for="verticalnav-pancard-input"><strong>المنتج / الخدمة</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
-
-                                                            <input type="text" name="item[]" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text item_error"></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="mb-3 price">
-                                                            <label for="verticalnav-pancard-input"><strong>القيمة</strong></label>
-                                                            <input type="text" name="value[]" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text value_error"></span>
-                                                            @if($project->currency == "ksa")
-                                                            <span class="ral">رس</span>
-                                                            @else
-                                                             <span class="ral">USD</span>
-                                                             @endif
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="mb-3">
-
-                                                          @if($project->revenu_entry == "m")
-                                                            <label for="verticalnav-pancard-input"><strong>عدد الوحدات شهريا</strong></label>
-                                                            @else
-                                                            <label for="verticalnav-pancard-input"><strong>عدد الوحدات سنوي</strong></label>
-                                                            @endif
-                                                            <input type="text" name="quantity[]" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
-                                                            <span class="text-danger error-text quantity_error"></span>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-lg-1">
-                                                        <div class="mt-4">
-
-                                                            <i class=" mdi mdi-delete font-size-20" style="cursor: pointer;color: #ee0e0e;" id="delete_income_item"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>`);
+                $(".income").append(`<tr data-repeater-item class="inner mb-4"> <td> <input type="text" name="item[]" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td> <input type="text" name="value[]" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td> <input type="text" name="quantity[]" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td><i class=" mdi mdi-delete font-size-20" style="cursor: pointer;color: #ee0e0e;" id="delete_income_item"></i></td><tr>`);
             }
             if (e.target.id == 'add_income_expenses_item') {
                 $(".income_expenses").after(`<div data-repeater-item class="inner mb-3 row">
@@ -800,7 +760,7 @@
             if (e.target.id == 'delete_income_item') {
 
 
-                e.target.parentElement.parentElement.parentElement.remove();
+                e.target.parentElement.parentElement.remove();
             }
             if (e.target.id == 'delete_income_expenses_item') {
 
@@ -827,6 +787,47 @@
     //         }
 
     //     });
+
+
+    function show_edit(id) {
+        // alert("lable_"+id);
+         $("#lable_"+id).attr("style", "display:none");
+         $("#input_"+id).removeAttr("style");
+
+}
+    function editInput(id) {
+        // $("#lable_"+id).removeAttr("style");
+        //                  $("#input_"+id).attr("style", "display:none");
+        //                  $(".edit").attr("style", "background-color: green");
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var formData = $('#form_1').serialize();
+                jQuery.ajax({
+                    url: 'project_fs_general_income_update/'+id,
+                    method: 'post',
+                    data: formData,
+                    dataType: 'json',
+                    success: function (result) {
+                        $("lable_"+id).empty()
+                        toastr.success("تمت العملية بنجاح", "تم تخزين البيانات بنجاح");
+                        //$("#form_1 :input").prop("disabled", true);
+                        $("#lable_"+id).removeAttr("style");
+                         $("#input_"+id).attr("style", "display:none");
+                         $(".edit").attr("style", "background-color: green");
+                         $("tbody").append('<tr id=lable_'+id+'></tr>');
+
+
+
+
+
+
+
+                    }
+                });
+}
 
     function checkAlert(evt) {
   if (evt.target.value === "أخري") {
