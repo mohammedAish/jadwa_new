@@ -130,7 +130,7 @@
                                                     <thead>
                                                     <tr>
                                                          <th>الوظيفة</th>
-                                                         @foreach(years()['years'] as $year)
+                                                         @foreach(years($project->id)['years'] as $year)
                                                          <td>{{$year}} </td>
                                                          @endforeach
                                                     </tr>
@@ -169,7 +169,7 @@
                                                 <thead>
                                                 <tr>
                                                      <th>الوظيفة</th>
-                                                     @foreach(years()['years'] as $year)
+                                                     @foreach(years($project->id)['years'] as $year)
                                                      <td>{{$year}} </td>
                                                      @endforeach
                                                 </tr>
@@ -230,7 +230,7 @@
                                             <thead>
                                             <tr>
                                                  <th>الوظيفة</th>
-                                                 @foreach(years()['years'] as $year)
+                                                 @foreach(years($project->id)['years'] as $year)
                                                  <th>{{$year}} </th>
                                                  @endforeach
                                             </tr>
@@ -248,7 +248,7 @@
                                         <thead>
                                         <tr>
                                              <th>الوظيفة</th>
-                                             @foreach(years()['years'] as $year)
+                                             @foreach(years($project->id)['years'] as $year)
                                              <th>{{$year}} </th>
                                              @endforeach
                                         </tr>
@@ -266,7 +266,7 @@
                                     <tr>
                                          <th>الوظيفة</th>
                                          <th id="yearCurrent"></th>
-                                         @foreach(years()['years'] as $year)
+                                         @foreach(years($project->id)['years'] as $year)
                                          <th>{{$year}} </th>
                                          @endforeach
                                     </tr>
@@ -602,7 +602,6 @@ $.ajaxSetup({
 });
 var formData = $('#form_2').serialize();
 jQuery.ajax({
-    url: "{{ route('project_fs_general_income_icremental_store') }}",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -619,7 +618,7 @@ jQuery.ajax({
                         </tr>\
                         </thead>\
                  <tbody id="incrementals">\
-@foreach(years()['years'] as $year)\
+@foreach(years($project->id)['years'] as $year)\
 <tr>\
     <td>' + {{$year}} + '</td>\
 <td>\
@@ -649,7 +648,6 @@ $.ajaxSetup({
 });
 var formData = $('#form_4').serialize();
 jQuery.ajax({
-    url: "{{ route('project_exp_general_income_icremental_store') }}",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -666,7 +664,7 @@ jQuery.ajax({
                         </tr>\
                         </thead>\
                  <tbody id="incrementals">\
-@foreach(years()['years'] as $year)\
+@foreach(years($project->id)['years'] as $year)\
 <tr>\
     <td>' + {{$year}} + '</td>\
 <td>\
@@ -698,7 +696,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_1').serialize();
                 jQuery.ajax({
-                    url: "{{ route('employe.store') }}",
+                    url: "{{ route('employe.store',$project->id,$project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -717,7 +715,7 @@ jQuery.ajax({
             $('#incrementals_jobs').append('\
 <tr>\
     <td>'+item.job +'</td>\
-    @foreach(years()['years'] as $year)\
+    @foreach(years($project->id)['years'] as $year)\
 <td>\
     <input type="hidden" name="year[]" value="{{$year}}" />\
     <input type="hidden" name="employes_id[]" value="' +item.id + '">\
@@ -741,7 +739,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_2').serialize();
                 jQuery.ajax({
-                    url: "{{ route('employe.employees_store_detial') }}",
+                    url: "{{ route('employe.employees_store_detial',$project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -757,7 +755,7 @@ jQuery.ajax({
             $('#incrementals_employes').append('\
 <tr>\
     <td>' +item.job + '</td>\
-    @foreach(years()['years'] as $year)\
+    @foreach(years($project->id)['years'] as $year)\
 <td>\
     <input type="hidden" name="year[]" value="{{$year}}" />\
     <input type="hidden" name="employes_id[]" value="' +item.id + '">\
@@ -780,7 +778,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_3').serialize();
                 jQuery.ajax({
-                    url: "{{ route('employe.employees_store_detial2') }}",
+                    url: "{{ route('employe.employees_store_detial2',$project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',

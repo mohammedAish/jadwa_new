@@ -12,12 +12,14 @@ use Illuminate\Http\Request;
 
 class BalanceProjectsController extends Controller
 {
-    public function index(){
+    public function index($pro_id){
+        $project = Project::where('id',$pro_id)->first();
+
         $currentYear = date('Y', strtotime('12/31'));
-        $balances =BalanceProjects::where('project_id',1)->get();
-        return view('admin.balance_sheet.index',compact('balances','currentYear'));
+        $balances =BalanceProjects::where('project_id',$pro_id)->get();
+        return view('admin.balance_sheet.index',compact('balances','currentYear','project'));
     }
-    public function equipment_buildings_store(Request $request){
+    public function equipment_buildings_store(Request $request,$pro_id){
         $request->validate([
             'item.*' => 'required',
             'quantity.*' => 'required',
@@ -30,11 +32,11 @@ class BalanceProjectsController extends Controller
         ]);
 
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->delete();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->delete();
         foreach ($data['item'] as $key => $item){
             if (!is_null($item)){
                 BalanceProjects::query()->create([
-                    'project_id' => '1',
+                    'project_id' => $pro_id,
                     'balance_type' => 'equipment_buildings',
                     'item' => $data['item'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -49,9 +51,9 @@ class BalanceProjectsController extends Controller
         $currentYear = date('Y', strtotime('12/31'));
               $depreciationData = array();
 
-             $years= years()['years'];
+             $years= years($pro_id)['years'];
              array_unshift($years,$currentYear);
-               $allData = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->get();
+               $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
                foreach($allData as $data){
                 $emp1 = [$data->item];
               //  dd(count(years()['years']));
@@ -84,8 +86,8 @@ class BalanceProjectsController extends Controller
 
 
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->where('purchase_year','!=', $currentYear)->get();
-        $dataYearCurrent = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->where('purchase_year',$currentYear)->get();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->where('purchase_year','!=', $currentYear)->get();
+        $dataYearCurrent = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->where('purchase_year',$currentYear)->get();
   // dd($allData);
         return response()->json(['message'=>'success','data'=>$result,'dataYearCurrent'=>$dataYearCurrent,
         'allData'=>$allData,'depreciationData'=>$depreciationData,
@@ -93,7 +95,7 @@ class BalanceProjectsController extends Controller
 
     }
 
-    public function transport_store(Request $request){
+    public function transport_store(Request $request,$pro_id){
         $request->validate([
             'item.*' => 'required',
             'quantity.*' => 'required',
@@ -105,11 +107,11 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','transport')->delete();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','transport')->delete();
         foreach ($data['item'] as $key => $item){
             if (!is_null($item)){
                 BalanceProjects::query()->create([
-                    'project_id' => '1',
+                    'project_id' => $pro_id,
                     'balance_type' => 'transport',
                     'item' => $data['item'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -126,9 +128,9 @@ class BalanceProjectsController extends Controller
 
         $depreciationData = array();
 
-        $years= years()['years'];
+        $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -160,15 +162,15 @@ class BalanceProjectsController extends Controller
          $depreciationData =array_reverse($depreciationData);
 
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','transport')->where('purchase_year','!=', $currentYear)->get();
-        $dataYearCurrent = BalanceProjects::where('project_id',1)->where('balance_type','transport')->where('purchase_year',$currentYear)->get();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','transport')->where('purchase_year','!=', $currentYear)->get();
+        $dataYearCurrent = BalanceProjects::where('project_id',$pro_id)->where('balance_type','transport')->where('purchase_year',$currentYear)->get();
 
         return response()->json(['message'=>'success','data'=>$result,'dataYearCurrent'=>$dataYearCurrent,
         'depreciationData'=>$depreciationData,
         'success'=>'تم تخزين  النسبة البيانات بنجاح']);
 
     }
-    public function equipments_store(Request $request){
+    public function equipments_store(Request $request,$pro_id){
         $request->validate([
             'item.*' => 'required',
             'quantity.*' => 'required',
@@ -180,11 +182,11 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','equipments')->delete();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipments')->delete();
         foreach ($data['item'] as $key => $item){
             if (!is_null($item)){
                 BalanceProjects::query()->create([
-                    'project_id' => '1',
+                    'project_id' => $pro_id,
                     'balance_type' => 'equipments',
                     'item' => $data['item'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -200,9 +202,9 @@ class BalanceProjectsController extends Controller
 
         $depreciationData = array();
 
-        $years= years()['years'];
+        $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -233,8 +235,8 @@ class BalanceProjectsController extends Controller
          // dd($emp1);
          $depreciationData =array_reverse($depreciationData);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','equipments')->where('purchase_year','!=', $currentYear)->get();
-        $dataYearCurrent = BalanceProjects::where('project_id',1)->where('balance_type','equipments')->where('purchase_year',$currentYear)->get();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipments')->where('purchase_year','!=', $currentYear)->get();
+        $dataYearCurrent = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipments')->where('purchase_year',$currentYear)->get();
 
         return response()->json(['message'=>'success','data'=>$result,'dataYearCurrent'=>$dataYearCurrent,
         'depreciationData'=>$depreciationData,
@@ -242,7 +244,7 @@ class BalanceProjectsController extends Controller
 
     }
 
-    public function furniture_store(Request $request){
+    public function furniture_store(Request $request,$pro_id){
        // dd('furniture');
         $request->validate([
             'item.*' => 'required',
@@ -255,11 +257,11 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','furniture')->delete();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','furniture')->delete();
         foreach ($data['item'] as $key => $item){
             if (!is_null($item)){
                 BalanceProjects::query()->create([
-                    'project_id' => '1',
+                    'project_id' => $pro_id,
                     'balance_type' => 'furniture',
                     'item' => $data['item'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -275,9 +277,9 @@ class BalanceProjectsController extends Controller
 
         $depreciationData = array();
 
-        $years= years()['years'];
+        $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -308,15 +310,15 @@ class BalanceProjectsController extends Controller
          // dd($emp1);
          $depreciationData =array_reverse($depreciationData);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','furniture')->where('purchase_year','!=', $currentYear)->get();
-        $dataYearCurrent = BalanceProjects::where('project_id',1)->where('balance_type','furniture')->where('purchase_year',$currentYear)->get();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','furniture')->where('purchase_year','!=', $currentYear)->get();
+        $dataYearCurrent = BalanceProjects::where('project_id',$pro_id)->where('balance_type','furniture')->where('purchase_year',$currentYear)->get();
 
         return response()->json(['message'=>'success','data'=>$result,'dataYearCurrent'=>$dataYearCurrent,
         'depreciationData'=>$depreciationData,
         'success'=>'تم تخزين  النسبة البيانات بنجاح']);
 
     }
-    public function intangible_assets_store(Request $request){
+    public function intangible_assets_store(Request $request,$pro_id){
         $request->validate([
             'item.*' => 'required',
             'quantity.*' => 'required',
@@ -328,11 +330,11 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','intangible_assets')->delete();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','intangible_assets')->delete();
         foreach ($data['item'] as $key => $item){
             if (!is_null($item)){
                 BalanceProjects::query()->create([
-                    'project_id' => '1',
+                    'project_id' => $pro_id,
                     'balance_type' => 'intangible_assets',
                     'item' => $data['item'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -348,9 +350,9 @@ class BalanceProjectsController extends Controller
 
         $depreciationData = array();
 
-        $years= years()['years'];
+        $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -381,15 +383,15 @@ class BalanceProjectsController extends Controller
          // dd($emp1);
          $depreciationData =array_reverse($depreciationData);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','intangible_assets')->where('purchase_year','!=', $currentYear)->get();
-        $dataYearCurrent = BalanceProjects::where('project_id',1)->where('balance_type','intangible_assets')->where('purchase_year',$currentYear)->get();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','intangible_assets')->where('purchase_year','!=', $currentYear)->get();
+        $dataYearCurrent = BalanceProjects::where('project_id',$pro_id)->where('balance_type','intangible_assets')->where('purchase_year',$currentYear)->get();
 
         return response()->json(['message'=>'success','data'=>$result,'dataYearCurrent'=>$dataYearCurrent,
         'depreciationData'=>$depreciationData,
         'success'=>'تم تخزين  النسبة البيانات بنجاح']);
 
     }
-    public function other_assets_store(Request $request){
+    public function other_assets_store(Request $request,$pro_id){
       // dd('dd');
         $request->validate([
             'item.*' => 'required',
@@ -402,11 +404,11 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','other_assets')->delete();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','other_assets')->delete();
         foreach ($data['item'] as $key => $item){
             if (!is_null($item)){
                 BalanceProjects::query()->create([
-                    'project_id' => '1',
+                    'project_id' => $pro_id,
                     'balance_type' => 'other_assets',
                     'item' => $data['item'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -422,9 +424,9 @@ class BalanceProjectsController extends Controller
 
         $depreciationData = array();
 
-        $years= years()['years'];
+        $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',1)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -455,15 +457,15 @@ class BalanceProjectsController extends Controller
          // dd($emp1);
          $depreciationData =array_reverse($depreciationData);
 
-        $result = BalanceProjects::where('project_id',1)->where('balance_type','other_assets')->where('purchase_year','!=', $currentYear)->get();
-        $dataYearCurrent = BalanceProjects::where('project_id',1)->where('balance_type','other_assets')->where('purchase_year',$currentYear)->get();
+        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','other_assets')->where('purchase_year','!=', $currentYear)->get();
+        $dataYearCurrent = BalanceProjects::where('project_id',$pro_id)->where('balance_type','other_assets')->where('purchase_year',$currentYear)->get();
 
         return response()->json(['message'=>'success','data'=>$result,'dataYearCurrent'=>$dataYearCurrent,
         'depreciationData'=>$depreciationData,
         'success'=>'تم تخزين  النسبة البيانات بنجاح']);
     }
 
-    public function reserve_store(Request $request){
+    public function reserve_store(Request $request,$pro_id){
         // dd('dd');
           $request->validate([
 
@@ -471,9 +473,9 @@ class BalanceProjectsController extends Controller
 
           ]);
 
-          $result = BalanceProjects::where('project_id',1)->where('balance_type','reserve')->delete();
+          $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','reserve')->delete();
                   BalanceProjects::query()->create([
-                      'project_id' => '1',
+                      'project_id' => $pro_id,
                       'balance_type' => 'reserve',
                       'cost' => $request->cost,
                       'item' => "reserve",
@@ -488,9 +490,9 @@ class BalanceProjectsController extends Controller
 
                   $currentYear = date('Y', strtotime('12/31'));
 
-                  $result = BalanceProjects::where('project_id',1)->where('balance_type','!=', 'reserve')->where('purchase_year','!=', $currentYear)->get();
-                  $dataYearCurrent = BalanceProjects::where('project_id',1)->where('purchase_year',$currentYear)->get();
-                  $reserves = BalanceProjects::where('project_id',1)->where('balance_type', 'reserve')->first();
+                  $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','!=', 'reserve')->where('purchase_year','!=', $currentYear)->get();
+                  $dataYearCurrent = BalanceProjects::where('project_id',$pro_id)->where('purchase_year',$currentYear)->get();
+                  $reserves = BalanceProjects::where('project_id',$pro_id)->where('balance_type', 'reserve')->first();
                   $reserve=$reserves->cost;
 
           return response()->json(['message'=>'success','data'=>$result,'dataYearCurrent'=>$dataYearCurrent,

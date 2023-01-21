@@ -131,7 +131,7 @@
                                                     <thead>
                                                     <tr>
                                                          <th>الوظيفة</th>
-                                                         <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                         <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                          <td><?php echo e($year); ?> </td>
                                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </tr>
@@ -170,7 +170,7 @@
                                                 <thead>
                                                 <tr>
                                                      <th>الوظيفة</th>
-                                                     <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                     <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                      <td><?php echo e($year); ?> </td>
                                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </tr>
@@ -231,7 +231,7 @@
                                             <thead>
                                             <tr>
                                                  <th>الوظيفة</th>
-                                                 <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                 <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                  <th><?php echo e($year); ?> </th>
                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tr>
@@ -249,7 +249,7 @@
                                         <thead>
                                         <tr>
                                              <th>الوظيفة</th>
-                                             <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                             <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                              <th><?php echo e($year); ?> </th>
                                              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
@@ -267,7 +267,7 @@
                                     <tr>
                                          <th>الوظيفة</th>
                                          <th id="yearCurrent"></th>
-                                         <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                         <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                          <th><?php echo e($year); ?> </th>
                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
@@ -601,7 +601,6 @@ $.ajaxSetup({
 });
 var formData = $('#form_2').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('project_fs_general_income_icremental_store')); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -618,7 +617,7 @@ jQuery.ajax({
                         </tr>\
                         </thead>\
                  <tbody id="incrementals">\
-<?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+<?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
 <tr>\
     <td>' + <?php echo e($year); ?> + '</td>\
 <td>\
@@ -648,7 +647,6 @@ $.ajaxSetup({
 });
 var formData = $('#form_4').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('project_exp_general_income_icremental_store')); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -665,7 +663,7 @@ jQuery.ajax({
                         </tr>\
                         </thead>\
                  <tbody id="incrementals">\
-<?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+<?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
 <tr>\
     <td>' + <?php echo e($year); ?> + '</td>\
 <td>\
@@ -697,7 +695,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_1').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('employe.store')); ?>",
+                    url: "<?php echo e(route('employe.store',$project->id,$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -716,7 +714,7 @@ jQuery.ajax({
             $('#incrementals_jobs').append('\
 <tr>\
     <td>'+item.job +'</td>\
-    <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
 <td>\
     <input type="hidden" name="year[]" value="<?php echo e($year); ?>" />\
     <input type="hidden" name="employes_id[]" value="' +item.id + '">\
@@ -740,7 +738,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_2').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('employe.employees_store_detial')); ?>",
+                    url: "<?php echo e(route('employe.employees_store_detial',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -756,7 +754,7 @@ jQuery.ajax({
             $('#incrementals_employes').append('\
 <tr>\
     <td>' +item.job + '</td>\
-    <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
 <td>\
     <input type="hidden" name="year[]" value="<?php echo e($year); ?>" />\
     <input type="hidden" name="employes_id[]" value="' +item.id + '">\
@@ -779,7 +777,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_3').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('employe.employees_store_detial2')); ?>",
+                    url: "<?php echo e(route('employe.employees_store_detial2',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',

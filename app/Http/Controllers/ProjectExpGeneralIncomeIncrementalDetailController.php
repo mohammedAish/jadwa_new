@@ -19,9 +19,9 @@ class ProjectExpGeneralIncomeIncrementalDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function allـearnings()
+    public function allـearnings($pro_id)
     {
-        $project = Project::where('id',1)->first();
+        $project = Project::where('id',$pro_id)->first();
 
                 $projectStartDate = new DateTime($project->start_date);
 
@@ -38,7 +38,7 @@ class ProjectExpGeneralIncomeIncrementalDetailController extends Controller
 
                $remainingmonths =  round($datediff / (60 * 60 * 24*30));
                $remainingFromYear =  $remainingmonths/12;
-                $data = ProjectFsGeneralIncome::query()->where('project_id',1)->get();
+                $data = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
                 $totleIncomeMounth =0;
                 $totleIncomeToEndYear=0;
                 $totleIncomeYear=0;
@@ -48,7 +48,7 @@ class ProjectExpGeneralIncomeIncrementalDetailController extends Controller
                    $totleIncomeYear += ($dataa->value * $dataa->quantity) * 12;
 
                };
-                $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',1)->first();
+                $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$pro_id)->first();
                 $projectFsGeneralIncomeIncrementalDetail =ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get()->toArray();
                $prev=$totleIncomeYear;
                $totleIncomeAvarageeFs=0;
@@ -69,7 +69,7 @@ class ProjectExpGeneralIncomeIncrementalDetailController extends Controller
                 //dd($totleIncomeAvarageeFs);
 
 
-                $dataFs = ProjectFsGeneralIncome::query()->where('project_id',1)->get();
+                $dataFs = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
                 $totleIncomeMounthFS =0;
                 $totleIncomeToEndYearFS=0;
                 $totleIncomeYearFS=0;
@@ -79,7 +79,7 @@ class ProjectExpGeneralIncomeIncrementalDetailController extends Controller
                    $totleIncomeYearFS += ($dataaFS->value * $dataaFS->quantity) * 12;
 
                };
-                $data_exp = ProjectExpGeneralIncome::with('fsIncome')->where('project_id',1)->get();
+                $data_exp = ProjectExpGeneralIncome::with('fsIncome')->where('project_id',$pro_id)->get();
                 $totleIncomeMounth_exp  =0;
                 $totleIncomeToEndYear_exp =0;
                 $totleIncomeYear_exp =0;
@@ -110,7 +110,7 @@ class ProjectExpGeneralIncomeIncrementalDetailController extends Controller
                };
 
 
-               $rojectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',1)->first();
+               $rojectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',$pro_id)->first();
                $projectExpGeneralIncomeIncrementalDetail =ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$rojectExpGeneralIncomeIncremental->id)->get()->toArray();
               $prev_exp =$totleIncomeYear_exp ;
               $totleIncomeAvaragee_exp =0;
@@ -129,7 +129,7 @@ class ProjectExpGeneralIncomeIncrementalDetailController extends Controller
                $totleIncomeeExp=  array_sum($totleYear_exp);
                $totleIncomeAvaragee_exp =$totleIncomeeExp/(5+$remainingFromYear);
 
-            
+
             //    array_push($totleYear_exp, $yearCurrent);
 
             //    dd($totleYear_exp);

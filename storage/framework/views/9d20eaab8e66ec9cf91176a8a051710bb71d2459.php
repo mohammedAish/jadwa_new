@@ -554,7 +554,7 @@ unset($__errorArgs, $__bag); ?>"
             if (e.target.id == 'storefundingsource') {
                 e.preventDefault();
                 $.ajax({
-                    url: "<?php echo e(route('funding-source.store')); ?>",
+                    url: "<?php echo e(route('funding-source.store', $project->id)); ?>",
                     method: 'post',
                     data: new FormData(form1),
                     processData: false,
@@ -585,7 +585,7 @@ unset($__errorArgs, $__bag); ?>"
             if (e.target.id == 'storecapitalStructure') {
                 e.preventDefault();
                 $.ajax({
-                    url: "<?php echo e(route('capital-structure.store')); ?>",
+                    url: "<?php echo e(route('capital-structure.store', $project->id)); ?>",
                     method: 'post',
                     data: new FormData(form2),
                     processData: false,
@@ -616,7 +616,7 @@ unset($__errorArgs, $__bag); ?>"
             if (e.target.id == 'storeloanDetail') {
                 e.preventDefault();
                 $.ajax({
-                    url: "<?php echo e(route('loan-detail.store')); ?>",
+                    url: "<?php echo e(route('loan-detail.store', $project->id)); ?>",
                     method: 'post',
                     data: new FormData(form3),
                     processData: false,

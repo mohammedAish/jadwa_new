@@ -13,7 +13,7 @@ use PDO;
 
 class ProjectExpGeneralIncomeController extends Controller
 {
-    public function project_exp_general_income_store(Request $request)
+    public function project_exp_general_income_store(Request $request,$pro_id)
     {
 
         $data=$request->all();
@@ -44,7 +44,7 @@ $items =[];
         ]);
         $projectExpGeneralIncome = ProjectExpGeneralIncome::all();
         if($projectExpGeneralIncome != null){
-            $result = ProjectExpGeneralIncome::where('project_id',1)->delete();
+            $result = ProjectExpGeneralIncome::where('project_id',$pro_id)->delete();
 
         }
 
@@ -58,7 +58,7 @@ $items =[];
             }
             if (!is_null($item)){
                 ProjectExpGeneralIncome::query()->create([
-                    'project_id' => '1',
+                    'project_id' => $pro_id,
                     'item' => $val,
                     'value' => $data['value'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -73,9 +73,9 @@ $items =[];
         return response()->json(['message'=>'success','success'=>'تم تخزين البيانات بنجاح']);
 
     }
-    public function project_exp_general_income_icremental_total_revenue()
+    public function project_exp_general_income_icremental_total_revenue($pro_id)
     {
-        $project = Project::where('id',1)->first();
+        $project = Project::where('id',$pro_id)->first();
 
         $projectStartDate = new DateTime($project->start_date);
 
@@ -93,7 +93,7 @@ $items =[];
        $remainingmonths =  round($datediff / (60 * 60 * 24*30));
        $remainingFromYear =  $remainingmonths/12;
 
-       $dataFs = ProjectFsGeneralIncome::query()->where('project_id',1)->get();
+       $dataFs = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
         $totleIncomeMounthFS =0;
         $totleIncomeToEndYearFS=0;
         $totleIncomeYearFS=0;
@@ -104,7 +104,7 @@ $items =[];
 
        };
 
-         $data = ProjectExpGeneralIncome::with('fsIncome')->where('project_id',1)->get();
+         $data = ProjectExpGeneralIncome::with('fsIncome')->where('project_id',$pro_id)->get();
          $totleIncomeMounth =0;
          $totleIncomeToEndYear=0;
          $totleIncomeYear=0;
@@ -135,7 +135,7 @@ $items =[];
         };
 
 
-        $rojectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',1)->first();
+        $rojectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',$pro_id)->first();
         $projectExpGeneralIncomeIncrementalDetail =ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$rojectExpGeneralIncomeIncremental->id)->get()->toArray();
        $prev=$totleIncomeYear;
        $totleIncomeAvaragee=0;

@@ -35,7 +35,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                     <a href="{{ route('strategic-plan') }}" class="btn btn-outline-warning">الخطة الإستراتيجية</a>
+                     <a href="{{ route('strategic-plan', $project->id) }}" class="btn btn-outline-warning">الخطة الإستراتيجية</a>
                     </div>
                         <span class="font-size-20"  style="color: green ;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -47,7 +47,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a href="{{ route('market-study') }}" class="btn btn-outline-warning">دراسة السوق</a>
+                        <a href="{{ route('market-study' ,$project->id) }}" class="btn btn-outline-warning">دراسة السوق</a>
                     </div>
                     <span class="font-size-20" style="color: green  ;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -59,7 +59,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a href="{{ route('administrators') }}" class="btn btn-outline-warning">الإداريين</a>
+                        <a href="{{ route('administrators', $project->id) }}" class="btn btn-outline-warning">الإداريين</a>
                     </div>
                     <span class="font-size-20" style="color: green;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -71,7 +71,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a href="{{ route('revenues') }}" class="btn btn-outline-warning">الإيرادات وتكاليف الإيرادات</a>
+                        <a href="{{ route('revenues', $project->id) }}" class="btn btn-outline-warning">الإيرادات وتكاليف الإيرادات</a>
                     </div>
                     <span class="font-size-20" style="color: grey;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -83,7 +83,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a class="btn btn-outline-warning" href="{{route('employe.index')}}">الموظفين</a>
+                        <a class="btn btn-outline-warning" href="{{route('employe.index', $project->id)}}">الموظفين</a>
                     </div>
                     <span class="font-size-20" style="color: gray;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -95,7 +95,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a class="btn btn-outline-warning" href="{{route('balance_sheet.index')}}">الميزانية العمومية</a>
+                        <a class="btn btn-outline-warning" href="{{route('balance_sheet.index', $project->id)}}">الميزانية العمومية</a>
                     </div>
                     <span class="font-size-20" style="color: gray;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -107,7 +107,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a  href="{{ route('fs-account-receivable.create') }}" class="btn btn-outline-warning">رأس المال العامل</a>
+                        <a  href="{{ route('fs-account-receivable.create', $project->id) }}" class="btn btn-outline-warning">رأس المال العامل</a>
                     </div>
                     <span class="font-size-20" style="color: gray;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -119,7 +119,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a href="{{ route('fs-startup-cost.create') }}" class="btn btn-outline-warning">مصاريف التأسيس</a>
+                        <a href="{{ route('fs-startup-cost.create', $project->id) }}" class="btn btn-outline-warning">مصاريف التأسيس</a>
                     </div>
                     <span class="font-size-20" style="color: green;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 
@@ -131,7 +131,7 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
-                        <a href="{{ route('funding-source.create') }}" class="btn btn-outline-warning">مصادر التمويل</a>
+                        <a href="{{ route('funding-source.create', $project->id) }}" class="btn btn-outline-warning">مصادر التمويل</a>
                     </div>
                     <span class="font-size-20" style="color: green;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 

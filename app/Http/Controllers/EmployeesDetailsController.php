@@ -14,7 +14,7 @@ class EmployeesDetailsController extends Controller
 {
     //
 
-    public function employees_store_detial(Request $request){
+    public function employees_store_detial(Request $request,$pro_id){
        // dd($request->all());
         $data = $request->only([
             'value_incremental','year','employes_id',
@@ -30,11 +30,11 @@ class EmployeesDetailsController extends Controller
             ]);
     }
 
-    $result = Employe::where('project_id',1)->get();
+    $result = Employe::where('project_id',$pro_id)->get();
     return response()->json(['message'=>'success','data'=>$result,'success'=>'تم تخزين  النسبة البيانات بنجاح']);
 
 }
-public function employees_store_detial2(Request $request){
+public function employees_store_detial2(Request $request,$pro_id){
      //dd($request->all());
     //  $data = $request->only([
     //      'quantity','employes_id',
@@ -63,8 +63,9 @@ public function employees_store_detial2(Request $request){
                      ]);
          }
 
+
 //         dd($quantity);
-$project = Project::where('id',1)->first();
+$project = Project::where('id',$pro_id)->first();
 
 $projectStartDate = new DateTime($project->start_date);
 
@@ -83,7 +84,7 @@ $remainingDays =  round($datediff / (60 * 60 * 24));
 
 $remainingmonths =  round($datediff / (60 * 60 * 24*30));
 
-       $employees = Employe::where('project_id',1)->get();
+       $employees = Employe::where('project_id',$pro_id)->get();
 
        $empDataQ = array();
        $empDataI = array();
@@ -183,7 +184,7 @@ $remainingmonths =  round($datediff / (60 * 60 * 24*30));
 //$year= $operationDate->format('Y');
 
 
-$data = ProjectFsGeneralIncome::query()->where('project_id',1)->get();
+$data = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
 $totleIncomeMounth =0;
 $totleIncomeToEndYear=0;
 $totleIncomeYear=0;
@@ -193,7 +194,7 @@ foreach($data as $dataa){
    $totleIncomeYear += ($dataa->value * $dataa->quantity) * 12;
 
 };
-$projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',1)->first();
+$projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$pro_id)->first();
 $projectFsGeneralIncomeIncrementalDetail =ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get()->toArray();
 $prev=$totleIncomeYear;
 $totleIncomeAvaragee=0;

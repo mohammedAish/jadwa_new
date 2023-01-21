@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\admin\Project;
 use App\Models\Employe;
 use Illuminate\Http\Request;
 
 class EmployeController extends Controller
 {
-    public function index(){
+    public function index($id){
+        $project = Project::where('id',$id)->first();
+
         $employees = Employe::all();
-        return view('admin.employes.employes',compact('employees'));
+        return view('admin.employes.employes',compact('employees','project'));
     }
-    public function store(Request $request){
+    public function store(Request $request,$pro_id){
 
         $request->validate([
             'job.*' => 'required',
@@ -23,11 +26,11 @@ class EmployeController extends Controller
             'job','annual_salary','quantity','value_incremental',
         ]);
 
-        $result = Employe::where('project_id',1)->delete();
+        $result = Employe::where('project_id',$pro_id)->delete();
         foreach ($data['job'] as $key => $item){
             if (!is_null($item)){
                 Employe::query()->create([
-                    'project_id' => '1',
+                    'project_id' => $pro_id,
                     'job' => $data['job'][$key],
                     'annual_salary' => $data['annual_salary'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -37,7 +40,7 @@ class EmployeController extends Controller
             }
 
         }
-        $result = Employe::where('project_id',1)->get();
+        $result = Employe::where('project_id',$pro_id)->get();
         return response()->json(['message'=>'success','data'=>$result,'success'=>'تم تخزين  النسبة البيانات بنجاح']);
 
     }

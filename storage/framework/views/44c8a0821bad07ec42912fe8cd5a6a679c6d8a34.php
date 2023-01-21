@@ -653,7 +653,7 @@ unset($__errorArgs, $__bag); ?>">
             if (e.target.id == 'storefsaccountreceivable') {
                 e.preventDefault();
                 $.ajax({
-                    url: "<?php echo e(route('fs-account-receivable.store')); ?>",
+                    url: "<?php echo e(route('fs-account-receivable.store', $project->id)); ?>",
                     method: 'post',
                     data: new FormData(form1),
                     processData: false,
@@ -681,7 +681,7 @@ unset($__errorArgs, $__bag); ?>">
             if (e.target.id == 'storefsworkingcapital') {
                 e.preventDefault();
                 $.ajax({
-                    url: "<?php echo e(route('fs-working-capital.store')); ?>",
+                    url: "<?php echo e(route('fs-working-capital.store', $project->id)); ?>",
                     method: 'post',
                     data: new FormData(form2),
                     processData: false,
