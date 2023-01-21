@@ -978,18 +978,19 @@
                 $('#vertical-example-t-5').parent().removeClass('current');
                 $('#vertical-example-t-6').parent().attr('class','current');
 
-                e.preventDefault();
-                jQuery.ajax({
-                    url: "{{ route('allـearnings',$project->id) }}",
-                    method: 'get',
-                    dataType: 'json',
-                    success: function (result) {
-                        $('#earning_summery').empty();
-                        $('#earning_summery_totle').empty();
-                        $('#earning_summery_totle_avrage').empty();
-                        $('#earning_summery').append('<tr id="earning_summery_crrunt"></tr>')
-                        console.log(result);
-                        $('#earning_summery_crrunt').append( '\
+
+                    e.preventDefault();
+                    jQuery.ajax({
+                        url: "{{ route('allـearnings',$project->id) }}",
+                        method: 'get',
+                        dataType: 'json',
+                        success: function (result) {
+                            $('#earning_summery').empty();
+                            $('#earning_summery_totle').empty();
+                            $('#earning_summery_totle_avrage').empty();
+                            $('#earning_summery').append('<tr id="earning_summery_crrunt"></tr>')
+                            console.log(result);
+                            $('#earning_summery_crrunt').append( '\
                             <td>' + result.yearCurrent + '</td>\
                                 <td>' +formatter.format( result.totleIncomeToEndYearFS)+ '</td>\
                                 <td>' + formatter.format(result.totleIncomeToEndYear_exp)+ '</td>\
@@ -1033,23 +1034,24 @@
             $('#vertical-example-t-0').parent().attr('class','current');
 
             jQuery('#value_incremental_button').click(function (e) {
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                var formData = $('#form_2').serialize();
-                jQuery.ajax({
-                    url: "{{ route('project_fs_general_income_icremental_store',$project->id) }}",
-                    method: 'post',
-                    data: formData,
-                    dataType: 'json',
-                    success: function (result) {
-                        toastr.success("تمت العملية بنجاح", "تم تخزين  النسبة البيانات بنجاح");
-                        $('#accordionExample').html("");
-                        console.log(result.data);
-                        $('#accordionExample').append('<div class="table-responsive">\
+e.preventDefault();
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+var formData = $('#form_2').serialize();
+jQuery.ajax({
+    url: "{{ route('project_fs_general_income_icremental_store',$project->id) }}",
+    method: 'post',
+    data: formData,
+    dataType: 'json',
+    success: function (result) {
+        toastr.success("تمت العملية بنجاح", "تم تخزين  النسبة البيانات بنجاح");
+        $('#accordionExample').html("");
+        console.log(result.data);
+            $('#accordionExample').append('<div class="table-responsive">\
+
                     <table class="table mb-0 border-warning" style="width: 100%">\
                         <thead>\
                         <tr>\
@@ -1074,29 +1076,28 @@
                     </table>');
 
 
+    }
+});
+});
+jQuery('#value_exp_incremental_button').click(function (e) {
+e.preventDefault();
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+var formData = $('#form_4').serialize();
+jQuery.ajax({
+    url: "{{ route('project_exp_general_income_icremental_store',$project->id) }}",
+    method: 'post',
+    data: formData,
+    dataType: 'json',
+    success: function (result) {
+        toastr.success("تمت العملية بنجاح", "تم تخزين  النسبة البيانات بنجاح");
+        $('#accordionExample_1').html("");
+        console.log(result.data);
+            $('#accordionExample_1').append('<div class="table-responsive">\
 
-
-                    }
-                });
-            });
-            jQuery('#value_exp_incremental_button').click(function (e) {
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                var formData = $('#form_4').serialize();
-                jQuery.ajax({
-                    url: "{{ route('project_exp_general_income_icremental_store',$project->id) }}",
-                    method: 'post',
-                    data: formData,
-                    dataType: 'json',
-                    success: function (result) {
-                        toastr.success("تمت العملية بنجاح", "تم تخزين  النسبة البيانات بنجاح");
-                        $('#accordionExample_1').html("");
-                        console.log(result.data);
-                        $('#accordionExample_1').append('<div class="table-responsive">\
                     <table class="table mb-0 border-warning" style="width: 100%">\
                         <thead>\
                         <tr>\

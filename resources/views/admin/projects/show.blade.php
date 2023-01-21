@@ -71,7 +71,10 @@
                 </div>
             </div>
             <div class="">
+
 {{--                <a href="{{ route('feasibility-study', $project->id) }}" class="py-5">دراسة جدوي</a>--}}
+
+
             </div>
         </div>
         <!-- end col -->
