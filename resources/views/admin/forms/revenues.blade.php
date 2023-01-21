@@ -23,7 +23,9 @@
  .addItem{
 border:1px solid #3CC0B9;
 background: #FFFFFF;
-border-radius: 8px;
+border-radius: 7px;
+height: 28px;
+width:186px;
 color: #3CC0B9;
 font-size: 20px;
  }
@@ -46,29 +48,50 @@ font-size: 20px;
                     <div id="vertical-example" class="vertical-wizard">
                         <h3>الإيرادات</h3>
                         <section>
-                            <h4 class="mb-4"><strong>الإيرادات</strong></h4>
+                            <h4 class="mb-4"><strong> الإيرادات
+                                    <svg style="margin-right: 4px;" width="24" height="24"  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="24" height="24" rx="12" fill="#F9AA1C" fill-opacity="0.15"/>
+                                        <g clip-path="url(#clip0_451_3704)">
+                                            <path d="M9.50312 18.1969C9.50312 18.3937 9.55988 18.5856 9.66825 18.7497L10.2039 19.5525C10.3679 19.7986 10.7404 19.9987 11.0364 19.9987H12.9636C13.2585 19.9987 13.6311 19.7987 13.7951 19.5525L14.3289 18.75C14.4207 18.6113 14.496 18.3634 14.496 18.1969L14.5 16.9719H9.5L9.50312 18.1969ZM12 4C8.81312 4.01 6.5 6.59281 6.5 9.47188C6.5 10.8588 7.01375 12.1231 7.86125 13.0906C8.37781 13.6794 9.18437 14.9103 9.49312 15.9484C9.49409 15.9563 9.49606 15.9646 9.49703 15.9729H14.5033C14.5043 15.9646 14.5062 15.9568 14.5072 15.9484C14.8158 14.9103 15.6225 13.6794 16.1391 13.0906C16.9875 12.15 17.5 10.8875 17.5 9.47188C17.5 6.4625 15.0375 4.00013 12 4ZM15.0125 12.1281C14.5231 12.6859 13.9175 13.575 13.4797 14.4997H10.5231C10.0853 13.575 9.47969 12.6859 8.99062 12.1284C8.35125 11.4 8 10.4406 8 9.47188C8 7.54063 9.50313 5.50781 11.9719 5.5C14.2063 5.5 16 7.29375 16 9.47188C16 10.4406 15.65 11.4 15.0125 12.1281ZM11.5 6.5C10.1219 6.5 9 7.62188 9 9C9 9.27637 9.22363 9.5 9.5 9.5C9.77637 9.5 10 9.275 10 9C10 8.17281 10.6728 7.5 11.5 7.5C11.7764 7.5 12 7.27663 12 7.00031C12 6.724 11.775 6.5 11.5 6.5Z" fill="#F9AA1C"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_451_3704">
+                                                <rect width="12" height="16" fill="white" transform="translate(6 4)"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </strong></h4>
                             <form id="form_1" name="form_1" class="form-horizontal">
                             <table data-repeater-item  class="table table-bordered text-center inner-repeater " id="summry_table">
-                                <thead class="table-light">
-                                <tr>
+                                <thead class="">
+                                <tr style="background-color: #F5F5F5;">
                                     <th>المنتج/الخدمة</th>
                                     <th>القيمة</th>
-                                    <th>عدد الوحدات <span>"شهريا"</span></th>
+                                    <th>عدد الوحدات <span style="font-size: 12px; font-weight: 500;color: #000000;">(شهرياً)</span></th>
                                     <th>العمليات</th>
                                 </tr>
                                 </thead>
                                 <tbody data-repeater-list="inner-group" class="inner ">
+                                @if(isset($projectIncomes))
+                                    @if($projectIncomes->count()>0)
                                     @foreach($projectIncomes as $projectIncome)
                                     <tr id="lable_{{$projectIncome->id}}">
                                         <td>{{$projectIncome->item}}</td>
                                         <td>{{$projectIncome->value}}</td>
                                         <td>{{$projectIncome->quantity}}</td>
                                         <td>
-                                            <button type="button" class="edit" title="تعديل" style="cursor: pointer; border-radius:60%;
-                                            border: none;"
-                                             data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger ">
-                                             <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="show_edit(this.id)"></i>
-                                            </button>
+                                            <a class="edit" title="تعديل" style="cursor: pointer;"    data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}" >
+                                                <svg  id="{{$projectIncome->id}}" onclick="show_edit(this.id)"width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle id="delete_income_item" cx="14" cy="14" r="14" fill="#F4F4F4"/>
+                                                    <circle id="delete_income_item" cx="14" cy="14" r="13.875" stroke="#0A0A0A" stroke-opacity="0.1" stroke-width="0.25"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6261 8.26091C16.4349 7.69817 15.9383 7.33398 15.3759 7.33398H12.6239L12.5193 7.33821C11.9661 7.38298 11.4941 7.77996 11.3487 8.33753L11.1836 9.1794L11.1643 9.25351C11.0852 9.4935 10.8642 9.66007 10.6118 9.66007L10.6118 9.66007H8.48759L8.42143 9.66463C8.18344 9.69774 8 9.90695 8 10.1601C8 10.4362 8.2183 10.6601 8.48759 10.6601L10.6118 10.6601H17.3881L19.5124 10.6601L19.5786 10.6555C19.8166 10.6224 20 10.4132 20 10.1601C20 9.88394 19.7817 9.66007 19.5124 9.66007H17.3885C17.3884 9.66007 17.3882 9.66007 17.3881 9.66007L17.3134 9.65517C17.0683 9.62278 16.8658 9.43313 16.8162 9.1792L16.6583 8.36871L16.6261 8.26091ZM15.9429 9.66007C15.9207 9.60362 15.9015 9.54546 15.8855 9.48577L15.86 9.37537L15.7091 8.59585C15.6738 8.46059 15.5649 8.36157 15.4335 8.33893L15.3759 8.33402H12.6239C12.4871 8.33402 12.3655 8.41613 12.315 8.51933L12.2979 8.56468L12.1399 9.37557C12.1206 9.47431 12.0927 9.56939 12.057 9.66007H15.9429ZM18.6523 11.8141C18.8983 11.8344 19.0869 12.0388 19.1 12.2847L19.0937 12.4218L18.884 14.9893L18.6641 17.4949C18.6175 17.9951 18.5759 18.417 18.5399 18.7491C18.415 19.9065 17.6637 20.6222 16.5311 20.6434C14.7662 20.676 13.0698 20.6757 11.4225 20.64C10.3227 20.6169 9.58244 19.8935 9.4597 18.7538L9.37487 17.9141L9.22663 16.2853L9.07477 14.498L8.90115 12.3526C8.87957 12.0773 9.07967 11.8362 9.3481 11.8141C9.59415 11.7938 9.8122 11.9645 9.86346 12.2052L9.88341 12.4018L10.0464 14.4131L10.2245 16.4979C10.3043 17.4004 10.3736 18.1308 10.429 18.6438C10.4989 19.2933 10.8409 19.6276 11.4427 19.6402C13.0772 19.6756 14.761 19.6759 16.5134 19.6435C17.1518 19.6316 17.4992 19.3006 17.5707 18.6389L17.6551 17.8037C17.6799 17.5463 17.7063 17.2622 17.7342 16.9535L17.9124 14.9032L18.1271 12.2723C18.1469 12.02 18.3461 11.8266 18.586 11.8132L18.6523 11.8141Z" fill="#E71414"/>
+                                                </svg>
+                                            </a>
+{{--                                            <button type="button" class="edit" title="تعديل" style="cursor: pointer; border-radius:60%;--}}
+{{--                                            border: none;"--}}
+{{--                                             data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger ">--}}
+{{--                                             <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="show_edit(this.id)"></i>--}}
+{{--                                            </button>--}}
                                             <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
                                             border: none;"
                                              data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger delete">
@@ -96,7 +119,14 @@ font-size: 20px;
                                     </tr>
 
                                     @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="12"
+                                                class="text-center font-weight-bold " id="emptyincome" style="color:   rgba(10, 10, 10, 0.6);font-weight: 500">{{'أضف منتجات / خدمات مشروعك'}}</td>
 
+                                        </tr>
+                                    @endif
+                                    @endif
 
 
                                 </tbody>
@@ -105,9 +135,12 @@ font-size: 20px;
 
 
                             </table>
-                            <div class="mt-5">
-                                <input data-repeater-create id="add_income_item" type="button"
-                                       class=" add addItem" value="+ اضافة " />
+                            <div class="mt-1">
+                                <div class="input-group">
+                                <input data-repeater-create id="add_income_item"  type="button"
+                                       class=" add addItem me-2" style="font-weight: 700;font-size: 13px" value=" +  أضف منتج أو خدمة جديدة " />
+                                </div>
+
                             </div>
 
 
@@ -166,15 +199,16 @@ font-size: 20px;
                                     </div>
                                 </div > --}}
 
-                                <div class="col-md-6 col-6" style="float: left">
-                                    <div class="col-md-4" style="float: left">
-                                        <button type="button" value="حفظ ومتابعة ->" name="save_btn_1" class="btn btn-warning" id="save_btn_1" >
-                                            حفظ ومتابعة -->
+{{--                                <div class="col-md-6 col-6" style="float: left">--}}
+{{--                                    <div class="col-md-4" style="float: left">--}}
+                                <div class="d-flex align-items-end flex-column flex-wrap" style="margin-top: 15%">
+                                        <button type="button" value="حفظ ومتابعة" name="save_btn_1" class="btn w-lg btn-lg btn-warning me-2"  id="save_btn_1" >
+                                           <p style="margin-bottom: 0rem !important; font-weight: 600;font-size: 13px;">حفظ ومتابعة</p>
                                             {{-- <span class="spinner-border spinner-border-sm" id="spinner_1" role="status" aria-hidden="true"></span> --}}
                                         </button>
-
-                                    </div>
                                 </div>
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </form>
                         </section>
                         <h3>نسبة نمو الإيرادات</h3>
@@ -689,10 +723,22 @@ font-size: 20px;
 
             // start clone element
             if (e.target.id == 'add_income_item') {
-                $(".income").append(`<tr data-repeater-item class="inner mb-4"> <td> <input type="text" name="item[]" class="form-control" id="verticalnav-pancard-input"></td>
-                                        <td> <input type="text" name="value[]" class="form-control" id="verticalnav-pancard-input"></td>
-                                        <td> <input type="text" name="quantity[]" class="form-control" id="verticalnav-pancard-input"></td>
-                                        <td><i class=" mdi mdi-delete font-size-20" style="cursor: pointer;color: #ee0e0e;" id="delete_income_item"></i></td><tr>`);
+                $("#emptyincome").hide()
+                $(".income").append(`<tr data-repeater-item class="inner mb-4"> <td> <input style="background-color: #FAFAFA;" placeholder=" اسم المنتج / الخدمة" type="text" name="item[]" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td>  <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+<input style="background-color: #FAFAFA;" type="text" name="value[]" class="form-control" id="verticalnav-pancard-input">
+   <span class="input-group-addon bootstrap-touchspin-postfix input-group-append" style="background-color: #FAFAFA;">
+                                                    <span class="input-group-text black_text " style="font-weight: 500;">$</span></span>
+</div></td>
+                                        <td> <input style="background-color: #FAFAFA;" type="text" name="quantity[]" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td><a style="cursor: pointer;" id="delete_income_item">
+                                        <svg id="delete_income_item" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle id="delete_income_item" cx="14" cy="14" r="14" fill="#F4F4F4"/>
+                                        <circle id="delete_income_item" cx="14" cy="14" r="13.875" stroke="#0A0A0A" stroke-opacity="0.1" stroke-width="0.25"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6261 8.26091C16.4349 7.69817 15.9383 7.33398 15.3759 7.33398H12.6239L12.5193 7.33821C11.9661 7.38298 11.4941 7.77996 11.3487 8.33753L11.1836 9.1794L11.1643 9.25351C11.0852 9.4935 10.8642 9.66007 10.6118 9.66007L10.6118 9.66007H8.48759L8.42143 9.66463C8.18344 9.69774 8 9.90695 8 10.1601C8 10.4362 8.2183 10.6601 8.48759 10.6601L10.6118 10.6601H17.3881L19.5124 10.6601L19.5786 10.6555C19.8166 10.6224 20 10.4132 20 10.1601C20 9.88394 19.7817 9.66007 19.5124 9.66007H17.3885C17.3884 9.66007 17.3882 9.66007 17.3881 9.66007L17.3134 9.65517C17.0683 9.62278 16.8658 9.43313 16.8162 9.1792L16.6583 8.36871L16.6261 8.26091ZM15.9429 9.66007C15.9207 9.60362 15.9015 9.54546 15.8855 9.48577L15.86 9.37537L15.7091 8.59585C15.6738 8.46059 15.5649 8.36157 15.4335 8.33893L15.3759 8.33402H12.6239C12.4871 8.33402 12.3655 8.41613 12.315 8.51933L12.2979 8.56468L12.1399 9.37557C12.1206 9.47431 12.0927 9.56939 12.057 9.66007H15.9429ZM18.6523 11.8141C18.8983 11.8344 19.0869 12.0388 19.1 12.2847L19.0937 12.4218L18.884 14.9893L18.6641 17.4949C18.6175 17.9951 18.5759 18.417 18.5399 18.7491C18.415 19.9065 17.6637 20.6222 16.5311 20.6434C14.7662 20.676 13.0698 20.6757 11.4225 20.64C10.3227 20.6169 9.58244 19.8935 9.4597 18.7538L9.37487 17.9141L9.22663 16.2853L9.07477 14.498L8.90115 12.3526C8.87957 12.0773 9.07967 11.8362 9.3481 11.8141C9.59415 11.7938 9.8122 11.9645 9.86346 12.2052L9.88341 12.4018L10.0464 14.4131L10.2245 16.4979C10.3043 17.4004 10.3736 18.1308 10.429 18.6438C10.4989 19.2933 10.8409 19.6276 11.4427 19.6402C13.0772 19.6756 14.761 19.6759 16.5134 19.6435C17.1518 19.6316 17.4992 19.3006 17.5707 18.6389L17.6551 17.8037C17.6799 17.5463 17.7063 17.2622 17.7342 16.9535L17.9124 14.9032L18.1271 12.2723C18.1469 12.02 18.3461 11.8266 18.586 11.8132L18.6523 11.8141Z" fill="#E71414"/>
+                                        </svg>
+                                        </a>
+                                        </td><tr>`);
             }
             if (e.target.id == 'add_income_expenses_item') {
                 $(".income_expenses").after(`<div data-repeater-item class="inner mb-3 row">
@@ -759,8 +805,8 @@ font-size: 20px;
             // start delete element
             if (e.target.id == 'delete_income_item') {
 
-
-                e.target.parentElement.parentElement.remove();
+console.log((e.target));
+                e.target.parentElement.parentElement.parentElement.parentElement.remove();
             }
             if (e.target.id == 'delete_income_expenses_item') {
 
