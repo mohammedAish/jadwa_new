@@ -90,8 +90,7 @@
                                                                 @eif($balance->purchase_year != null)
                                                                 <option value="<?php echo e($balance->purchase_year); ?>" selected> <?php echo e($balance->purchase_year); ?></option>
                                                                 @end
-                                                                <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -144,8 +143,7 @@
                                                             <label for="verticalnav-pancard-input"><strong>سنة الشراء</strong></label>
                                                             <select  class="form-control"  name="purchase_year[]">
 
-                                                                <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -234,8 +232,7 @@
                                 <thead>
                                 <tr>
                                      <th>الأصل /البند</th>
-                                     <th><?php echo e($currentYear); ?></th>
-                                     <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                     <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                      <td><?php echo e($year); ?> </td>
                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tr>
@@ -319,8 +316,7 @@
                                                                 @eif($balance->purchase_year != null)
                                                                 <option value="<?php echo e($balance->purchase_year); ?>" selected> <?php echo e($balance->purchase_year); ?></option>
                                                                 @end
-                                                                <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -373,8 +369,7 @@
                                                             <label for="verticalnav-pancard-input"><strong>سنة الشراء</strong></label>
                                                             <select  class="form-control"  name="purchase_year[]">
 
-                                                                <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -473,7 +468,7 @@
                             <tr>
                                  <th>الأصل /البند</th>
                                  <th><?php echo e($currentYear); ?></th>
-                                 <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                 <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                  <td><?php echo e($year); ?> </td>
                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tr>
@@ -554,7 +549,7 @@
                                                                 <option value="<?php echo e($balance->purchase_year); ?>" selected> <?php echo e($balance->purchase_year); ?></option>
                                                                 @end
                                                                 <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -608,7 +603,7 @@
                                                             <select  class="form-control"  name="purchase_year[]">
 
                                                                 <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -701,7 +696,7 @@
                                     <tr>
                                          <th>الأصل /البند</th>
                                          <th><?php echo e($currentYear); ?></th>
-                                         <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                         <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                          <td><?php echo e($year); ?> </td>
                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
@@ -781,7 +776,7 @@
                                                             <option value="<?php echo e($balance->purchase_year); ?>" selected> <?php echo e($balance->purchase_year); ?></option>
                                                             @end
                                                             <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                            <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -835,7 +830,7 @@
                                                         <select  class="form-control"  name="purchase_year[]">
 
                                                             <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                            <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -928,7 +923,7 @@
                                     <tr>
                                          <th>الأصل /البند</th>
                                          <th><?php echo e($currentYear); ?></th>
-                                         <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                         <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                          <td><?php echo e($year); ?> </td>
                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
@@ -1009,7 +1004,7 @@
                                                             <option value="<?php echo e($balance->purchase_year); ?>" selected> <?php echo e($balance->purchase_year); ?></option>
                                                             @end
                                                             <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                            <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1063,7 +1058,7 @@
                                                         <select  class="form-control"  name="purchase_year[]">
 
                                                             <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                            <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1156,7 +1151,7 @@
                                     <tr>
                                          <th>الأصل /البند</th>
                                          <th><?php echo e($currentYear); ?></th>
-                                         <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                         <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                          <td><?php echo e($year); ?> </td>
                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
@@ -1237,7 +1232,7 @@
                                                             <option value="<?php echo e($balance->purchase_year); ?>" selected> <?php echo e($balance->purchase_year); ?></option>
                                                             @end
                                                             <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                            <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1291,7 +1286,7 @@
                                                         <select  class="form-control"  name="purchase_year[]">
 
                                                             <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                            <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1385,7 +1380,7 @@
                                     <tr>
                                          <th>الأصل /البند</th>
                                          <th><?php echo e($currentYear); ?></th>
-                                         <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                         <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                          <td><?php echo e($year); ?> </td>
                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
@@ -1579,7 +1574,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1641,7 +1636,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1703,7 +1698,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1765,7 +1760,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1827,7 +1822,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -1889,7 +1884,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="<?php echo e($currentYear); ?>"><?php echo e($currentYear); ?></option>
-                                                                <?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -2213,7 +2208,7 @@ $('#vertical-example-p-12').removeAttr('style');
                 });
                 var formData = $('#form_1').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('equipment_buildings.store')); ?>",
+                    url: "<?php echo e(route('equipment_buildings.store', $project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -2316,7 +2311,7 @@ $('#summery_equipment_buildings_depreciations').append('<td>' +formatter.format(
                 });
                 var formData = $('#form_2').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('transport.store')); ?>",
+                    url: "<?php echo e(route('transport.store', $project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -2414,7 +2409,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_3').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('equipments.store')); ?>",
+    url: "<?php echo e(route('equipments.store', $project->id)); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -2513,7 +2508,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_4').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('furniture.store')); ?>",
+    url: "<?php echo e(route('furniture.store', $project->id)); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -2611,7 +2606,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_5').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('intangible_assets.store')); ?>",
+    url: "<?php echo e(route('intangible_assets.store', $project->id)); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -2709,7 +2704,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_6').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('other_assets.store')); ?>",
+    url: "<?php echo e(route('other_assets.store', $project->id)); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -2808,7 +2803,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_7').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('reserve.store')); ?>",
+    url: "<?php echo e(route('reserve.store', $project->id)); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',

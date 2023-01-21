@@ -89,8 +89,7 @@
                                                                 @eif($balance->purchase_year != null)
                                                                 <option value="{{$balance->purchase_year}}" selected> {{$balance->purchase_year}}</option>
                                                                 @end
-                                                                <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -143,8 +142,7 @@
                                                             <label for="verticalnav-pancard-input"><strong>سنة الشراء</strong></label>
                                                             <select  class="form-control"  name="purchase_year[]">
 
-                                                                <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -234,7 +232,7 @@
                                 <tr>
                                      <th>الأصل /البند</th>
                                      <th>{{$currentYear}}</th>
-                                     @foreach(years()['years'] as $year)
+                                     @foreach(years($project->id)['years'] as $year)
                                      <td>{{$year}} </td>
                                      @endforeach
                                 </tr>
@@ -320,8 +318,7 @@
                                                                 @eif($balance->purchase_year != null)
                                                                 <option value="{{$balance->purchase_year}}" selected> {{$balance->purchase_year}}</option>
                                                                 @end
-                                                                <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -375,7 +372,7 @@
                                                             <select  class="form-control"  name="purchase_year[]">
 
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -474,7 +471,7 @@
                             <tr>
                                  <th>الأصل /البند</th>
                                  <th>{{$currentYear}}</th>
-                                 @foreach(years()['years'] as $year)
+                                 @foreach(years($project->id)['years'] as $year)
                                  <td>{{$year}} </td>
                                  @endforeach
                             </tr>
@@ -557,7 +554,7 @@
                                                                 <option value="{{$balance->purchase_year}}" selected> {{$balance->purchase_year}}</option>
                                                                 @end
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -611,7 +608,7 @@
                                                             <select  class="form-control"  name="purchase_year[]">
 
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -704,7 +701,7 @@
                                     <tr>
                                          <th>الأصل /البند</th>
                                          <th>{{$currentYear}}</th>
-                                         @foreach(years()['years'] as $year)
+                                         @foreach(years($project->id)['years'] as $year)
                                          <td>{{$year}} </td>
                                          @endforeach
                                     </tr>
@@ -786,7 +783,7 @@
                                                             <option value="{{$balance->purchase_year}}" selected> {{$balance->purchase_year}}</option>
                                                             @end
                                                             <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                            @foreach(years()['years'] as $year)
+                                                            @foreach(years($project->id)['years'] as $year)
                                                             <option value="{{$year}}">{{$year}}</option>
                                                             @endforeach
 
@@ -840,7 +837,7 @@
                                                         <select  class="form-control"  name="purchase_year[]">
 
                                                             <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                            @foreach(years()['years'] as $year)
+                                                            @foreach(years($project->id)['years'] as $year)
                                                             <option value="{{$year}}">{{$year}}</option>
                                                             @endforeach
 
@@ -933,7 +930,7 @@
                                     <tr>
                                          <th>الأصل /البند</th>
                                          <th>{{$currentYear}}</th>
-                                         @foreach(years()['years'] as $year)
+                                         @foreach(years($project->id)['years'] as $year)
                                          <td>{{$year}} </td>
                                          @endforeach
                                     </tr>
@@ -1016,7 +1013,7 @@
                                                             <option value="{{$balance->purchase_year}}" selected> {{$balance->purchase_year}}</option>
                                                             @end
                                                             <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                            @foreach(years()['years'] as $year)
+                                                            @foreach(years($project->id)['years'] as $year)
                                                             <option value="{{$year}}">{{$year}}</option>
                                                             @endforeach
 
@@ -1070,7 +1067,7 @@
                                                         <select  class="form-control"  name="purchase_year[]">
 
                                                             <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                            @foreach(years()['years'] as $year)
+                                                            @foreach(years($project->id)['years'] as $year)
                                                             <option value="{{$year}}">{{$year}}</option>
                                                             @endforeach
 
@@ -1163,7 +1160,7 @@
                                     <tr>
                                          <th>الأصل /البند</th>
                                          <th>{{$currentYear}}</th>
-                                         @foreach(years()['years'] as $year)
+                                         @foreach(years($project->id)['years'] as $year)
                                          <td>{{$year}} </td>
                                          @endforeach
                                     </tr>
@@ -1246,7 +1243,7 @@
                                                             <option value="{{$balance->purchase_year}}" selected> {{$balance->purchase_year}}</option>
                                                             @end
                                                             <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                            @foreach(years()['years'] as $year)
+                                                            @foreach(years($project->id)['years'] as $year)
                                                             <option value="{{$year}}">{{$year}}</option>
                                                             @endforeach
 
@@ -1300,7 +1297,7 @@
                                                         <select  class="form-control"  name="purchase_year[]">
 
                                                             <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                            @foreach(years()['years'] as $year)
+                                                            @foreach(years($project->id)['years'] as $year)
                                                             <option value="{{$year}}">{{$year}}</option>
                                                             @endforeach
 
@@ -1394,7 +1391,7 @@
                                     <tr>
                                          <th>الأصل /البند</th>
                                          <th>{{$currentYear}}</th>
-                                         @foreach(years()['years'] as $year)
+                                         @foreach(years($project->id)['years'] as $year)
                                          <td>{{$year}} </td>
                                          @endforeach
                                     </tr>
@@ -1590,7 +1587,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -1652,7 +1649,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -1714,7 +1711,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -1776,7 +1773,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -1838,7 +1835,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -1900,7 +1897,7 @@
 
                                                             <select  class="form-control"  name="purchase_year[]">
                                                                 <option value="{{$currentYear}}">{{$currentYear}}</option>
-                                                                @foreach(years()['years'] as $year)
+                                                                @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
 
@@ -2224,7 +2221,7 @@ $('#vertical-example-p-12').removeAttr('style');
                 });
                 var formData = $('#form_1').serialize();
                 jQuery.ajax({
-                    url: "{{ route('equipment_buildings.store') }}",
+                    url: "{{ route('equipment_buildings.store', $project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -2327,7 +2324,7 @@ $('#summery_equipment_buildings_depreciations').append('<td>' +formatter.format(
                 });
                 var formData = $('#form_2').serialize();
                 jQuery.ajax({
-                    url: "{{ route('transport.store') }}",
+                    url: "{{ route('transport.store', $project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -2425,7 +2422,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_3').serialize();
 jQuery.ajax({
-    url: "{{ route('equipments.store') }}",
+    url: "{{ route('equipments.store', $project->id) }}",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -2524,7 +2521,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_4').serialize();
 jQuery.ajax({
-    url: "{{ route('furniture.store') }}",
+    url: "{{ route('furniture.store', $project->id) }}",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -2622,7 +2619,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_5').serialize();
 jQuery.ajax({
-    url: "{{ route('intangible_assets.store') }}",
+    url: "{{ route('intangible_assets.store', $project->id) }}",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -2720,7 +2717,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_6').serialize();
 jQuery.ajax({
-    url: "{{ route('other_assets.store') }}",
+    url: "{{ route('other_assets.store', $project->id) }}",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -2819,7 +2816,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_7').serialize();
 jQuery.ajax({
-    url: "{{ route('reserve.store') }}",
+    url: "{{ route('reserve.store', $project->id) }}",
     method: 'post',
     data: formData,
     dataType: 'json',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FsAccountReceivable;
 use App\Http\Controllers\Controller;
+use App\Models\admin\Project;
 use App\Models\FsWorkingCapital;
 use Illuminate\Http\Request;
 
@@ -24,10 +25,12 @@ class FsAccountReceivableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($pro_id)
     {
-        $fsAccountReceivable=FsAccountReceivable::where('project_id',1)->get();
-        $fsWorkingCapital=FsWorkingCapital::where('project_id',1)->get();
+        $project = Project::where('id',$pro_id)->first();
+
+        $fsAccountReceivable=FsAccountReceivable::where('project_id',$pro_id)->get();
+        $fsWorkingCapital=FsWorkingCapital::where('project_id',$pro_id)->get();
         $fsWorkingCapitalPeriod=$fsWorkingCapital->where('type','!=','spare')->pluck('period')->toArray();
         $fsWorkingCapitalSpare=$fsWorkingCapital->where('type','spare')->pluck('period');
         $sumOfWorkingCapital=0;
@@ -38,7 +41,8 @@ class FsAccountReceivableController extends Controller
             'fsAccountReceivable'=>$fsAccountReceivable,
             'fsWorkingCapital'=>$fsWorkingCapital,
             'sumOfWorkingCapital'=>$sumOfWorkingCapital,
-            'fsWorkingCapitalSpare'=>$fsWorkingCapitalSpare
+            'fsWorkingCapitalSpare'=>$fsWorkingCapitalSpare,
+            'project'=>$project
             ]);
     }
 
@@ -48,7 +52,7 @@ class FsAccountReceivableController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$pro_id)
     {
         $validator = \Validator::make($request->all(), [
             'account_receivable' => ['required', 'integer'],
@@ -61,18 +65,18 @@ class FsAccountReceivableController extends Controller
         $data = $request->only([
             'account_receivable','account_payable','inventory'
         ]);
-        $data['project_id'] = 1;
+        $data['project_id'] = $pro_id;
 
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-            $fsAccountReceivable = FsAccountReceivable::query()->where('project_id',1)->first();
+            $fsAccountReceivable = FsAccountReceivable::query()->where('project_id',$pro_id)->first();
            if (isset($fsAccountReceivable)){
-               FsAccountReceivable::where('project_id',1)->update([
+               FsAccountReceivable::where('project_id',$pro_id)->update([
                    'account_receivable'=>$request->account_receivable,
                    'account_payable'=>$request->account_payable,
                    'inventory'=>$request->inventory,
-                   'project_id'=>1
+                   'project_id'=>$pro_id
                ]);
            }else{
 

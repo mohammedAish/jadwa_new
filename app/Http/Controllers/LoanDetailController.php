@@ -35,7 +35,7 @@ class LoanDetailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$pro_id)
     {
         $validator=Validator::make($request->all(), [
             'administrative_expenses' => 'required|numeric',
@@ -49,10 +49,10 @@ class LoanDetailController extends Controller
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-            $loanDetail = LoanDetail::query()->where('project_id',1)->first();
+            $loanDetail = LoanDetail::query()->where('project_id',$pro_id)->first();
             if (isset($loanDetail)){
-                LoanDetail::where('project_id',1)->update([
-                    'project_id' => 1,
+                LoanDetail::where('project_id',$pro_id)->update([
+                    'project_id' => $pro_id,
                     'administrative_expenses' => $data['administrative_expenses'],
                     'interest' => $data['interest'],
                     'start_date' => $data['start_date'],
@@ -60,7 +60,7 @@ class LoanDetailController extends Controller
                 return response()->json(['status' => 1, 'success' => 'تم التعديل بنجاح']);
             }else{
                 LoanDetail::query()->create([
-                    'project_id' => 1,
+                    'project_id' => $pro_id,
                     'administrative_expenses' => $data['administrative_expenses'],
                     'interest' => $data['interest'],
                     'start_date' => $data['start_date'],

@@ -880,7 +880,7 @@ $('#vertical-example-p-5').removeAttr('style');
 
                     e.preventDefault();
                     jQuery.ajax({
-                        url: "<?php echo e(route('allـearnings')); ?>",
+                        url: "<?php echo e(route('allـearnings',$project->id)); ?>",
                         method: 'get',
                         dataType: 'json',
                         success: function (result) {
@@ -941,7 +941,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_2').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('project_fs_general_income_icremental_store')); ?>",
+    url: "<?php echo e(route('project_fs_general_income_icremental_store',$project->id)); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -958,7 +958,7 @@ jQuery.ajax({
                         </tr>\
                         </thead>\
                  <tbody id="incrementals">\
-<?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+<?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
 <tr>\
     <td>' + <?php echo e($year); ?> + '</td>\
 <td>\
@@ -988,7 +988,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_4').serialize();
 jQuery.ajax({
-    url: "<?php echo e(route('project_exp_general_income_icremental_store')); ?>",
+    url: "<?php echo e(route('project_exp_general_income_icremental_store',$project->id)); ?>",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -1005,7 +1005,7 @@ jQuery.ajax({
                         </tr>\
                         </thead>\
                  <tbody id="incrementals">\
-<?php $__currentLoopData = years()['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+<?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
 <tr>\
     <td>' + <?php echo e($year); ?> + '</td>\
 <td>\
@@ -1039,7 +1039,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_1').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('project_fs_general_income_store')); ?>",
+                    url: "<?php echo e(route('project_fs_general_income_store',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1068,7 +1068,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_2').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('project_fs_general_income_icremental_detail_store')); ?>",
+                    url: "<?php echo e(route('project_fs_general_income_icremental_detail_store',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1125,7 +1125,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_3').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('project_exp_general_income_store')); ?>",
+                    url: "<?php echo e(route('project_exp_general_income_store',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1152,7 +1152,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_4').serialize();
                 jQuery.ajax({
-                    url: "<?php echo e(route('project_exp_general_income_icremental_detail_store')); ?>",
+                    url: "<?php echo e(route('project_exp_general_income_icremental_detail_store',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1289,7 +1289,7 @@ jQuery.ajax({
 
         function fetch_incremental(){
             jQuery.ajax({
-                url: "<?php echo e(route('project_fs_general_income_icremental_detail_get')); ?>",
+                url: "<?php echo e(route('project_fs_general_income_icremental_detail_get',$project->id)); ?>",
                 method: 'get',
                 dataType: 'json',
                 success: function (result) {
@@ -1319,7 +1319,7 @@ jQuery.ajax({
 
 
             jQuery.ajax({
-                url: "<?php echo e(route('project_fs_general_income_icremental_total_revenue')); ?>",
+                url: "<?php echo e(route('project_fs_general_income_icremental_total_revenue',$project->id)); ?>",
                 method: 'get',
                 dataType: 'json',
                 success: function (result) {
@@ -1379,7 +1379,7 @@ jQuery.ajax({
 
         function fetch_expenses_incremental(){
             jQuery.ajax({
-                url: "<?php echo e(route('project_exp_general_income_icremental_detail_get')); ?>",
+                url: "<?php echo e(route('project_exp_general_income_icremental_detail_get',$project->id)); ?>",
                 method: 'get',
                 dataType: 'json',
                 success: function (result) {
@@ -1405,7 +1405,7 @@ $('#view_exp_incremental_data').append('\
         }
         function view_expenses(){
             jQuery.ajax({
-                url: "<?php echo e(route('project_exp_general_income_icremental_total_revenue')); ?>",
+                url: "<?php echo e(route('project_exp_general_income_icremental_total_revenue',$project->id)); ?>",
                 method: 'get',
                 dataType: 'json',
                 success: function (result) {

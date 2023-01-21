@@ -183,7 +183,7 @@
                                     <button type="button" value="السابق" name="previous_1" class="btn btn-warning" id="previous_1" >
                                         السابق
                                     </button>
-                                    <a href="{{route('feasibility-study')}}" type="button" value="حفظ" name="" class="btn btn-warning" id="" >
+                                    <a href="{{route('feasibility-study', $project->id)}}" type="button" value="حفظ" name="" class="btn btn-warning" id="" >
                                         حفظ
                                         {{-- <span class="spinner-border spinner-border-sm" id="spinner_1" role="status" aria-hidden="true"></span> --}}
                                     </a>
@@ -223,7 +223,7 @@
             let id = $('#id').val();
             $.ajax({
                 type: "GET",
-                url: "{{ route('fetch_startupCosts') }}",
+                url: "{{ route('fetch_startupCosts', $project->id) }}",
                 data: {id: id},
                 dataType: "json",
                 success: function (response) {
@@ -253,7 +253,7 @@
                 $("#spinner_1").show();
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('fs-startup-cost.store') }}",
+                    url: "{{ route('fs-startup-cost.store', $project->id) }}",
                     method: 'post',
                     data: new FormData(form1),
                     processData: false,
@@ -338,7 +338,7 @@
                     console.log(status.value);
                     if (status.value) {
                         $.ajax({
-                            url: '{{ route('fs_startup_cost.del') }}',
+                            url: '{{ route('fs_startup_cost.del', $project->id) }}',
                             type: 'Delete',
                             data: {
                                 'id': id,

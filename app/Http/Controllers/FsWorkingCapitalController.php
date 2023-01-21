@@ -35,7 +35,7 @@ class FsWorkingCapitalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$pro_id)
     {
         $validator = \Validator::make($request->all(), [
 //            'cogs[period]' => ['required', 'integer'],
@@ -52,7 +52,7 @@ class FsWorkingCapitalController extends Controller
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
             $fsWorking=DB::table('fs_working_capitals')->get()->count();
-            $fsWorkingCapital = FsWorkingCapital::query()->where('project_id',1)->get();
+            $fsWorkingCapital = FsWorkingCapital::query()->where('project_id',$pro_id)->get();
 //            $fsWorkingCapital = FsWorkingCapital::query()->where('project_id',1)->first();
 
             if ($fsWorking>0){
@@ -62,7 +62,7 @@ class FsWorkingCapitalController extends Controller
                         $fsWorkingUpdate = FsWorkingCapital::where('type',$value['type'])->first();
                         $fsWorkingUpdate->update([
                             'type' => $value['type'],
-                            'project_id' => 1,
+                            'project_id' => $pro_id,
                             'period' => $value['period'],
                         ]);
                     }
@@ -71,7 +71,7 @@ class FsWorkingCapitalController extends Controller
                 foreach ($request->all() as $key => $value) {
                     FsWorkingCapital::create([
                         'type' => $value['type'],
-                        'project_id' => 1,
+                        'project_id' => $pro_id,
                         'period' => $value['period'],
                     ]);
                 }

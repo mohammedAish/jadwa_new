@@ -3,13 +3,8 @@
 use App\Models\admin\Project;
 
 
-
-
-
-//const study_duration = 5;
-// const selected_study_duration = 5;
-function projectDetail(){
-    $project = Project::where('project_type_id',1)->first();
+function projectDetail($id){
+    $project = Project::where('id',$id)->where('owner_id' , Auth::user()->id)->first();
     $study_duration =$project->study_duration;
     $vat =$project->vat;
     $project_type =$project->project_type;
@@ -21,11 +16,12 @@ return [
 }
 
 
-function years(): array
+function years($id): array
 
 {
 
-    $project = Project::where('project_type_id',1)->first();
+    $project = Project::where('id',$id)->first();
+    //dd($project);
    $projectStartDate = new DateTime($project->start_date);
                 $start_year = date('Y-m-d', strtotime($project->start_date));
                 $model_assumptions = model_assumptions($start_year,'3', '365', '15');
@@ -34,7 +30,7 @@ function years(): array
 //dd($operationDate);
 
     $years = array($start_year);
-    for ($i = 0; $i < projectDetail()['study_duration'] - 1; $i++) {
+    for ($i = 0; $i < projectDetail($id)['study_duration'] - 1; $i++) {
         $years[] = $years[$i] + 1;
     }
 

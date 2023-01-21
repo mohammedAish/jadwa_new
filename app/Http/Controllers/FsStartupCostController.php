@@ -25,10 +25,10 @@ class FsStartupCostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($pro_id)
     {
-        $project=Project::findOrFail(1);
-        $stratupCosts = FsStartupCost::where('project_id',1)->get();
+        $project=Project::findOrFail($pro_id);
+        $stratupCosts = FsStartupCost::where('project_id',$pro_id)->get();
 
         return view('admin.FsStartupCost.create')->with(
             ['stratupCosts'=>$stratupCosts,
@@ -42,7 +42,7 @@ class FsStartupCostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$pro_id)
     {
         $validator=Validator::make($request->all(), [
             'name.*' => 'required|string',
@@ -56,13 +56,13 @@ class FsStartupCostController extends Controller
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-            $fsStartup = \DB::table('fs_startup_costs')->where('project_id', 1)->get()->count();
+            $fsStartup = \DB::table('fs_startup_costs')->where('project_id', $pro_id)->get()->count();
             if ($fsStartup > 0) {
                 foreach ($data['id'] as $key => $item) {
                     $fsStartupUpdate = FsStartupCost::where('id', $data['id'][$key])->first();
                     if (!is_null('name')) {
                         FsStartupCost::where('id', $data['id'][$key])->updateOrCreate([
-                            'project_id' => 1,
+                            'project_id' => $pro_id,
                         ], [
                             'name' => $data['name'][$key],
                             'cost' => $data['cost'][$key],
@@ -73,7 +73,7 @@ class FsStartupCostController extends Controller
                 foreach ($data['id'] as $key => $item) {
                     if (!is_null('name')) {
                         FsStartupCost::query()->create([
-                            'project_id' => 1,
+                            'project_id' => $pro_id,
                             'name' => $data['name'][$key],
                             'cost' => $data['cost'][$key],
                         ]);
@@ -84,8 +84,8 @@ class FsStartupCostController extends Controller
         }
     }
 
-    public function fetchStartupCost(Request $request){
-        $startupCosts = FsStartupCost::where('project_id',1)->get();
+    public function fetchStartupCost(Request $request,$pro_id){
+        $startupCosts = FsStartupCost::where('project_id',$pro_id)->get();
         $sumCost=0;
         foreach ($startupCosts as $cost){
             $sumCost+=$cost->cost;

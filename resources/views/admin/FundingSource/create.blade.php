@@ -527,7 +527,7 @@
             if (e.target.id == 'storefundingsource') {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('funding-source.store') }}",
+                    url: "{{ route('funding-source.store', $project->id) }}",
                     method: 'post',
                     data: new FormData(form1),
                     processData: false,
@@ -558,7 +558,7 @@
             if (e.target.id == 'storecapitalStructure') {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('capital-structure.store') }}",
+                    url: "{{ route('capital-structure.store', $project->id) }}",
                     method: 'post',
                     data: new FormData(form2),
                     processData: false,
@@ -589,7 +589,7 @@
             if (e.target.id == 'storeloanDetail') {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('loan-detail.store') }}",
+                    url: "{{ route('loan-detail.store', $project->id) }}",
                     method: 'post',
                     data: new FormData(form3),
                     processData: false,

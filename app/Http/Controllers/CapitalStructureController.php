@@ -35,7 +35,7 @@ class CapitalStructureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$pro_id)
     {
         $validator=Validator::make($request->all(), [
             'self_financing' => 'required|numeric',
@@ -47,16 +47,16 @@ class CapitalStructureController extends Controller
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-            $capitalStructure = CapitalStructure::query()->where('project_id',1)->first();
+            $capitalStructure = CapitalStructure::query()->where('project_id',$pro_id)->first();
             if (isset($capitalStructure)){
-              CapitalStructure::where('project_id',1)->update([
-                    'project_id' => 1,
+              CapitalStructure::where('project_id',$pro_id)->update([
+                    'project_id' => $pro_id,
                     'self_financing' => $data['self_financing'],
                 ]);
                 return response()->json(['status' => 1, 'success' => 'تم التعديل بنجاح']);
             }else{
                 CapitalStructure::query()->create([
-                    'project_id' => 1,
+                    'project_id' => $pro_id,
                     'self_financing' => $data['self_financing'],
                 ]);
                 return response()->json(['status' => 1, 'success' => 'تمت الاضافة بنجاح']);

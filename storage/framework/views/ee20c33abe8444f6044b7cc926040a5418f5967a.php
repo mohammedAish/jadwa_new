@@ -184,7 +184,7 @@
                                     <button type="button" value="السابق" name="previous_1" class="btn btn-warning" id="previous_1" >
                                         السابق
                                     </button>
-                                    <a href="<?php echo e(route('feasibility-study')); ?>" type="button" value="حفظ" name="" class="btn btn-warning" id="" >
+                                    <a href="<?php echo e(route('feasibility-study', $project->id)); ?>" type="button" value="حفظ" name="" class="btn btn-warning" id="" >
                                         حفظ
                                         
                                     </a>
@@ -224,7 +224,7 @@
             let id = $('#id').val();
             $.ajax({
                 type: "GET",
-                url: "<?php echo e(route('fetch_startupCosts')); ?>",
+                url: "<?php echo e(route('fetch_startupCosts', $project->id)); ?>",
                 data: {id: id},
                 dataType: "json",
                 success: function (response) {
@@ -254,7 +254,7 @@
                 $("#spinner_1").show();
                 e.preventDefault();
                 $.ajax({
-                    url: "<?php echo e(route('fs-startup-cost.store')); ?>",
+                    url: "<?php echo e(route('fs-startup-cost.store', $project->id)); ?>",
                     method: 'post',
                     data: new FormData(form1),
                     processData: false,
@@ -353,7 +353,7 @@ unset($__errorArgs, $__bag); ?>">
                     console.log(status.value);
                     if (status.value) {
                         $.ajax({
-                            url: '<?php echo e(route('fs_startup_cost.del')); ?>',
+                            url: '<?php echo e(route('fs_startup_cost.del', $project->id)); ?>',
                             type: 'Delete',
                             data: {
                                 'id': id,

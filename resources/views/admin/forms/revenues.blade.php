@@ -946,7 +946,7 @@ $('#vertical-example-p-5').removeAttr('style');
 
                     e.preventDefault();
                     jQuery.ajax({
-                        url: "{{ route('allـearnings') }}",
+                        url: "{{ route('allـearnings',$project->id) }}",
                         method: 'get',
                         dataType: 'json',
                         success: function (result) {
@@ -1007,7 +1007,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_2').serialize();
 jQuery.ajax({
-    url: "{{ route('project_fs_general_income_icremental_store') }}",
+    url: "{{ route('project_fs_general_income_icremental_store',$project->id) }}",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -1024,7 +1024,7 @@ jQuery.ajax({
                         </tr>\
                         </thead>\
                  <tbody id="incrementals">\
-@foreach(years()['years'] as $year)\
+@foreach(years($project->id)['years'] as $year)\
 <tr>\
     <td>' + {{$year}} + '</td>\
 <td>\
@@ -1054,7 +1054,7 @@ $.ajaxSetup({
 });
 var formData = $('#form_4').serialize();
 jQuery.ajax({
-    url: "{{ route('project_exp_general_income_icremental_store') }}",
+    url: "{{ route('project_exp_general_income_icremental_store',$project->id) }}",
     method: 'post',
     data: formData,
     dataType: 'json',
@@ -1071,7 +1071,7 @@ jQuery.ajax({
                         </tr>\
                         </thead>\
                  <tbody id="incrementals">\
-@foreach(years()['years'] as $year)\
+@foreach(years($project->id)['years'] as $year)\
 <tr>\
     <td>' + {{$year}} + '</td>\
 <td>\
@@ -1105,7 +1105,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_1').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_general_income_store') }}",
+                    url: "{{ route('project_fs_general_income_store',$project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1134,7 +1134,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_2').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_general_income_icremental_detail_store') }}",
+                    url: "{{ route('project_fs_general_income_icremental_detail_store',$project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1191,7 +1191,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_3').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_exp_general_income_store') }}",
+                    url: "{{ route('project_exp_general_income_store',$project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1218,7 +1218,7 @@ jQuery.ajax({
                 });
                 var formData = $('#form_4').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_exp_general_income_icremental_detail_store') }}",
+                    url: "{{ route('project_exp_general_income_icremental_detail_store',$project->id) }}",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1355,7 +1355,7 @@ jQuery.ajax({
 
         function fetch_incremental(){
             jQuery.ajax({
-                url: "{{ route('project_fs_general_income_icremental_detail_get') }}",
+                url: "{{ route('project_fs_general_income_icremental_detail_get',$project->id) }}",
                 method: 'get',
                 dataType: 'json',
                 success: function (result) {
@@ -1385,7 +1385,7 @@ jQuery.ajax({
 
 
             jQuery.ajax({
-                url: "{{ route('project_fs_general_income_icremental_total_revenue') }}",
+                url: "{{ route('project_fs_general_income_icremental_total_revenue',$project->id) }}",
                 method: 'get',
                 dataType: 'json',
                 success: function (result) {
@@ -1445,7 +1445,7 @@ jQuery.ajax({
 
         function fetch_expenses_incremental(){
             jQuery.ajax({
-                url: "{{ route('project_exp_general_income_icremental_detail_get') }}",
+                url: "{{ route('project_exp_general_income_icremental_detail_get',$project->id) }}",
                 method: 'get',
                 dataType: 'json',
                 success: function (result) {
@@ -1471,7 +1471,7 @@ $('#view_exp_incremental_data').append('\
         }
         function view_expenses(){
             jQuery.ajax({
-                url: "{{ route('project_exp_general_income_icremental_total_revenue') }}",
+                url: "{{ route('project_exp_general_income_icremental_total_revenue',$project->id) }}",
                 method: 'get',
                 dataType: 'json',
                 success: function (result) {
