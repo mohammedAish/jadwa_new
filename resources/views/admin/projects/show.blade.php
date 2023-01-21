@@ -71,7 +71,7 @@
                 </div>
             </div>
             <div class="">
-                <a href="{{ route('feasibility-study', $project->id) }}" class="py-5">دراسة جدوي</a>
+{{--                <a href="{{ route('feasibility-study', $project->id) }}" class="py-5">دراسة جدوي</a>--}}
             </div>
         </div>
         <!-- end col -->
@@ -220,7 +220,7 @@
                                     {{ $services->price }} ر.س</p> --}}
                         </h4>
 
-                        <a href="{{ route('feasibility-study') }}"
+                        <a href="{{ route('feasibility-study', $project->id) }}"
                            class="btn btn-outline-warning waves-effect border-ora"
                            style="width: -webkit-fill-available; ">ابدا الان</a>
                     </div>
