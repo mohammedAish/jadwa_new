@@ -47,6 +47,7 @@ $items =[];
        // dd($items);
              $projectExpGeneralIncome = ProjectExpGeneralIncome::select('id')->get()->toArray();
              $count_projectExpGeneralIncome= count($projectExpGeneralIncome);
+            // dd($count_projectExpGeneralIncome);
              //$result = ProjectExpGeneralIncome::where('project_id',$pro_id)->delete();
           //  dd($projectExpGeneralIncome);
 
@@ -56,11 +57,12 @@ $items =[];
            // dd($item);
            //array_push($items, $item);
            $item_id = $request->get('item_id');
+           //dd($item_id);
             $value = $request->get('value');
             //dd($value);
             $quantity = $request->get('quantity');
             $expensis_type = $request->get('expensis_type');
-
+            //dd($expensis_type);
                  $count_items = count($items);
                 // dd($count_items);
                  for($i = 0; $i<$count_items; $i++)

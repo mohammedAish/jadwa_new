@@ -444,10 +444,14 @@
                                             @foreach($projectIncomes as $projectIncome)
                                                 <div data-repeater-item  class=" row add_income_expenses_item">
                                                     <tr>
+                                                        <input hidden name="item_id[]" value="{{$projectIncome->id}}">
+
                                                         <td> <input style="background-color: #FAFAFA;" type="text" name="item[]" value="{{$projectIncome->item}}" class="form-control" id="verticalnav-pancard-input">
                                                             <span class="text-danger error-text item_error"></span></td>
-                                                        <td>          <select style="background-color: #FAFAFA;" class="form-select" name="expensis_type[]">
-                                                                <option v alue="0" @if ($projectIncome->value == "0") {{ 'selected' }} @endif >مبلغ ثابت</option>
+                                                        <td>
+
+                                                            <select style="background-color: #FAFAFA;" class="form-control" name="expensis_type[]">
+                                                                <option value="0" @if ($projectIncome->value == "0") {{ 'selected' }} @endif >مبلغ ثابت</option>
                                                                 <option value="1" @if ($projectIncome->value == "1") {{ 'selected' }} @endif>نسبة من ايرادات المنتج</option>
                                                                 {{-- <option value="2" @if ($projectIncome->value == "2") {{ 'selected' }} @endif>نسبة من ايرادات العامة</option> --}}
                                                             </select>
@@ -1047,8 +1051,8 @@
 
         function checkAlert(evt) {
             if (evt.target.value === "أخري") {
-                $('#mapDiv').removeClass('col-12');
-                $('#mapDiv').addClass('col-1');
+               // $('#mapDiv').removeClass('col-12');
+                //$('#mapDiv').addClass('col-1');
                 $('#executive').attr("style", "background-color:#B6B6B6;")
                 $('#sales_channels').append(`<div class="my-2 col-9"><input name="item[]" type="text" class="inner form-control"  value="" placeholder="" style="background-color:  #FAFAFA;" /></div>`);
                 $('#mapDiv').attr("style", "display:contents;")
