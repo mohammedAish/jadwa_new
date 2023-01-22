@@ -221,6 +221,8 @@
                         <h4 class="card-title mt-0 "style="font-size:13px; text-align:center ">دراسة الجدوى (Feasibility Study)
                             {{-- <p class="orange" style=" padding-right: 100px ;">
                                     {{ $services->price }} ر.س</p> --}}
+
+
                         </h4>
 
                         <a href="{{ route('feasibility-study', $project->id) }}"
