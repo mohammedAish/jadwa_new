@@ -63,6 +63,7 @@
                                 </strong></h4>
 
                             <form id="form_1" name="form_1" class="form-horizontal">
+
                                 <table data-repeater-item  class="table table-bordered text-center inner-repeater " id="summry_table">
                                     <thead class="">
                                     <tr style="background-color: #F5F5F5;">
@@ -82,6 +83,7 @@
                                                     <td>{{$projectIncome->quantity}}</td>
                                                     <td>
                                                         <button type="button" class="edit" title="تعديل" style="cursor: pointer; border-radius:60%;
+
                                             border: none;"
                                                                 data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger ">
                                                             <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="show_edit(this.id)"></i>
@@ -467,6 +469,7 @@
                                                                 <span class="input-group-text black_text " style="font-weight: 500;">%</span></span>
                                                             @endif
 
+
                                                         </div>
 
 
@@ -851,6 +854,7 @@
 
             // start clone element
             if (e.target.id == 'add_income_item') {
+
                 $("#emptyincome").hide()
                 $(".income").append(`<tr data-repeater-item class="inner mb-4">
                                         <td> <input style="background-color: #FAFAFA;" placeholder=" اسم المنتج / الخدمة" type="text" name="item[]" class="form-control" id="verticalnav-pancard-input"></td>
@@ -913,6 +917,7 @@
                                     </a>
                                     </td><tr>
                                     `);
+
             }
 {{--            if (e.target.id == 'add_income_expenses_item') {--}}
 {{--                $(".income_expenses").after(`<div data-repeater-item class="inner mb-3 row">--}}
@@ -1219,6 +1224,7 @@
             $('#vertical-example-t-0').parent().attr('class','current');
 
             jQuery('#value_incremental_button').click(function (e) {
+
                 e.preventDefault();
                 $.ajaxSetup({
                     headers: {

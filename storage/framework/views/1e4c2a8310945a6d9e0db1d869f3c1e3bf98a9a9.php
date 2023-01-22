@@ -62,6 +62,7 @@ font-size: 20px;
                                     <?php $__currentLoopData = $projectIncomes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectIncome): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr id="lable_<?php echo e($projectIncome->id); ?>">
                                         <td><?php echo e($projectIncome->item); ?></td>
+                                        <input hidden name="item_id[]" value="<?php echo e($projectIncome->id); ?>">
                                         <td><?php echo e($projectIncome->value); ?></td>
                                         <td><?php echo e($projectIncome->quantity); ?></td>
                                         <td>
@@ -76,10 +77,11 @@ font-size: 20px;
                                              <i class="p-2 fas fa-trash-alt font-size-15" style="cursor: pointer;color: #ec6868;" id=""></i>
                                             </button>
                                         </td>
+
                                     </tr>
                                     <tr id="input_<?php echo e($projectIncome->id); ?>" style="display: none">
 
-                                        <td><input type="text" name="item[]" value="<?php echo e($projectIncome->item); ?>" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td><input type="text" name="item[]" value="<?php echo e($projectIncome->item); ?>" class="form-control" id="verticalnav-pancard-input">
                                         <td><input type="text" name="value[]" value="<?php echo e($projectIncome->value); ?>" class="form-control" id="verticalnav-pancard-input"></td>
                                         <td><input type="text" name="quantity[]" value="<?php echo e($projectIncome->quantity); ?>" class="form-control" id="verticalnav-pancard-input"></td>
                                         <td>
@@ -308,6 +310,7 @@ font-size: 20px;
                                         <div data-repeater-list="inner-group" class="inner mb-4">
                                             <div data-repeater-item class="inner mb-3 row income_expenses">
                                                 <?php $__currentLoopData = $projectIncomes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectIncome): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <input hidden name="item_id[]" value="<?php echo e($projectIncome->id); ?>">
                                                 <div data-repeater-item  class=" row add_income_expenses_item">
 
 
@@ -624,7 +627,8 @@ font-size: 20px;
             // start clone element
             if (e.target.id == 'add_income_item') {
                 $(".income").append(`<tr data-repeater-item class="inner mb-4"> <td> <input type="text" name="item[]" class="form-control" id="verticalnav-pancard-input"></td>
-                                        <td> <input type="text" name="value[]" class="form-control" id="verticalnav-pancard-input"></td>
+                                        <td> <input type="text" name="value[]" class="form-control" id="verticalnav-pancard-input">
+                                            <input hidden name="item_id[]" value="0"></td>
                                         <td> <input type="text" name="quantity[]" class="form-control" id="verticalnav-pancard-input"></td>
                                         <td><i class=" mdi mdi-delete font-size-20" style="cursor: pointer;color: #ee0e0e;" id="delete_income_item"></i></td><tr>`);
             }
@@ -632,7 +636,7 @@ font-size: 20px;
                 $(".income_expenses").after(`<div data-repeater-item class="inner mb-3 row">
                                                         <div class="col-lg-3">
                                                         <div class="mb-3">
-
+                                                            <input hidden name="item_id[]" value="0">
                                                             <label for="verticalnav-pancard-input"><strong>البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
                                                             <select onchange="checkAlert(event)" id="executive"  class="form-control my-2"  name="item[]">
                                                                 <?php $__currentLoopData = $projectIncomes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectIncome): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

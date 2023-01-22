@@ -9,6 +9,7 @@ use App\Models\admin\Project;
 use App\Models\ProjectFsGeneralIncomeIncremental;
 use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
 use DateTime;
+use PhpParser\Node\Expr\Empty_;
 
 class ProjectFsGeneralIncomeController extends Controller
 {
@@ -41,7 +42,7 @@ class ProjectFsGeneralIncomeController extends Controller
      */
     public function project_fs_general_income_store(Request $request,$pro_id)
     {
-
+    //dd($request->all());
         $request->validate([
             'items.*' => 'required',
             'value.*' => 'required',
@@ -51,19 +52,49 @@ class ProjectFsGeneralIncomeController extends Controller
             'item','value','quantity',
         ]);
 
-        $result = ProjectFsGeneralIncome::where('project_id',$pro_id)->delete();
-        foreach ($data['item'] as $key => $item){
-            if (!is_null($item)){
-                ProjectFsGeneralIncome::query()->create([
-                    'project_id' => $pro_id,
-                    'item' => $data['item'][$key],
-                    'value' => $data['value'][$key],
-                    'quantity' => $data['quantity'][$key],
+        $item_id = $request->get('item_id');
+        $item = $request->get('item');
+       // dd($item);
+        $value = $request->get('value');
+        $quantity = $request->get('quantity');
+             $count_items = count($item);
+            // dd($count_items);
+             for($i = 0; $i<$count_items; $i++)
+             {
+                //dd($item_id[$i]);
+               // dd($pres);
+                if($item_id[$i] != 0){
+               //$pres= ProjectFsGeneralIncome::findOrFail($item_id[$i]);
+              // dd( $item[$i]);
+              ProjectFsGeneralIncome::whereId($item_id[$i])->update([
+                    'item' => $item[$i] ,
+                    'value' => $value[$i] ,
+                    'quantity' => $quantity[$i] ,
 
-                ]);
-            }
+                             ]);
+                        }else{
+                                         ProjectFsGeneralIncome::create([
+                                            'project_id' => $pro_id,
+                                             'item' => $item[$i] ,
+                                            'value' => $value[$i] ,
+                                            'quantity' => $quantity[$i] ,
+                                                                    ]);
 
-        }
+                        };
+             }
+        // $result = ProjectFsGeneralIncome::where('project_id',$pro_id)->delete();
+        // foreach ($data['item'] as $key => $item){
+        //     if (!is_null($item)){
+        //         ProjectFsGeneralIncome::query()->create([
+        //             'project_id' => $pro_id,
+        //             'item' => $data['item'][$key],
+        //             'value' => $data['value'][$key],
+        //             'quantity' => $data['quantity'][$key],
+
+        //         ]);
+        //     }
+
+        // }
 
         return response()->json(['message'=>'success','success'=>'تم تخزين البيانات بنجاح']);
 

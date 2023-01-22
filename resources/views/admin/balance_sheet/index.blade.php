@@ -46,6 +46,7 @@
                                     @if($balances->where('balance_type', 'equipment_buildings')->isNotEmpty())
                                                 @foreach($balances->where('balance_type', 'equipment_buildings') as $balance)
                                                 <div class="row">
+                                                    <input hidden type="hidden" name="item_id[]" value="{{$balance->id}}">
                                                     <div class="col-lg-3">
                                                         <div class="mb-3">
 
@@ -89,6 +90,8 @@
                                                                 @eif($balance->purchase_year != null)
                                                                 <option value="{{$balance->purchase_year}}" selected> {{$balance->purchase_year}}</option>
                                                                 @end
+
+                                                                <option value="{{$currentYear}}">{{$currentYear}}</option>
                                                                 @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
@@ -101,6 +104,8 @@
                                                 @endforeach
                                                 @else
                                                 <div class="row">
+                                                    <input hidden name="item_id[]" value="0">
+
                                                     <div class="col-lg-3">
                                                         <div class="mb-3">
 
@@ -141,7 +146,7 @@
 
                                                             <label for="verticalnav-pancard-input"><strong>سنة الشراء</strong></label>
                                                             <select  class="form-control"  name="purchase_year[]">
-
+                                                                <option value="{{$currentYear}}">{{$currentYear}}</option>
                                                                 @foreach(years($project->id)['years'] as $year)
                                                                 <option value="{{$year}}">{{$year}}</option>
                                                                 @endforeach
@@ -277,7 +282,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <div class="mb-3">
-
+                                                            <input hidden name="item_id[]" value="{{$balance->id}}">
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                             <input type="text" name="item[]"  value="{{$balance->item}}" class="form-control" id="verticalnav-pancard-input">
@@ -330,9 +335,10 @@
                                                 @endforeach
                                                 @else
                                                 <div class="row">
+                                                    <input hidden name="item_id[]" value="0">
+
                                                     <div class="col-lg-3">
                                                         <div class="mb-3">
-
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                             <input type="text" name="item[]" class="form-control" id="verticalnav-pancard-input">
@@ -512,7 +518,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <div class="mb-3">
-
+                                                            <input hidden name="item_id[]" value="{{$balance->id}}">
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                             <input type="text" name="item[]"  value="{{$balance->item}}" class="form-control" id="verticalnav-pancard-input">
@@ -568,7 +574,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <div class="mb-3">
-
+                                                            <input hidden name="item_id[]" value="0">
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                             <input type="text" name="item[]"   class="form-control" id="verticalnav-pancard-input">
@@ -741,7 +747,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3">
-
+                                                        <input hidden name="item_id[]" value="{{$balance->id}}">
                                                         <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                         <input type="text" name="item[]"  value="{{$balance->item}}" class="form-control" id="verticalnav-pancard-input">
@@ -797,7 +803,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3">
-
+                                                        <input hidden name="item_id[]" value="">
                                                         <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                         <input type="text" name="item[]"   class="form-control" id="verticalnav-pancard-input">
@@ -971,7 +977,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3">
-
+                                                        <input hidden name="item_id[]" value="{{$balance->id}}">
                                                         <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                         <input type="text" name="item[]"  value="{{$balance->item}}" class="form-control" id="verticalnav-pancard-input">
@@ -1027,7 +1033,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3">
-
+                                                        <input hidden name="item_id[]" value="">
                                                         <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                         <input type="text" name="item[]"   class="form-control" id="verticalnav-pancard-input">
@@ -1201,7 +1207,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3">
-
+                                                        <input hidden name="item_id[]" value="{{$balance->id}}">
                                                         <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                         <input type="text" name="item[]"  value="{{$balance->item}}" class="form-control" id="verticalnav-pancard-input">
@@ -1257,7 +1263,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3">
-
+                                                        <input hidden name="item_id[]" value="">
                                                         <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                         <input type="text" name="item[]"   class="form-control" id="verticalnav-pancard-input">
@@ -1544,7 +1550,7 @@
                 $(".income").append(`<div data-repeater-item class="inner mb-3 row">
                     <div class="col-lg-2">
                                                         <div class="mb-3">
-
+                                                            <input hidden name="item_id[]" value="0">
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
 
                                                             <input type="text" name="item[]"  value="" class="form-control" id="verticalnav-pancard-input">
@@ -1605,6 +1611,8 @@
             if (e.target.id == 'add_income_item2') {
                 $(".income2").append(`<div data-repeater-item class="inner2 mb-3 row">
                     <div class="col-lg-2">
+                        <input hidden name="item_id[]" value="0">
+
                                                         <div class="mb-3">
 
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
@@ -1667,6 +1675,7 @@
             if (e.target.id == 'add_income_item3') {
                 $(".income3").append(`<div data-repeater-item class="inner3 mb-3 row">
                     <div class="col-lg-2">
+                        <input hidden name="item_id[]" value="0">
                                                         <div class="mb-3">
 
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
@@ -1729,6 +1738,7 @@
             if (e.target.id == 'add_income_item4') {
                 $(".income4").append(`<div data-repeater-item class="inner4 mb-3 row">
                     <div class="col-lg-2">
+                        <input hidden name="item_id[]" value="0">
                                                         <div class="mb-3">
 
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
@@ -1791,6 +1801,7 @@
             if (e.target.id == 'add_income_item5') {
                 $(".income5").append(`<div data-repeater-item class="inner5 mb-3 row">
                     <div class="col-lg-2">
+                        <input hidden name="item_id[]" value="0">
                                                         <div class="mb-3">
 
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
@@ -1853,6 +1864,7 @@
             if (e.target.id == 'add_income_item6') {
                 $(".income6").append(`<div data-repeater-item class="inner6 mb-3 row">
                     <div class="col-lg-2">
+                            <input hidden name="item_id[]" value="0">
                                                         <div class="mb-3">
 
                                                             <label for="verticalnav-pancard-input"><strong>الأصل/ البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
@@ -1916,6 +1928,7 @@
                 $(".income_expenses").after(`<div data-repeater-item class="inner mb-3 row">
                                                         <div class="col-lg-3">
                                                         <div class="mb-3">
+                                                            <input hidden name="item_id[]" value="0">
 
                                                             <label for="verticalnav-pancard-input"><strong>البند</strong> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> </label>
                                                             <select onchange="checkAlert(event)" id="executive"  class="form-control"  name="item[]">
