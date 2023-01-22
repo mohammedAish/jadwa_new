@@ -18,14 +18,14 @@
         background-color: #ffffff;
         border-collapse: collapse;
         border-width: 2px;
-        border-color: #000000;
+        border-color: rgba(10, 10, 10, 0.2);
         border-style: outset;
         color: #000000;
     }
 
     table.GeneratedTable td, table.GeneratedTable th {
         border-width: 2px;
-        border-color: #000000;
+        border-color: rgba(10, 10, 10, 0.2);
         border-style: outset;
         padding: 7px;
         text-align:center;

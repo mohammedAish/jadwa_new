@@ -73,7 +73,7 @@ dd('hi');
         return response()->json(['message'=>'success','data'=>$result,'success'=>'تم تخزين البيانات بنجاح']);
 
     }
-
+   
     public function show($id)
     {
     }
