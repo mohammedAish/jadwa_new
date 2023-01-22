@@ -15,4 +15,9 @@ class AdministExpen extends Model
         'value',
       
     ];
+
+    public function projectFsGeneralExpensesDetails()
+    {
+        return $this->belongsToMany(ProjectFsGeneralAdministrativeExpenses::class, 'project_fs_general_expenses_details' , 'expensis_type');
+    }
 }

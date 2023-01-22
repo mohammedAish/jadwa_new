@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectType extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $guraded = [];
-    protected $fillable =['title','status'];
-      public function projects(){
-        return $this->hasMany(Project::class );
-    }
+  protected $guraded = [];
+  protected $fillable = ['title', 'status'];
+  public function projects()
+  {
+    return $this->hasMany(Project::class);
+  }
 
-    public function projectResource(){
-      return $this->hasMany(ProjectBpChannelResource::class );
+  public function projectResource()
+  {
+    return $this->hasMany(ProjectBpChannelResource::class);
   }
 }

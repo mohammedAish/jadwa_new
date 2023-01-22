@@ -16,8 +16,17 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectExpGeneralIncomeController;
 use App\Http\Controllers\ProjectExpGeneralIncomeIncrementalController;
 use App\Http\Controllers\ProjectExpGeneralIncomeIncrementalDetailController;
+use App\Http\Controllers\ProjectFsGeneralAdministrativeExpensesController;
+use App\Http\Controllers\ProjectFsGeneralExpensesIncrementalsController;
 use App\Http\Controllers\ProjectFsGeneralIncomeController;
 use App\Http\Controllers\ProjectFsGeneralIncomeIncrementalController;
+use App\Http\Controllers\ProjectFsOtherExpensesController;
+use App\Http\Controllers\ProjectFsOtherExpensesIncrementalsDetailsController;
+use App\Http\Controllers\ProjectFsRentController;
+use App\Http\Controllers\ProjectFsRentIncrementalsDetailsController;
+use App\Http\Controllers\ProjectFsSellingAndMarketingCostController;
+use App\Http\Controllers\ProjectFsUtilitiesController;
+use App\Http\Controllers\ProjectFsUtilitiesIncrementalsDetailsController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\SaleChannelController;
 use App\Http\Controllers\SliderController;
@@ -28,7 +37,9 @@ use App\Http\Controllers\UsersController;
 use App\Models\AdministExpen;
 use App\Models\EmployeesDetails;
 use App\Models\ProjectExpGeneralIncomeIncremental;
+use App\Models\ProjectFsGeneralAdministrativeExpenses;
 use App\Models\ProjectFsGeneralIncome;
+use App\Models\ProjectFsSellingAndMarketingCost;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -77,14 +88,14 @@ Route::get('/get_projects', [App\Http\Controllers\ProjectController::class, 'get
 Route::post('/store_project', [App\Http\Controllers\ProjectController::class, 'store_project'])->name('store_project')->middleware('auth');
 Route::post('/store_project_details', [App\Http\Controllers\ProjectController::class, 'store_project_details'])->name('store_project_details')->middleware('auth');
 Route::get('projects/{id}/business_model/create', [App\Http\Controllers\ProjectbusinessplansController::class, 'create'])->name('create_business_model')->middleware('auth');
-Route::post('projects//business_model/storeproblemssolutions', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_problems_solutions'])->name('storeproblemssolutions')->middleware('auth');
-Route::post('projects//business_model/storedetailsmarket', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_details_market'])->name('storedetailsmarket')->middleware('auth');
-Route::post('projects//business_model/storesalesmarketingchannels', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_sales_marketing_channels'])->name('storesalesmarketingchannels')->middleware('auth');
-Route::post('projects//business_model/storecompatitor', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_compatitor'])->name('storecompatitor')->middleware('auth');
-Route::post('projects//business_model/storevisionmessagegoals', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_vision_message_goals'])->name('storevisionmessagegoals')->middleware('auth');
-Route::post('projects//business_model/storerevenuecost', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_revenue_cost'])->name('storerevenuecost')->middleware('auth');
-Route::post('projects//business_model/storeusersdetails', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_users_details'])->name('storeusersdetails')->middleware('auth');
-Route::post('projects//business_model/storeservicenamedescription', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_service_name_description'])->name('storeservicenamedescription')->middleware('auth');
+Route::post('projects/business_model/storeproblemssolutions', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_problems_solutions'])->name('storeproblemssolutions')->middleware('auth');
+Route::post('projects/business_model/storedetailsmarket', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_details_market'])->name('storedetailsmarket')->middleware('auth');
+Route::post('projects/business_model/storesalesmarketingchannels', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_sales_marketing_channels'])->name('storesalesmarketingchannels')->middleware('auth');
+Route::post('projects/business_model/storecompatitor', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_compatitor'])->name('storecompatitor')->middleware('auth');
+Route::post('projects/business_model/storevisionmessagegoals', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_vision_message_goals'])->name('storevisionmessagegoals')->middleware('auth');
+Route::post('projects/business_model/storerevenuecost', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_revenue_cost'])->name('storerevenuecost')->middleware('auth');
+Route::post('projects/business_model/storeusersdetails', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_users_details'])->name('storeusersdetails')->middleware('auth');
+Route::post('projects/business_model/storeservicenamedescription', [App\Http\Controllers\ProjectbusinessplansController::class, 'store_service_name_description'])->name('storeservicenamedescription')->middleware('auth');
 
 Route::delete('project/delete', [ProjectController::class, 'destroy'])->name('proj.del');
 
@@ -129,6 +140,7 @@ Route::controller(FeasibilityStudiesController::class)->group(function (){
     Route::get('strategic-plan','view_strategic_plan')->name('strategic-plan');
     Route::get('market-study','view_market_study')->name('market-study');
     Route::get('administrators','view_administrators')->name('administrators');
+    Route::get('general_administrative_expenses','generalAdministrativeExpenses')->name('generalAdministrativeExpenses')->middleware('auth');
     Route::post('create-project-product-service', 'create_service')->name('create_project_product_service');
     Route::post('update-project-product-service', 'update_service')->name('update_project_product_service');
     Route::post('delete-project-product-service', 'delete_service')->name('delete_project_product_service');
@@ -157,9 +169,29 @@ Route::post('general_project_value_incremental_store',[GeneralProjectIncomeContr
 
 
 Route::resource('general_project_income',GeneralProjectIncomeController::class);
+Route::resource('project_administrative_expenses',ProjectFsGeneralAdministrativeExpensesController::class);
+Route::get('fetch_administrative_expenses',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_administrative_expenses'])->name('fetch_administrative_expenses');
+Route::get('fetch_administrative_expenses_incremintal',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_administrative_expenses_incremintal'])->name('fetch_administrative_expenses_incremintal');
+Route::get('fetch_other_incremintal',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_other_incremintal'])->name('fetch_other_incremintal');
+Route::resource('project_rent',ProjectFsRentController::class);
+Route::post('project_fs_rent_incremental',[ProjectFsRentIncrementalsDetailsController::class,'store'])->name('project_fs_rent_incremental');
+Route::get('fetch_rent',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_rent'])->name('fetch_rent');
+Route::get('fetch_rent_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_rent_details'])->name('fetch_rent_details');
+Route::resource('project_utilities',ProjectFsUtilitiesController::class);
+Route::post('project_fs_utilities_incremental',[ProjectFsUtilitiesIncrementalsDetailsController::class,'store'])->name('project_fs_utilities_incremental');
+Route::get('fetch_utilities',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_utilities'])->name('fetch_utilities');
+Route::get('fetch_utilities_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_utilities_details'])->name('fetch_utilities_details');
+Route::get('fetch_other_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_other_details'])->name('fetch_other_details');
+Route::post('project_fs_general_expenses_incremental',[ProjectFsGeneralExpensesIncrementalsController::class,'store'])->name('project_fs_general_expenses_incremental');
 Route::post('general_project_income_store_incremental',[GeneralProjectIncomeController::class,'general_project_income_store_incremental'])->name('general_project_income_store_incremental');
 Route::get('view_general_project_income_incremental',[GeneralProjectIncomeController::class,'general_project_income_incremental'])->name('view_general_project_income_incremental');
 Route::get('total_revenue',[GeneralProjectIncomeController::class,'total_revenue'])->name('total_revenue');
+Route::resource('project_selling_marketing',ProjectFsSellingAndMarketingCostController::class);
+Route::get('fetch_marketing',[ProjectFsSellingAndMarketingCostController::class,'fetch_marketing'])->name('fetch_marketing');
+Route::get('fetch_marketing_details',[ProjectFsSellingAndMarketingCostController::class,'fetch_marketing_details'])->name('fetch_marketing_details');
+Route::resource('project_other_expenses',ProjectFsOtherExpensesController::class);
+Route::post('project_fs_OtherExpenses_incremental',[ProjectFsOtherExpensesIncrementalsDetailsController::class,'store'])->name('project_fs_other_expenses_incremental');
+Route::get('fetch_all_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_all_details'])->name('fetch_all_details');
 
 //*************************************************************** General Project Income Expenses ****************************************************************************************
 

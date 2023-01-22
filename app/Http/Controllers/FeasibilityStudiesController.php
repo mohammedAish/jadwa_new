@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\admin\Project;
+use App\Models\AdministExpen;
 use App\Models\FeasibilityStudy;
 use App\Models\GeneralProjectIncome;
 use App\Models\ProjectBpChannelResource;
@@ -161,5 +162,14 @@ class FeasibilityStudiesController extends Controller
         return response()->json([
             'services'=>$services,
         ]);
+    }
+
+    public function generalAdministrativeExpenses()
+    {
+        $project=Project::findOrFail(1);
+
+        $projectIncomes = ProjectFsGeneralIncome::where('project_id',1)->get();
+        $AdministExpen = AdministExpen::get();
+        return view('admin.forms.generalAdministrativeExpenses',compact('project','projectIncomes','AdministExpen'));
     }
 }
