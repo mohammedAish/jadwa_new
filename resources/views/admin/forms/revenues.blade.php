@@ -1051,10 +1051,11 @@
 
         function checkAlert(evt) {
             if (evt.target.value === "أخري") {
-               // $('#mapDiv').removeClass('col-12');
-                //$('#mapDiv').addClass('col-1');
+               $('#mapDiv').removeClass('col-12');
+                $('#mapDiv').addClass('col-1');
                 $('#executive').attr("style", "background-color:#B6B6B6;")
                 $('#sales_channels').append(`<div class="my-2 col-9"><input name="item[]" type="text" class="inner form-control"  value="" placeholder="" style="background-color:  #FAFAFA;" /></div>`);
+
                 $('#mapDiv').attr("style", "display:contents;")
                 $('#executive').disabled;
             }else{
