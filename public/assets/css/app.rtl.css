@@ -3357,6 +3357,7 @@ input[switch=dark]:checked + label:before {
     padding: .5rem 1rem;
     color: #000;
     font-weight: 500;
+    font-size: 15px;
     background-color: #fff
 }
 
@@ -3370,7 +3371,7 @@ input[switch=dark]:checked + label:before {
     width: 38px;
     height: 38px;
     line-height: 34px;
-    border: 2px solid #a2a3a8;
+    border: 1px solid rgba(10, 10, 10, 0.2);
     color: #000;
     text-align: center;
     border-radius: 50%;
@@ -3378,12 +3379,15 @@ input[switch=dark]:checked + label:before {
 }
 
 .wizard .steps .current a, .wizard .steps .current a:active, .wizard .steps .current a:hover {
-    background-color: rgb(249 170 28);
-    color: #fff
+/*    background-color: rgb(249 170 28);*/
+    color: rgb(249 170 28);
+    font-weight: 500;
+    font-size: 15px;
 }
 
 .wizard .steps .current a .number, .wizard .steps .current a:active .number, .wizard .steps .current a:hover .number {
     background-color:rgb(249 170 28);
+    border:rgb(249 170 28);
     color: #fff
 }
 
@@ -3456,7 +3460,8 @@ input[switch=dark]:checked + label:before {
 }
 
 .wizard.vertical-wizard .steps > ul > li {
-    width: 100% !important
+    width: 100% !important;
+    /*border-bottom: 0.5px solid rgba(10, 10, 10, 0.2);*/
 }
 
 .wizard.vertical-wizard .actions, .wizard.vertical-wizard .content, .wizard.vertical-wizard .steps {

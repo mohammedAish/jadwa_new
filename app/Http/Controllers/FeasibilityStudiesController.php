@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 
 class FeasibilityStudiesController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-
-        return view('admin.forms.feasibility_study');
+        $project = Project::where('id',$id)->first();
+        return view('admin.forms.feasibility_study',compact('project'));
     }
 
     public function create()
@@ -72,12 +72,12 @@ class FeasibilityStudiesController extends Controller
 
     }
 
-    public function view_revenues()
+    public function view_revenues($pro_id)
     {
 
-        $project=Project::findOrFail(1);
+        $project=Project::findOrFail($pro_id);
 
-        $projectIncomes = ProjectFsGeneralIncome::where('project_id',1)->get();
+        $projectIncomes = ProjectFsGeneralIncome::where('project_id',$project->id)->get();
         return view('admin.forms.revenues',compact('project','projectIncomes'));
 
     }

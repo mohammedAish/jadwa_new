@@ -9,6 +9,7 @@ use App\Models\admin\Project;
 use App\Models\ProjectFsGeneralIncomeIncremental;
 use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
 use DateTime;
+use PhpParser\Node\Expr\Empty_;
 
 class ProjectFsGeneralIncomeController extends Controller
 {
@@ -39,9 +40,9 @@ class ProjectFsGeneralIncomeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function project_fs_general_income_store(Request $request)
+    public function project_fs_general_income_store(Request $request,$pro_id)
     {
-
+    //dd($request->all());
         $request->validate([
             'items.*' => 'required',
             'value.*' => 'required',
@@ -51,11 +52,65 @@ class ProjectFsGeneralIncomeController extends Controller
             'item','value','quantity',
         ]);
 
-        $result = ProjectFsGeneralIncome::where('project_id',1)->delete();
+        $item_id = $request->get('item_id');
+        $item = $request->get('item');
+       // dd($item);
+        $value = $request->get('value');
+        $quantity = $request->get('quantity');
+             $count_items = count($item);
+            // dd($count_items);
+             for($i = 0; $i<$count_items; $i++)
+             {
+                //dd($item_id[$i]);
+               // dd($pres);
+                if($item_id[$i] != 0){
+               //$pres= ProjectFsGeneralIncome::findOrFail($item_id[$i]);
+              // dd( $item[$i]);
+              ProjectFsGeneralIncome::whereId($item_id[$i])->update([
+                    'item' => $item[$i] ,
+                    'value' => $value[$i] ,
+                    'quantity' => $quantity[$i] ,
+
+                             ]);
+                        }else{
+                                         ProjectFsGeneralIncome::create([
+                                            'project_id' => $pro_id,
+                                             'item' => $item[$i] ,
+                                            'value' => $value[$i] ,
+                                            'quantity' => $quantity[$i] ,
+                                                                    ]);
+
+                        };
+             }
+        // $result = ProjectFsGeneralIncome::where('project_id',$pro_id)->delete();
+        // foreach ($data['item'] as $key => $item){
+        //     if (!is_null($item)){
+        //         ProjectFsGeneralIncome::query()->create([
+        //             'project_id' => $pro_id,
+        //             'item' => $data['item'][$key],
+        //             'value' => $data['value'][$key],
+        //             'quantity' => $data['quantity'][$key],
+
+        //         ]);
+        //     }
+
+        // }
+
+        return response()->json(['message'=>'success','success'=>'تم تخزين البيانات بنجاح']);
+
+    }
+    function project_fs_general_income_update(Request $request,$id,$pro_id){
+        //dd($id);
+        $projectFsGeneralIncome=ProjectFsGeneralIncome::findOrFail($id);
+        $data = $request->only([
+            'item','value','quantity',
+        ]);
+
+        //$result = ProjectFsGeneralIncome::where('project_id',1)->delete();
         foreach ($data['item'] as $key => $item){
             if (!is_null($item)){
-                ProjectFsGeneralIncome::query()->create([
-                    'project_id' => '1',
+                ProjectFsGeneralIncome::whereId($id)->update([
+                    'project_id' => $pro_id,
                     'item' => $data['item'][$key],
                     'value' => $data['value'][$key],
                     'quantity' => $data['quantity'][$key],
@@ -66,7 +121,6 @@ class ProjectFsGeneralIncomeController extends Controller
         }
 
         return response()->json(['message'=>'success','success'=>'تم تخزين البيانات بنجاح']);
-
     }
 
     /**
@@ -114,15 +168,15 @@ class ProjectFsGeneralIncomeController extends Controller
         //
     }
 
-    public function project_fs_general_income_delete_item($id){
+    public function project_fs_general_income_delete_item($id,$pro_id){
                 $result = ProjectFsGeneralIncome::where('id',$id)->first()->delete();
                 return response()->json(['message'=>'success','success'=>'تم  الحذف بنجاح']);
 
 
             }
-            public function project_fs_general_income_icremental_total_revenue()
+            public function project_fs_general_income_icremental_total_revenue($pro_id)
             {
-                $project = Project::where('id',1)->first();
+                $project = Project::where('id',$pro_id)->first();
 
                 $projectStartDate = new DateTime($project->start_date);
 
@@ -139,7 +193,7 @@ class ProjectFsGeneralIncomeController extends Controller
 
                $remainingmonths =  round($datediff / (60 * 60 * 24*30));
                $remainingFromYear =  $remainingmonths/12;
-                $data = ProjectFsGeneralIncome::query()->where('project_id',1)->get();
+                $data = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
                 $totleIncomeMounth =0;
                 $totleIncomeToEndYear=0;
                 $totleIncomeYear=0;
@@ -149,7 +203,7 @@ class ProjectFsGeneralIncomeController extends Controller
                    $totleIncomeYear += ($dataa->value * $dataa->quantity) * 12;
 
                };
-                $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',1)->first();
+                $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$pro_id)->first();
                 $projectFsGeneralIncomeIncrementalDetail =ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get()->toArray();
                $prev=$totleIncomeYear;
                $totleIncomeAvaragee=0;

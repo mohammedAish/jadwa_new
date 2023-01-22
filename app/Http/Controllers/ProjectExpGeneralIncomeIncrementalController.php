@@ -12,26 +12,26 @@ use Illuminate\Http\Request;
 
 class ProjectExpGeneralIncomeIncrementalController extends Controller
 {
-    public function project_exp_general_income_icremental_store(Request $request){
+    public function project_exp_general_income_icremental_store(Request $request, $pro_id){
         //dd($request->all());
                 $request->validate([
                     'one_value_incremental' => 'required',
 
                 ]);
                 ProjectExpGeneralIncomeIncremental::query()->updateOrCreate([
-                    'project_id'   => 1,
+                    'project_id'   =>  $pro_id,
                 ],[
-                    'project_id' => '1',
+                    'project_id' =>  $pro_id,
                     'incremental' => $request->one_value_incremental,
 
 
                 ]);
 
-                $result = ProjectExpGeneralIncomeIncremental::where('project_id',1)->first();
+                $result = ProjectExpGeneralIncomeIncremental::where('project_id', $pro_id)->first();
                 return response()->json(['message'=>'success','data'=>$result,'success'=>'تم تخزين  النسبة البيانات بنجاح']);
 
              }
-             public function project_exp_general_income_icremental_detail_store(Request $request)
+             public function project_exp_general_income_icremental_detail_store(Request $request, $pro_id)
              {
                 //dd($request->all());
                 $counRequest = count($request->all());
@@ -39,15 +39,15 @@ class ProjectExpGeneralIncomeIncrementalController extends Controller
                     $result = ProjectExpGeneralIncomeIncremental::where('project_id',1)->delete();
 
                     $project_exp_income_incremental_id=ProjectExpGeneralIncomeIncremental::query()->updateOrCreate([
-                        'project_id'   => 1,
+                        'project_id'   => $pro_id,
                     ],[
-                        'project_id' => '1',
+                        'project_id' =>  $pro_id,
                         'incremental' => $request->one_value_incremental,
 
 
                     ]);
                     $result = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$project_exp_income_incremental_id->id)->delete();
-                    foreach(years()['years'] as $year){
+                    foreach(years($pro_id)['years'] as $year){
                         ProjectExpGeneralIncomeIncrementalDetail::query()->create([
                             'project_exp_income_incremental_id' => $project_exp_income_incremental_id->id,
                             'year' => $year,
@@ -59,25 +59,54 @@ class ProjectExpGeneralIncomeIncrementalController extends Controller
                  $data = $request->only([
                     'year' , 'id' , 'value_incremental',
                  ]);
-                 $previos=ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$data['id'])->delete();
 
-                // dd($data['id']);
-                 foreach ($data['year'] as $key => $year){
-         //            echo 'ID : ' . $data['id'][$key] . ' : ' . $year . ' : ' . $data['incremental'][$key] . '<br>';
-                     ProjectExpGeneralIncomeIncrementalDetail::query()->create([
-                         'project_exp_income_incremental_id' => $data['id'],
-                         'year' => $year,
-                         'incremental' => $data['value_incremental'][$key],
-                     ]);
+                 $year = $request->get('year');
+                 $id_incremental = $request->get('id');
+                // dd($id_incremental);
+                 $incremental = $request->get('value_incremental');
+                 $previos=ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$id_incremental)->get();
+                 //dd($previos);
+                      $count_items = count($previos);
+                     // dd($count_items);
+                     if($count_items != 0 ){
+                      for($i = 0; $i<$count_items; $i++)
+                      {
 
-                 }
+
+                 $pres=  ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id' , $id_incremental)->where('year' , $year[$i] )->first();
+                  $pres->update([
+                    'year' => $year[$i] ,
+                    'incremental' => $incremental[$i] ,
+
+                             ]);
+
+
+                                    }
+                                } else{
+                                    $data = $request->only([
+                                        'value_incremental','year',
+                                    ]);
+
+                                    foreach ($data['year'] as $key => $year){
+                                        ProjectExpGeneralIncomeIncrementalDetail::query()->create([
+                                            'project_exp_income_incremental_id' =>$id_incremental,
+                                            'year' => $year,
+                                            'incremental' =>$data['value_incremental'][$key],
+                                        ]);
+                                    }
+
+
+                            }
+
+                 
+
                 }
 
 
 
          //        $data = GeneralProjectIncomeIncremental::query()->where('project_id',1)->with('income')->orderBy('year')->get();
 
-         $project = Project::where('id',1)->first();
+         $project = Project::where('id', $pro_id)->first();
 
          $projectStartDate = new DateTime($project->start_date);
 
@@ -95,7 +124,7 @@ class ProjectExpGeneralIncomeIncrementalController extends Controller
         $remainingDays =  round($datediff / (60 * 60 * 24));
 
         $remainingmonths =  round($datediff / (60 * 60 * 24*30));
-         $dataFs = ProjectFsGeneralIncome::query()->where('project_id',1)->get();
+         $dataFs = ProjectFsGeneralIncome::query()->where('project_id', $pro_id)->get();
         $totleIncomeMounthFS =0;
         $totleIncomeToEndYearFS=0;
         $totleIncomeYearFS=0;
@@ -106,7 +135,7 @@ class ProjectExpGeneralIncomeIncrementalController extends Controller
 
        };
 
-         $data = ProjectExpGeneralIncome::with('fsIncome')->where('project_id',1)->get();
+         $data = ProjectExpGeneralIncome::with('fsIncome')->where('project_id', $pro_id)->get();
          $totleIncomeMounth =0;
          $totleIncomeToEndYear=0;
          $totleIncomeYear=0;
@@ -149,9 +178,9 @@ class ProjectExpGeneralIncomeIncrementalController extends Controller
 
              }
 
-             public function project_exp_general_income_icremental_detail_get(){
+             public function project_exp_general_income_icremental_detail_get( $pro_id){
 
-                $projectExpGeneralIncome = ProjectExpGeneralIncomeIncremental::query()->where('project_id',1)->first();
+                $projectExpGeneralIncome = ProjectExpGeneralIncomeIncremental::query()->where('project_id', $pro_id)->first();
                 $data =ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$projectExpGeneralIncome->id)->get();
                 return response()->json(['message'=>'success','data'=>$data,'projectExpGeneralIncome'=>$projectExpGeneralIncome,'success'=>'تم تخزين البيانات بنجاح']);
 

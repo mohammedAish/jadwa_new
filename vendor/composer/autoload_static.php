@@ -37,6 +37,7 @@ class ComposerStaticInitd3289b6aef653d968bdbc75943f3f31e
         '6b34c85f7b1ad6faa15aa12109e030f2' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
         'b4e3f29b106af37a2bb239f73cdf68c7' => __DIR__ . '/../..' . '/app/helpers.php',
+        'b20092bb944cb9543c8144f38dce59df' => __DIR__ . '/../..' . '/app/fs_helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -540,7 +541,10 @@ class ComposerStaticInitd3289b6aef653d968bdbc75943f3f31e
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
+        'App\\Http\\Controllers\\BalanceProjectsController' => __DIR__ . '/../..' . '/app/Http/Controllers/BalanceProjectsController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\EmployeController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmployeController.php',
+        'App\\Http\\Controllers\\EmployeesDetailsController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmployeesDetailsController.php',
         'App\\Http\\Controllers\\ExpensisModalController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpensisModalController.php',
         'App\\Http\\Controllers\\FeasibilityStudiesController' => __DIR__ . '/../..' . '/app/Http/Controllers/FeasibilityStudiesController.php',
         'App\\Http\\Controllers\\GeneralProjectIncomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/GeneralProjectIncomeController.php',
@@ -553,6 +557,7 @@ class ComposerStaticInitd3289b6aef653d968bdbc75943f3f31e
         'App\\Http\\Controllers\\ProjectController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectController.php',
         'App\\Http\\Controllers\\ProjectExpGeneralIncomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectExpGeneralIncomeController.php',
         'App\\Http\\Controllers\\ProjectExpGeneralIncomeIncrementalController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectExpGeneralIncomeIncrementalController.php',
+        'App\\Http\\Controllers\\ProjectExpGeneralIncomeIncrementalDetailController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectExpGeneralIncomeIncrementalDetailController.php',
         'App\\Http\\Controllers\\ProjectFsGeneralIncomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectFsGeneralIncomeController.php',
         'App\\Http\\Controllers\\ProjectFsGeneralIncomeIncrementalController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectFsGeneralIncomeIncrementalController.php',
         'App\\Http\\Controllers\\ProjectFsGeneralIncomeIncrementalDetailController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectFsGeneralIncomeIncrementalDetailController.php',
@@ -589,6 +594,9 @@ class ComposerStaticInitd3289b6aef653d968bdbc75943f3f31e
         'App\\Http\\Requests\\UpdateSystemContactRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateSystemContactRequest.php',
         'App\\Http\\Requests\\UpdateSystemServicesRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateSystemServicesRequest.php',
         'App\\Models\\AdministExpen' => __DIR__ . '/../..' . '/app/Models/AdministExpen.php',
+        'App\\Models\\BalanceProjects' => __DIR__ . '/../..' . '/app/Models/BalanceProjects.php',
+        'App\\Models\\Employe' => __DIR__ . '/../..' . '/app/Models/Employe.php',
+        'App\\Models\\EmployeesDetails' => __DIR__ . '/../..' . '/app/Models/EmployeesDetails.php',
         'App\\Models\\FeasibilityStudy' => __DIR__ . '/../..' . '/app/Models/FeasibilityStudy.php',
         'App\\Models\\GeneralProjectIncome' => __DIR__ . '/../..' . '/app/Models/GeneralProjectIncome.php',
         'App\\Models\\GeneralProjectIncomeExpenses' => __DIR__ . '/../..' . '/app/Models/GeneralProjectIncomeExpenses.php',
