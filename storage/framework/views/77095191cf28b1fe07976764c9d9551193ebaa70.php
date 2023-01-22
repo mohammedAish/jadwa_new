@@ -47,6 +47,7 @@
                                             <div data-repeater-list="inner-group" class="inner mb-4">
                                                 <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div class="row">
+                                                    <input hidden name="item_id[]" value="<?php echo e($employee->id); ?>">
                                                     <div class="col-lg-3">
                                                         <div class="mb-3">
 
@@ -338,10 +339,8 @@
             // start clone element
             if (e.target.id == 'add_income_item') {
                 $(".income").after(`<div data-repeater-item class="inner mb-3 row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-3"><input hidden name="item_id[]" value="0">
                                                         <div class="mb-3">
-
-
                                                             <input type="text" name="job[]" class="form-control" id="verticalnav-pancard-input">
                                                             <span class="text-danger error-text item_error"></span>
                                                         </div>
@@ -352,7 +351,6 @@
                                                             <span class="text-danger error-text value_error"></span>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-3">
                                                         <div class="mb-3">
                                                             <input type="text" name="annual_salary[]" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
@@ -367,7 +365,6 @@
                                                     </div>
                                                     <div class="col-lg-1">
                                                         <div class="mt-4">
-
                                                             <i class=" mdi mdi-delete font-size-20" style="cursor: pointer;color: #ee0e0e;" id="delete_income_item"></i>
                                                         </div>
                                                     </div>

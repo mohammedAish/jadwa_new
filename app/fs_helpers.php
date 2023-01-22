@@ -7,11 +7,40 @@ function projectDetail($id){
     $project = Project::where('id',$id)->where('owner_id' , Auth::user()->id)->first();
     $study_duration =$project->study_duration;
     $vat =$project->vat;
+
+    // $projectStartDate = new DateTime($project->start_date);
+
+         $operationDate = date('Y-m-d', strtotime("+".$project->development_duration." months", strtotime($project->start_date)));
+
+        //$operationDate = new DateTime($operationDate);
+        //$year= $operationDate->format('Y');
+        $year= date('Y', strtotime($operationDate));
+
+        $yearEnd = date('Y-m-d', strtotime('12/31/'.$year));
+
+        //$yearEnd = date('Y-m-d', strtotime('12/31'));
+        $datediff = strtotime($yearEnd) - strtotime($operationDate);
+
+        $remainingDays =  round($datediff / (60 * 60 * 24));
+
+        $remainingmonths =  round($datediff / (60 * 60 * 24*30));
+
+
+
+
     $project_type =$project->project_type;
+
+
+
+
 return [
     'study_duration' => $study_duration,
     'vat' => $vat,
     'project_type' => $project_type,
+    'year' => $year,
+    'remainingDays' => $remainingDays,
+    'remainingmonths' => $remainingmonths,
+
 ];
 }
 
@@ -19,26 +48,37 @@ return [
 function years($id): array
 
 {
+   $firstYear = projectDetail($id)['year'];
+   $duration = projectDetail($id)['study_duration'];
+   $years = array();
 
-    $project = Project::where('id',$id)->first();
-    //dd($project);
-   $projectStartDate = new DateTime($project->start_date);
-                $start_year = date('Y-m-d', strtotime($project->start_date));
-                $model_assumptions = model_assumptions($start_year,'3', '365', '15');
-   $start_year = $model_assumptions['business_start_year'];
+//     $project = Project::where('id',$id)->first();
+//     //dd($project);
+//    $projectStartDate = new DateTime($project->start_date);
+//                 $start_year = date('Y-m-d', strtotime($project->start_date));
+//                 $model_assumptions = model_assumptions($start_year,'3', '365', '15');
+//    $start_year = $model_assumptions['business_start_year'];
 
 //dd($operationDate);
 
-    $years = array($start_year);
-    for ($i = 0; $i < projectDetail($id)['study_duration'] - 1; $i++) {
-        $years[] = $years[$i] + 1;
+    for ($i = 0; $i < $duration; $i++) {
+
+if($i==0){
+    $nextYear = $firstYear + 1;
+
+}else{
+    $nextYear = $years[$i-1] + 1;
+}
+
+array_push($years,$nextYear);
+
     }
+
 
 //    foreach ($years as $year){
 //        echo $year . '<br>';
 //    }
     return [
-        'start_year' => $start_year,
         'years' => $years,
     ];
 }

@@ -15,20 +15,58 @@ class EmployeesDetailsController extends Controller
     //
 
     public function employees_store_detial(Request $request,$pro_id){
-       // dd($request->all());
+       //dd($request->all());
         $data = $request->only([
             'value_incremental','year','employes_id',
         ]);
        // dd($data);
-        foreach ($data['employes_id'] as $key => $item){
+    //     foreach ($data['employes_id'] as $key => $item){
 
-            $retenData=EmployeesDetails::query()->Create([
+    //         $retenData=EmployeesDetails::query()->Create([
 
-                'employes_id' =>$data['employes_id'][$key],
-                'year' =>  $data['year'][$key],
-                'incremental' => $data['value_incremental'][$key],
-            ]);
-    }
+    //             'employes_id' =>$data['employes_id'][$key],
+    //             'year' =>  $data['year'][$key],
+    //             'incremental' => $data['value_incremental'][$key],
+    //         ]);
+    // }
+
+
+    $year = $request->get('year');
+    $employes_id = $request->get('employes_id');
+    $incremental = $request->get('value_incremental');
+    //$previos=EmployeesDetails::where('employes_id',$employes_id)->get();
+    //dd($previos);
+         $count_items = count($year);
+        // dd($count_items);
+
+         for($i = 0; $i<$count_items; $i++)
+         {
+
+    $pres=  EmployeesDetails::where('employes_id' , $employes_id[$i])->where('year' , $year[$i] )->first();
+    if($pres != null ){
+    EmployeesDetails::whereId($pres->id)->update([
+                    'year' => $year[$i] ,
+                    'incremental' => $incremental[$i] ,
+
+                             ]);
+
+
+                       }
+                   else{
+
+                    //    foreach ($data['employes_id'] as $key => $item){
+
+                        $retenData=EmployeesDetails::query()->Create([
+
+                            'employes_id' =>$employes_id[$i] ,
+                            'year' => $year[$i] ,
+                            'incremental' => $incremental[$i] ,
+                        ]);
+                // }
+
+            }
+               }
+
 
     $result = Employe::where('project_id',$pro_id)->get();
     return response()->json(['message'=>'success','data'=>$result,'success'=>'تم تخزين  النسبة البيانات بنجاح']);

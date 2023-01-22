@@ -17,6 +17,7 @@ class ProjectExpGeneralIncomeController extends Controller
     {
 
         $data=$request->all();
+       // dd($data);
         $del_val = 'أخري';
 
         // if (($key = array_search($del_val, $data['item'])) !== false) {
@@ -34,41 +35,92 @@ $items =[];
         // dd($data);
         //dd($request->item[2]);
         // $data= $request->except(['item.2']);
-        $request->validate([
-            'items.*' => 'required',
-            'value.*' => 'required',
-            'quantity.*' => 'required',
-        ]);
-        $data = $request->only([
-            'item','value','quantity','expensis_type',
-        ]);
-        $projectExpGeneralIncome = ProjectExpGeneralIncome::all();
-        if($projectExpGeneralIncome != null){
-            $result = ProjectExpGeneralIncome::where('project_id',$pro_id)->delete();
+        // $request->validate([
+        //     'items.*' => 'required',
+        //     'value.*' => 'required',
+        //     'quantity.*' => 'required',
+        // ]);
+        // $data = $request->only([
+        //     'item','value','quantity','expensis_type',
+        // ]);
 
-        }
+       // dd($items);
+             $projectExpGeneralIncome = ProjectExpGeneralIncome::select('id')->get()->toArray();
+            //$result = ProjectExpGeneralIncome::where('project_id',$pro_id)->delete();
+          //  dd($projectExpGeneralIncome);
+
+           // $item_id = $projectExpGeneralIncome->id;
+
+            //$item = $request->get('item');
+           // dd($item);
+           //array_push($items, $item);
+           $item_id = $request->get('item_id');
+            $value = $request->get('value');
+            //dd($value);
+            $quantity = $request->get('quantity');
+            $expensis_type = $request->get('expensis_type');
+
+                 $count_items = count($items);
+                // dd($count_items);
+                 for($i = 0; $i<$count_items; $i++)
+                 {
+                  //  dd($projectExpGeneralIncome[$i]['id']);
+                    $fsIncome= ProjectFsGeneralIncome::where('item',$items[$i])->first();
+                    if($fsIncome != null){
+                       $fsIncomee =$fsIncome->id;
+                    }else{
+                        $fsIncomee =0;
+                    }
+                    if($item_id[$i] != 0){
+
+                        ProjectExpGeneralIncome::query()->updateOrCreate([
+                            'id'   => $projectExpGeneralIncome[$i]['id'],
+                        ],[
+                            'project_id' => $pro_id,
+                        'item' => $items[$i] ,
+                        'value' => $value[$i] ,
+                        'quantity' => $quantity[$i] ,
+                        'expensis_type' => $expensis_type[$i] ,
+                        'fsIncome_id' => $fsIncomee,
+
+                                 ]);
+                            }else{
+                                ProjectExpGeneralIncome::create([
+                                                'project_id' => $pro_id,
+                                                 'item' => $items[$i] ,
+                                                'value' => $value[$i] ,
+                                                'quantity' => 0 ,
+                                                'expensis_type' => $expensis_type[$i] ,
+                                                'fsIncome_id' => $fsIncomee,
+                                                                        ]);
+
+                            };
+                 }
 
 
-        foreach ($items as $key => $val ){
-            $fsIncome= ProjectFsGeneralIncome::where('item',$val)->first();
-            if($fsIncome != null){
-               $fsIncomee =$fsIncome->id;
-            }else{
-                $fsIncomee =0;
-            }
-            if (!is_null($item)){
-                ProjectExpGeneralIncome::query()->create([
-                    'project_id' => $pro_id,
-                    'item' => $val,
-                    'value' => $data['value'][$key],
-                    'quantity' => $data['quantity'][$key],
-                    'expensis_type' =>$data['expensis_type'][$key],
-                    'fsIncome_id' => $fsIncomee,
 
-                ]);
-            }
 
-        }
+
+        // foreach ($items as $key => $val ){
+        //     $fsIncome= ProjectFsGeneralIncome::where('item',$val)->first();
+        //     if($fsIncome != null){
+        //        $fsIncomee =$fsIncome->id;
+        //     }else{
+        //         $fsIncomee =0;
+        //     }
+        //     if (!is_null($item)){
+        //         ProjectExpGeneralIncome::query()->create([
+        //             'project_id' => $pro_id,
+        //             'item' => $val,
+        //             'value' => $data['value'][$key],
+        //             'quantity' => $data['quantity'][$key],
+        //             'expensis_type' =>$data['expensis_type'][$key],
+        //             'fsIncome_id' => $fsIncomee,
+
+        //         ]);
+        //     }
+
+        // }
 
         return response()->json(['message'=>'success','success'=>'تم تخزين البيانات بنجاح']);
 

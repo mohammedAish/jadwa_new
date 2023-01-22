@@ -20,6 +20,8 @@ class BalanceProjectsController extends Controller
         return view('admin.balance_sheet.index',compact('balances','currentYear','project'));
     }
     public function equipment_buildings_store(Request $request,$pro_id){
+
+      // dd($request->all());
         $request->validate([
             'item.*' => 'required',
             'quantity.*' => 'required',
@@ -32,22 +34,55 @@ class BalanceProjectsController extends Controller
         ]);
 
 
-        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->delete();
-        foreach ($data['item'] as $key => $item){
-            if (!is_null($item)){
-                BalanceProjects::query()->create([
-                    'project_id' => $pro_id,
-                    'balance_type' => 'equipment_buildings',
-                    'item' => $data['item'][$key],
-                    'quantity' => $data['quantity'][$key],
-                    'cost' => $data['cost'][$key],
-                    'depreciation' => $data['depreciation'][$key],
-                    'purchase_year' => $data['purchase_year'][$key],
+        //$result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->delete();
+        // foreach ($data['item'] as $key => $item){
+        //     if (!is_null($item)){
+        //         BalanceProjects::query()->create([
+        //             'project_id' => $pro_id,
+        //             'balance_type' => 'equipment_buildings',
+        //             'item' => $data['item'][$key],
+        //             'quantity' => $data['quantity'][$key],
+        //             'cost' => $data['cost'][$key],
+        //             'depreciation' => $data['depreciation'][$key],
+        //             'purchase_year' => $data['purchase_year'][$key],
 
-                ]);
-            }
+        //         ]);
+        //     }
 
-        }
+        // }
+        $item_id = $request->get('item_id');
+        $item = $request->get('item');
+        $quantity = $request->get('quantity');
+        $cost = $request->get('cost');
+        $depreciation = $request->get('depreciation');
+        $purchase_year = $request->get('purchase_year');
+             $count_items = count($item_id);
+            // dd($count_items);
+             for($i = 0; $i<$count_items; $i++)
+             {
+                if($item_id[$i] != 0){
+                    BalanceProjects::whereId($item_id[$i])->update([
+                    'item' => $item[$i] ,
+                    'quantity' => $quantity[$i] ,
+                    'cost' => $cost[$i] ,
+                    'depreciation' => $depreciation[$i] ,
+                    'purchase_year' => $purchase_year[$i] ,
+
+                             ]);
+                        }else{
+                            BalanceProjects::create([
+                                'project_id' => $pro_id,
+                                'balance_type' => 'equipment_buildings',
+                                'item' => $item[$i] ,
+                                'quantity' => $quantity[$i] ,
+                                'cost' => $cost[$i] ,
+                                'depreciation' => $depreciation[$i] ,
+                                'purchase_year' => $purchase_year[$i] ,
+                                 ]);
+
+                        };
+             }
+
         $currentYear = date('Y', strtotime('12/31'));
               $depreciationData = array();
 
@@ -96,6 +131,7 @@ class BalanceProjectsController extends Controller
     }
 
     public function transport_store(Request $request,$pro_id){
+        //dd($request->all());
         $request->validate([
             'item.*' => 'required',
             'quantity.*' => 'required',
@@ -107,23 +143,54 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','transport')->delete();
-        foreach ($data['item'] as $key => $item){
-            if (!is_null($item)){
-                BalanceProjects::query()->create([
-                    'project_id' => $pro_id,
-                    'balance_type' => 'transport',
-                    'item' => $data['item'][$key],
-                    'quantity' => $data['quantity'][$key],
-                    'cost' => $data['cost'][$key],
-                    'depreciation' => $data['depreciation'][$key],
-                    'purchase_year' => $data['purchase_year'][$key],
+       // $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','transport')->delete();
+        // foreach ($data['item'] as $key => $item){
+        //     if (!is_null($item)){
+        //         BalanceProjects::query()->create([
+        //             'project_id' => $pro_id,
+        //             'balance_type' => 'transport',
+        //             'item' => $data['item'][$key],
+        //             'quantity' => $data['quantity'][$key],
+        //             'cost' => $data['cost'][$key],
+        //             'depreciation' => $data['depreciation'][$key],
+        //             'purchase_year' => $data['purchase_year'][$key],
 
-                ]);
-            }
+        //         ]);
+        //     }
 
-        }
+        // }
+        $item_id = $request->get('item_id');
+        $item = $request->get('item');
+        $quantity = $request->get('quantity');
+        $cost = $request->get('cost');
+        $depreciation = $request->get('depreciation');
+        $purchase_year = $request->get('purchase_year');
+             $count_items = count($item_id);
+            // dd($count_items);
+             for($i = 0; $i<$count_items; $i++)
+             {
+                if($item_id[$i] != 0){
+                    BalanceProjects::whereId($item_id[$i])->update([
+                    'item' => $item[$i] ,
+                    'quantity' => $quantity[$i] ,
+                    'cost' => $cost[$i] ,
+                    'depreciation' => $depreciation[$i] ,
+                    'purchase_year' => $purchase_year[$i] ,
 
+                             ]);
+                        }else{
+                            BalanceProjects::create([
+                                'project_id' => $pro_id,
+                                'balance_type' => 'transport',
+                                'item' => $item[$i] ,
+                                'quantity' => $quantity[$i] ,
+                                'cost' => $cost[$i] ,
+                                'depreciation' => $depreciation[$i] ,
+                                'purchase_year' => $purchase_year[$i] ,
+                                 ]);
+
+                        };
+             }
         $currentYear = date('Y', strtotime('12/31'));
 
         $depreciationData = array();
@@ -182,22 +249,54 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipments')->delete();
-        foreach ($data['item'] as $key => $item){
-            if (!is_null($item)){
-                BalanceProjects::query()->create([
-                    'project_id' => $pro_id,
-                    'balance_type' => 'equipments',
-                    'item' => $data['item'][$key],
-                    'quantity' => $data['quantity'][$key],
-                    'cost' => $data['cost'][$key],
-                    'depreciation' => $data['depreciation'][$key],
-                    'purchase_year' => $data['purchase_year'][$key],
+        // $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipments')->delete();
+        // foreach ($data['item'] as $key => $item){
+        //     if (!is_null($item)){
+        //         BalanceProjects::query()->create([
+        //             'project_id' => $pro_id,
+        //             'balance_type' => 'equipments',
+        //             'item' => $data['item'][$key],
+        //             'quantity' => $data['quantity'][$key],
+        //             'cost' => $data['cost'][$key],
+        //             'depreciation' => $data['depreciation'][$key],
+        //             'purchase_year' => $data['purchase_year'][$key],
 
-                ]);
-            }
+        //         ]);
+        //     }
 
-        }
+        // }
+        $item_id = $request->get('item_id');
+        $item = $request->get('item');
+        $quantity = $request->get('quantity');
+        $cost = $request->get('cost');
+        $depreciation = $request->get('depreciation');
+        $purchase_year = $request->get('purchase_year');
+             $count_items = count($item_id);
+            // dd($count_items);
+             for($i = 0; $i<$count_items; $i++)
+             {
+                if($item_id[$i] != 0){
+                    BalanceProjects::whereId($item_id[$i])->update([
+                    'item' => $item[$i] ,
+                    'quantity' => $quantity[$i] ,
+                    'cost' => $cost[$i] ,
+                    'depreciation' => $depreciation[$i] ,
+                    'purchase_year' => $purchase_year[$i] ,
+
+                             ]);
+                        }else{
+                            BalanceProjects::create([
+                                'project_id' => $pro_id,
+                                'balance_type' => 'equipments',
+                                'item' => $item[$i] ,
+                                'quantity' => $quantity[$i] ,
+                                'cost' => $cost[$i] ,
+                                'depreciation' => $depreciation[$i] ,
+                                'purchase_year' => $purchase_year[$i] ,
+                                 ]);
+
+                        };
+             }
         $currentYear = date('Y', strtotime('12/31'));
 
         $depreciationData = array();
@@ -257,22 +356,54 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','furniture')->delete();
-        foreach ($data['item'] as $key => $item){
-            if (!is_null($item)){
-                BalanceProjects::query()->create([
-                    'project_id' => $pro_id,
-                    'balance_type' => 'furniture',
-                    'item' => $data['item'][$key],
-                    'quantity' => $data['quantity'][$key],
-                    'cost' => $data['cost'][$key],
-                    'depreciation' => $data['depreciation'][$key],
-                    'purchase_year' => $data['purchase_year'][$key],
+        // $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','furniture')->delete();
+        // foreach ($data['item'] as $key => $item){
+        //     if (!is_null($item)){
+        //         BalanceProjects::query()->create([
+        //             'project_id' => $pro_id,
+        //             'balance_type' => 'furniture',
+        //             'item' => $data['item'][$key],
+        //             'quantity' => $data['quantity'][$key],
+        //             'cost' => $data['cost'][$key],
+        //             'depreciation' => $data['depreciation'][$key],
+        //             'purchase_year' => $data['purchase_year'][$key],
 
-                ]);
-            }
+        //         ]);
+        //     }
 
-        }
+        // }
+        $item_id = $request->get('item_id');
+        $item = $request->get('item');
+        $quantity = $request->get('quantity');
+        $cost = $request->get('cost');
+        $depreciation = $request->get('depreciation');
+        $purchase_year = $request->get('purchase_year');
+             $count_items = count($item_id);
+            // dd($count_items);
+             for($i = 0; $i<$count_items; $i++)
+             {
+                if($item_id[$i] != 0){
+                    BalanceProjects::whereId($item_id[$i])->update([
+                    'item' => $item[$i] ,
+                    'quantity' => $quantity[$i] ,
+                    'cost' => $cost[$i] ,
+                    'depreciation' => $depreciation[$i] ,
+                    'purchase_year' => $purchase_year[$i] ,
+
+                             ]);
+                        }else{
+                            BalanceProjects::create([
+                                'project_id' => $pro_id,
+                                'balance_type' => 'furniture',
+                                'item' => $item[$i] ,
+                                'quantity' => $quantity[$i] ,
+                                'cost' => $cost[$i] ,
+                                'depreciation' => $depreciation[$i] ,
+                                'purchase_year' => $purchase_year[$i] ,
+                                 ]);
+
+                        };
+             }
         $currentYear = date('Y', strtotime('12/31'));
 
         $depreciationData = array();
@@ -330,22 +461,54 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','intangible_assets')->delete();
-        foreach ($data['item'] as $key => $item){
-            if (!is_null($item)){
-                BalanceProjects::query()->create([
-                    'project_id' => $pro_id,
-                    'balance_type' => 'intangible_assets',
-                    'item' => $data['item'][$key],
-                    'quantity' => $data['quantity'][$key],
-                    'cost' => $data['cost'][$key],
-                    'depreciation' => $data['depreciation'][$key],
-                    'purchase_year' => $data['purchase_year'][$key],
+        // $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','intangible_assets')->delete();
+        // foreach ($data['item'] as $key => $item){
+        //     if (!is_null($item)){
+        //         BalanceProjects::query()->create([
+        //             'project_id' => $pro_id,
+        //             'balance_type' => 'intangible_assets',
+        //             'item' => $data['item'][$key],
+        //             'quantity' => $data['quantity'][$key],
+        //             'cost' => $data['cost'][$key],
+        //             'depreciation' => $data['depreciation'][$key],
+        //             'purchase_year' => $data['purchase_year'][$key],
 
-                ]);
-            }
+        //         ]);
+        //     }
 
-        }
+        // }
+        $item_id = $request->get('item_id');
+        $item = $request->get('item');
+        $quantity = $request->get('quantity');
+        $cost = $request->get('cost');
+        $depreciation = $request->get('depreciation');
+        $purchase_year = $request->get('purchase_year');
+             $count_items = count($item_id);
+            // dd($count_items);
+             for($i = 0; $i<$count_items; $i++)
+             {
+                if($item_id[$i] != 0){
+                    BalanceProjects::whereId($item_id[$i])->update([
+                    'item' => $item[$i] ,
+                    'quantity' => $quantity[$i] ,
+                    'cost' => $cost[$i] ,
+                    'depreciation' => $depreciation[$i] ,
+                    'purchase_year' => $purchase_year[$i] ,
+
+                             ]);
+                        }else{
+                            BalanceProjects::create([
+                                'project_id' => $pro_id,
+                                'balance_type' => 'intangible_assets',
+                                'item' => $item[$i] ,
+                                'quantity' => $quantity[$i] ,
+                                'cost' => $cost[$i] ,
+                                'depreciation' => $depreciation[$i] ,
+                                'purchase_year' => $purchase_year[$i] ,
+                                 ]);
+
+                        };
+             }
         $currentYear = date('Y', strtotime('12/31'));
 
         $depreciationData = array();
@@ -404,22 +567,54 @@ class BalanceProjectsController extends Controller
             'item','quantity','cost','depreciation','purchase_year',
         ]);
 
-        $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','other_assets')->delete();
-        foreach ($data['item'] as $key => $item){
-            if (!is_null($item)){
-                BalanceProjects::query()->create([
-                    'project_id' => $pro_id,
-                    'balance_type' => 'other_assets',
-                    'item' => $data['item'][$key],
-                    'quantity' => $data['quantity'][$key],
-                    'cost' => $data['cost'][$key],
-                    'depreciation' => $data['depreciation'][$key],
-                    'purchase_year' => $data['purchase_year'][$key],
+        // $result = BalanceProjects::where('project_id',$pro_id)->where('balance_type','other_assets')->delete();
+        // foreach ($data['item'] as $key => $item){
+        //     if (!is_null($item)){
+        //         BalanceProjects::query()->create([
+        //             'project_id' => $pro_id,
+        //             'balance_type' => 'other_assets',
+        //             'item' => $data['item'][$key],
+        //             'quantity' => $data['quantity'][$key],
+        //             'cost' => $data['cost'][$key],
+        //             'depreciation' => $data['depreciation'][$key],
+        //             'purchase_year' => $data['purchase_year'][$key],
 
-                ]);
-            }
+        //         ]);
+        //     }
 
-        }
+        // }
+        $item_id = $request->get('item_id');
+        $item = $request->get('item');
+        $quantity = $request->get('quantity');
+        $cost = $request->get('cost');
+        $depreciation = $request->get('depreciation');
+        $purchase_year = $request->get('purchase_year');
+             $count_items = count($item_id);
+            // dd($count_items);
+             for($i = 0; $i<$count_items; $i++)
+             {
+                if($item_id[$i] != 0){
+                    BalanceProjects::whereId($item_id[$i])->update([
+                    'item' => $item[$i] ,
+                    'quantity' => $quantity[$i] ,
+                    'cost' => $cost[$i] ,
+                    'depreciation' => $depreciation[$i] ,
+                    'purchase_year' => $purchase_year[$i] ,
+
+                             ]);
+                        }else{
+                            BalanceProjects::create([
+                                'project_id' => $pro_id,
+                                'balance_type' => 'other_assets',
+                                'item' => $item[$i] ,
+                                'quantity' => $quantity[$i] ,
+                                'cost' => $cost[$i] ,
+                                'depreciation' => $depreciation[$i] ,
+                                'purchase_year' => $purchase_year[$i] ,
+                                 ]);
+
+                        };
+             }
         $currentYear = date('Y', strtotime('12/31'));
 
         $depreciationData = array();

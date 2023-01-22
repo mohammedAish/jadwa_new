@@ -55,6 +55,7 @@ class ProjectFsGeneralIncomeIncrementalController extends Controller
 
             ]);
             $result = ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->delete();
+
             foreach(years($pro_id)['years'] as $year){
                 ProjectFsGeneralIncomeIncrementalDetail::query()->create([
                     'project_fs_income_incremental_id' => $projectFsGeneralIncomeIncremental->id,
@@ -63,21 +64,54 @@ class ProjectFsGeneralIncomeIncrementalController extends Controller
                 ]);
             }
         }else{
-         $data = $request->only([
-            'year' , 'id' , 'value_incremental',
-         ]);
-         $previos=ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$data['id'])->delete();
+           // dd($request->all());
+    //  $previos=ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$data['id'])->delete();
+         $year = $request->get('year');
+         $id_incremental = $request->get('id');
+         $incremental = $request->get('value_incremental');
+         $previos=ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$id_incremental)->get();
+         //dd($previos);
+              $count_items = count($previos);
+             // dd($count_items);
+             if($count_items != 0 ){
+              for($i = 0; $i<$count_items; $i++)
+              {
 
-        // dd($data['id']);
-         foreach ($data['year'] as $key => $year){
- //            echo 'ID : ' . $data['id'][$key] . ' : ' . $year . ' : ' . $data['incremental'][$key] . '<br>';
-             ProjectFsGeneralIncomeIncrementalDetail::query()->create([
-                 'project_fs_income_incremental_id' => $data['id'],
-                 'year' => $year,
-                 'incremental' => $data['value_incremental'][$key],
-             ]);
+         $pres=  ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id' , $id_incremental)->where('year' , $year[$i] )->first();
+          $pres->update([
+            'year' => $year[$i] ,
+            'incremental' => $incremental[$i] ,
 
-         }
+                     ]);
+
+
+                            }
+                        } else{
+                            $data = $request->only([
+                                'value_incremental','year',
+                            ]);
+
+                            foreach ($data['year'] as $key => $year){
+                                ProjectFsGeneralIncomeIncrementalDetail::query()->create([
+                                    'project_fs_income_incremental_id' =>$id_incremental,
+                                    'year' => $year,
+                                    'incremental' =>$data['value_incremental'][$key],
+                                ]);
+                            }
+
+
+                    }
+
+
+//          foreach ($data['year'] as $key => $year){
+//  //            echo 'ID : ' . $data['id'][$key] . ' : ' . $year . ' : ' . $data['incremental'][$key] . '<br>';
+//              ProjectFsGeneralIncomeIncrementalDetail::query()->create([
+//                  'project_fs_income_incremental_id' => $data['id'],
+//                  'year' => $year,
+//                  'incremental' => $data['value_incremental'][$key],
+//              ]);
+
+//          }
 
         }
 
