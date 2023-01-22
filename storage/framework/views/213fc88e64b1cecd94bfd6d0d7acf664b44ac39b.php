@@ -70,7 +70,10 @@
                 </div>
             </div>
             <div class="">
-                <a href="<?php echo e(route('feasibility-study', $project->id)); ?>" class="py-5">دراسة جدوي</a>
+
+
+
+
             </div>
         </div>
         <!-- end col -->
@@ -204,10 +207,27 @@
                                 <?php echo e($service->price); ?> ر.س</p>
                         </h4>
 
-                        <a href="<?php echo e(route($service->route, $project->id)); ?>" class="btn btn-outline-warning waves-effect border-ora"
-                            style="width: -webkit-fill-available; ">ابدا الان</a>
+
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-4">
+                <!-- Simple card -->
+                <div class="card">
+                    <img class="card-img-top img-fluid" style="" src="<?php echo e(asset('images/feasibilityStudy.png')); ?>"
+                         alt="Card image cap">
+                    <div class="card-body">
+
+                        <h4 class="card-title mt-0 "style="font-size:13px; text-align:center ">دراسة الجدوى (Feasibility Study)
+                            
+                        </h4>
+
+                        <a href="<?php echo e(route('feasibility-study', $project->id)); ?>"
+                           class="btn btn-outline-warning waves-effect border-ora"
+                           style="width: -webkit-fill-available; ">ابدا الان</a>
+                    </div>
+                </div>
+
             </div>
             <!-- end col -->
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

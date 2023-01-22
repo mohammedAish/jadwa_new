@@ -18,7 +18,6 @@
     /* color: #fff; */
     background: #e8e3e3;
     padding: 2px;}
-
  .addItem{
 border:1px solid #3CC0B9;
 background: #FFFFFF;
@@ -620,10 +619,8 @@ font-size: 20px;
 
     
     <script>
-
         document.addEventListener('click', function(e) {
             var eventTarget = e.target;
-
             // start clone element
             if (e.target.id == 'add_income_item') {
                 $(".income").append(`<tr data-repeater-item class="inner mb-4"> <td> <input type="text" name="item[]" class="form-control" id="verticalnav-pancard-input"></td>
@@ -641,14 +638,11 @@ font-size: 20px;
                                                             <select onchange="checkAlert(event)" id="executive"  class="form-control my-2"  name="item[]">
                                                                 <?php $__currentLoopData = $projectIncomes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectIncome): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($projectIncome->item); ?>"><?php echo e($projectIncome->item); ?> </option>
-
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             <option>أخري</option>
-
                                                         </select>
                                                         <div id="sales_channels">
                                                             </div>
-
                                                             <span class="text-danger error-text item_error"></span>
                                                         </div>
                                                     </div>
@@ -675,14 +669,10 @@ font-size: 20px;
                                                              <?php endif; ?>
                                                         </div>
                                                     </div>
-
-
-
                                                     <div class="col-lg-2">
                                                         <div class="mb-3">
                                                             <h4></h4>
                                                             <label for="verticalnav-pancard-input"></label>
-
                                                             <br>
                                                             <button class="text-danger rounded-circle"
                                                                 type="button" id="delete_income_expenses_item">
@@ -693,18 +683,13 @@ font-size: 20px;
                                                 </div>`);
             }
             // end clone element
-
             // start delete element
             if (e.target.id == 'delete_income_item') {
-
-
                 e.target.parentElement.parentElement.remove();
             }
             if (e.target.id == 'delete_income_expenses_item') {
-
                 e.target.parentElement.parentElement.parentElement.remove();
             }
-
             // end delete element
         });
     </script>
@@ -716,22 +701,16 @@ font-size: 20px;
     <script type="text/javascript">
     // $(document).on('change', 'select', function() {
     //         var opt = $(this).find('option:selected')[0];
-
     //         if($(this).id() == "nationalExecutive"){
     //             $('#sales_channels').after(`<input name="item[]" type="text" class="inner form-control"  value="" placeholder="" />`);
     //         }else{
     //             $('#sales_channels').remove();
-
     //         }
-
     //     });
-
-
     function show_edit(id) {
         // alert("lable_"+id);
          $("#lable_"+id).attr("style", "display:none");
          $("#input_"+id).removeAttr("style");
-
 }
     function editInput(id) {
         // $("#lable_"+id).removeAttr("style");
@@ -756,17 +735,9 @@ font-size: 20px;
                          $("#input_"+id).attr("style", "display:none");
                          $(".edit").attr("style", "background-color: green");
                          $("tbody").append('<tr id=lable_'+id+'></tr>');
-
-
-
-
-
-
-
                     }
                 });
 }
-
     function checkAlert(evt) {
   if (evt.target.value === "أخري") {
     $('#sales_channels').after(`<input name="item[]" type="text" class="inner form-control"  value="" placeholder="" />`);
@@ -783,9 +754,7 @@ font-size: 20px;
     </script>
 
     <script>
-
         jQuery(document).ready(function () {
-
             $('button.destroy').on('click', function(e){
     e.preventDefault();
     var id=this.id;
@@ -814,74 +783,59 @@ font-size: 20px;
                         })
                     }
                 })
-
 });
-
-
 // jQuery('#selectitem').on('change', function(e) {
 //     var value = $(this).val();
 //     alert(value);
 //                       //$('#otherItem').attr('style','display:block');
-
 //             });
 jQuery('#previous_1').click(function (e) {
-
                 $('#vertical-example-p-0').removeAttr('style');
                 $('#vertical-example-t-0').parent().attr('class','current');
                 $('#vertical-example-p-1').attr('style' , 'display:none');
                 $('#vertical-example-t-1').parent().removeClass('current');
-
             });
             jQuery('#previous_2').click(function (e) {
                 $('#vertical-example-p-1').removeAttr('style');
                 $('#vertical-example-t-1').parent().attr('class','current');
                 $('#vertical-example-p-2').attr('style' , 'display:none');
                 $('#vertical-example-t-2').parent().removeClass('current');
-
 });
 jQuery('#previous_3').click(function (e) {
-
     $('#vertical-example-p-2').removeAttr('style');
                 $('#vertical-example-t-2').parent().attr('class','current');
                 $('#vertical-example-p-3').attr('style' , 'display:none');
                 $('#vertical-example-t-3').parent().removeClass('current');
-
 });
 jQuery('#previous_4').click(function (e) {
-
     $('#vertical-example-p-3').removeAttr('style');
                 $('#vertical-example-t-3').parent().attr('class','current');
                 $('#vertical-example-p-4').attr('style' , 'display:none');
                 $('#vertical-example-t-4').parent().removeClass('current');
 });
 jQuery('#previous_5').click(function (e) {
-
 $('#vertical-example-p-4').removeAttr('style');
             $('#vertical-example-t-4').parent().attr('class','current');
             $('#vertical-example-p-5').attr('style' , 'display:none');
             $('#vertical-example-t-5').parent().removeClass('current');
 });
 jQuery('#previous_6').click(function (e) {
-
 $('#vertical-example-p-5').removeAttr('style');
             $('#vertical-example-t-5').parent().attr('class','current');
             $('#vertical-example-p-6').attr('style' , 'display:none');
             $('#vertical-example-t-6').parent().removeClass('current');
 });
-
             jQuery('#next_btn').click(function (e) {
                 $('#vertical-example-p-2').attr('style','display:none');
                 $('#vertical-example-p-3').removeAttr('style');
                 $('#vertical-example-t-2').parent().removeClass('current');
                 $('#vertical-example-t-3').parent().attr('class','current');
-
             });
             jQuery('#next_btn_2').click(function (e) {
                 $('#vertical-example-p-5').attr('style','display:none');
                 $('#vertical-example-p-6').removeAttr('style');
                 $('#vertical-example-t-5').parent().removeClass('current');
                 $('#vertical-example-t-6').parent().attr('class','current');
-
                     e.preventDefault();
                     jQuery.ajax({
                         url: "<?php echo e(route('allـearnings',$project->id)); ?>",
@@ -935,7 +889,6 @@ $('#vertical-example-p-5').removeAttr('style');
             $("#spinner_2").hide();
             $("#spinner_3").hide();
             $('#vertical-example-t-0').parent().attr('class','current');
-
             jQuery('#value_incremental_button').click(function (e) {
 e.preventDefault();
 $.ajaxSetup({
@@ -976,10 +929,6 @@ jQuery.ajax({
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
 </tbody>\
                     </table>');
-
-
-
-
     }
 });
 });
@@ -1023,17 +972,10 @@ jQuery.ajax({
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
 </tbody>\
                     </table>');
-
-
-
-
     }
 });
 });
-
-
             jQuery('#save_btn_1').click(function (e) {
-
                 $("#spinner_1").show();
                 e.preventDefault();
                 $.ajaxSetup({
@@ -1055,14 +997,10 @@ jQuery.ajax({
                         $('#vertical-example-p-1').removeAttr('style');
                         $('#vertical-example-t-0').parent().removeClass('current');
                         $('#vertical-example-t-1').parent().attr('class','current');
-
-
-
                     }
                 });
             });
             jQuery('#save_btn_2').click(function (e) {
-
                 $("#spinner_2").show();
                 e.preventDefault();
                 $.ajaxSetup({
@@ -1083,7 +1021,6 @@ jQuery.ajax({
                         $('#vertical-example-p-2').removeAttr('style');
                         $('#vertical-example-t-1').parent().removeClass('current');
                         $('#vertical-example-t-2').parent().attr('class','current');
-
                         $('#incremental_data_totle').empty();
                         $.each(result.data, function (key, item) {
                             $('#incremental_data_totle').append('\
@@ -1100,9 +1037,7 @@ jQuery.ajax({
                                 <td>' + formatter.format((item.value * item.quantity) * 12) +'</td>\
                                          </tr>\
                                         ');
-
                         });
-
                         $('#incremental_data_totle').append('\
                         <tr>\
                                                 <th>الاجمالي</th>\
@@ -1112,14 +1047,12 @@ jQuery.ajax({
                                                 <th>'+ formatter.format(result.totleIncomeYear)+'</th>\
                                                 </tr>\
                                                 ');
-
                         fetch_incremental();
                         view_revenue();
                     }
                 });
             });
             jQuery('#save_btn_3').click(function (e) {
-
                 $("#spinner_3").show();
                 e.preventDefault();
                 $.ajaxSetup({
@@ -1141,12 +1074,10 @@ jQuery.ajax({
                         $('#vertical-example-p-4').removeAttr('style');
                         $('#vertical-example-t-3').parent().removeClass('current');
                         $('#vertical-example-t-4').parent().attr('class','current');
-
                                         }
                 });
             });
             jQuery('#save_btn_4').click(function (e) {
-
                 $("#spinner_4").show();
                 e.preventDefault();
                 $.ajaxSetup({
@@ -1224,7 +1155,6 @@ jQuery.ajax({
                                 :"")+
                                         '</tr>'
                             );
-
                         });
                         $('#expenses_data_totle').append('\
                         <tr>\
@@ -1240,9 +1170,7 @@ jQuery.ajax({
                     }
                 });
             });
-
         });
-
     </script>
 
     
@@ -1259,14 +1187,12 @@ jQuery.ajax({
         $(document).ready(function() {
             (function() {
                 $('#form_1 :input').keyup(function() {
-
                     var empty = false;
                     $('#form_1 :input').each(function() {
                         if ($(this).val() == '') {
                             empty = true;
                         }
                     });
-
                     // if (empty) {
                     //     $('#save_btn_1').attr('disabled', 'disabled');
                     // } else {
@@ -1274,14 +1200,12 @@ jQuery.ajax({
                     // }
                 });
                 $('#form_3 :input').keyup(function() {
-
                     var empty = false;
                     $('#form_3 :input').each(function() {
                         if ($(this).val() == '') {
                             empty = true;
                         }
                     });
-
                     // if (empty) {
                     //     $('#save_btn_3').attr('disabled', 'disabled');
                     // } else {
@@ -1290,7 +1214,6 @@ jQuery.ajax({
                 });
             })();
         });
-
         function fetch_incremental(){
             jQuery.ajax({
                 url: "<?php echo e(route('project_fs_general_income_icremental_detail_get',$project->id)); ?>",
@@ -1303,25 +1226,18 @@ jQuery.ajax({
                     //         ');
                     console.log(result);
                     $('#view_incremental_data').empty();
-
                     $.each(result.data, function (key, item) {
-
-
                         $('#view_incremental_data').append('\
                                           <tr>\
                                 <td>' + item.year + '</td>\
                                 <td>' + item.incremental + "%"+'</td>\
                                          </tr>\
                             ');
-
                     });
                 }
             });
         }
         function view_revenue(){
-
-
-
             jQuery.ajax({
                 url: "<?php echo e(route('project_fs_general_income_icremental_total_revenue',$project->id)); ?>",
                 method: 'get',
@@ -1332,8 +1248,6 @@ jQuery.ajax({
                     $('#total_revenue_totle_icome').empty();
                     $('#total_revenue_totle_icome_avarge').empty();
                     $('#total_revenue_totle_icome_avarge_persent').empty();
-
-
                     $('#head_data').empty();
                     $('#total_revenue_data').empty();
                     $('#head_data').append('\
@@ -1344,35 +1258,28 @@ jQuery.ajax({
                             <td>اجمالي الايرادات</td>\
                                         <td id="total_revenue_current"></td>\
                             ');
-
                     $('#view_incremental_data_avareg_persent').append(
                   result.IncomeAvargePersent +'%'
                             );
                     $('#total_revenue_totle_icome').append(
                         formatter.format(result.totleIncomee)
-
                             );
                             $('#total_revenue_totle_icome_avarge').append(
                         formatter.format(result.totleIncomeAvaragee)
-
                             );
                             $('#total_revenue_totle_icome_avarge_persent').append(
-
                                result.IncomeAvargePersent +'%'
                             );
                     $('#total_revenue_current_head').append(
                              result.yearCurrent
                             );
-
                         $('#total_revenue_current').append(
                                  formatter.format(result.totleIncomeToEndYear)
                             );
-
                     $.each(result.totleYear, function (key, item) {
                         $('#head_data').append('\
                             <th>' + key + '</th>\
                             ');
-
                         $('#total_revenue_data').append('\
                                 <td>' + formatter.format(item) + '</td>\
                             ');
@@ -1380,7 +1287,6 @@ jQuery.ajax({
                 }
             });
         }
-
         function fetch_expenses_incremental(){
             jQuery.ajax({
                 url: "<?php echo e(route('project_exp_general_income_icremental_detail_get',$project->id)); ?>",
@@ -1392,17 +1298,13 @@ jQuery.ajax({
                     //                     <th>النمو السنوي</th>\
                     //             <th style="background: #fff;width: 150px;color:#000">'  + result.projectExpGeneralIncome.incremental +  "%"+'</th>\
                     //         ');
-
                     $.each(result.data, function (key, item) {
-
-
 $('#view_exp_incremental_data').append('\
                   <tr>\
         <td>' + item.year + '</td>\
         <td>' + item.incremental + "%"+'</td>\
                  </tr>\
     ');
-
 });
                 }
             });
@@ -1432,29 +1334,23 @@ $('#view_exp_incremental_data').append('\
                             );
                     $('#total_exp_revenue_totle_icome').append(
                         formatter.format(result.totleIncomee)
-
                             );
                             $('#total_exp_revenue_totle_icome_avarge').append(
                         formatter.format(result.totleIncomeAvaragee)
-
                             );
                             $('#total_exp_revenue_totle_icome_avarge_persent').append(
-
                                result.IncomeAvargePersent  +'%'
                             );
                     $('#total_exp_revenue_current_head').append(
                              result.yearCurrent
                             );
-
                         $('#total_exp_revenue_current').append(
                                  formatter.format(result.totleIncomeToEndYear)
                             );
-
                     $.each(result.totleYear, function (key, item) {
                         $('#head_exp_data').append('\
                             <th>' + key + '</th>\
                             ');
-
                         $('#total_exp_revenue_data').append('\
                                 <td>' + formatter.format(item) + '</td>\
                             ');
@@ -1462,7 +1358,6 @@ $('#view_exp_incremental_data').append('\
                 }
             });
         }
-
         const formatter = new Intl.NumberFormat('en-US');
     </script>
 

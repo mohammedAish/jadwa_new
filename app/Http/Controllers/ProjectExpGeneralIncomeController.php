@@ -46,7 +46,8 @@ $items =[];
 
        // dd($items);
              $projectExpGeneralIncome = ProjectExpGeneralIncome::select('id')->get()->toArray();
-            //$result = ProjectExpGeneralIncome::where('project_id',$pro_id)->delete();
+             $count_projectExpGeneralIncome= count($projectExpGeneralIncome);
+             //$result = ProjectExpGeneralIncome::where('project_id',$pro_id)->delete();
           //  dd($projectExpGeneralIncome);
 
            // $item_id = $projectExpGeneralIncome->id;
@@ -71,7 +72,7 @@ $items =[];
                     }else{
                         $fsIncomee =0;
                     }
-                    if($item_id[$i] != 0){
+                    if(($count_projectExpGeneralIncome !=0) &&($item_id[$i] != 0)){
 
                         ProjectExpGeneralIncome::query()->updateOrCreate([
                             'id'   => $projectExpGeneralIncome[$i]['id'],
