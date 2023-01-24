@@ -38,25 +38,25 @@ class ProjectFsUtilitiesIncrementalsDetailsController extends Controller
      * @param  \App\Http\Requests\StoreProjectFsUtilitiesIncrementalsDetailsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProjectFsUtilitiesIncrementalsDetailsRequest $request)
+    public function store(StoreProjectFsUtilitiesIncrementalsDetailsRequest $request,$pro_id)
     {
-      
+
         $counRequest = count($request->all());
         // dd($request->all());
         if ($counRequest == 1) {
-            $result = ProjectFsUtilitiesIncrementals::where('project_id', 1)->delete();
-            $previos = ProjectFsUtilitiesIncrementalsDetails::where('project_id','1')->delete();
+            $result = ProjectFsUtilitiesIncrementals::where('project_id', $pro_id)->delete();
+            $previos = ProjectFsUtilitiesIncrementalsDetails::where('project_id',$pro_id)->delete();
             $projectFsUtilitiesIncremental = ProjectFsUtilitiesIncrementals::query()->updateOrCreate([
-                'project_id'   => 1,
+                'project_id'   => $pro_id,
             ], [
-                'project_id' => '1',
+                'project_id' => $pro_id,
                 'incremental' => $request->one_value_incremental_utilities,
             ]);
             // dd($projectFsUtilitiesIncremental);
             $result = ProjectFsUtilitiesIncrementalsDetails::where('utilities_id', $projectFsUtilitiesIncremental->id)->delete();
-            foreach (years()['years'] as $year) {
+            foreach (years($pro_id)['years'] as $year) {
                 ProjectFsUtilitiesIncrementalsDetails::query()->create([
-                    'project_id' => 1,
+                    'project_id' => $pro_id,
                     'Utilities_id' => $projectFsUtilitiesIncremental->id,
                     'year' => $year,
                     'incremental' => $projectFsUtilitiesIncremental->incremental,
@@ -68,18 +68,18 @@ class ProjectFsUtilitiesIncrementalsDetailsController extends Controller
                 'year', 'id', 'one_value_incremental_utilities', 'value_incremental_utilities' , 'project_id'
             ]);
             // dd($data);
-            $previos = ProjectFsUtilitiesIncrementalsDetails::where('project_id','1')->delete();
+            $previos = ProjectFsUtilitiesIncrementalsDetails::where('project_id',$pro_id)->delete();
             foreach ($data['year'] as $key => $year) {
                 ProjectFsUtilitiesIncrementalsDetails::create([
                     'utilities_id' => $data['id'],
                     'year' => $year,
-                    'project_id' => 1,
+                    'project_id' => $pro_id,
                     'incremental' => $data['value_incremental_utilities'][$key],
                 ]);
             }
 
             }
-            $project = Project::where('id', 1)->first();
+            $project = Project::where('id', $pro_id)->first();
 
             $projectStartDate = new DateTime($project->start_date);
 
@@ -94,7 +94,7 @@ class ProjectFsUtilitiesIncrementalsDetailsController extends Controller
             $remainingDays =  round($datediff / (60 * 60 * 24));
 
             $remainingmonths =  round($datediff / (60 * 60 * 24 * 30));
-            $data = ProjectFsUtilitiesIncrementals::where('project_id', 1)->get();
+            $data = ProjectFsUtilitiesIncrementals::where('project_id', $pro_id)->get();
             $totleIncomeMounth = 0;
             $totleIncomeToEndYear = 0;
             $totleIncomeYear = 0;
@@ -103,8 +103,8 @@ class ProjectFsUtilitiesIncrementalsDetailsController extends Controller
                 $totleIncomeToEndYear += ($dataa->value * $dataa->quantity) * $remainingmonths;
                 $totleIncomeYear += ($dataa->value * $dataa->quantity) * 12;
             };
-            
-        
+
+
         return response()->json([
                 'message' => 'success', 'data' => $data,'status' => 1,
                 'remainingmonths' => $remainingmonths, 'totleIncomeMounth' => $totleIncomeMounth, 'totleIncomeToEndYear' => $totleIncomeToEndYear, 'totleIncomeYear' => $totleIncomeYear,

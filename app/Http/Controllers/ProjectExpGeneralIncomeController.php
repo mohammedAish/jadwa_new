@@ -74,6 +74,7 @@ $items =[];
                     }else{
                         $fsIncomee =0;
                     }
+                   // dd($item_id);
                     if(($count_projectExpGeneralIncome !=0) &&($item_id[$i] != 0)){
 
                         ProjectExpGeneralIncome::query()->updateOrCreate([

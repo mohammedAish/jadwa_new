@@ -38,7 +38,7 @@ class ProjectFsRentController extends Controller
      * @param  \App\Http\Requests\StoreProjectFsRentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProjectFsRentRequest $request)
+    public function store(StoreProjectFsRentRequest $request,$pro_id)
     {
 
         $validator = Validator::make($request->all(), [
@@ -73,14 +73,14 @@ class ProjectFsRentController extends Controller
                         'rental_cost' => 'required',
                         'growth_rate_rent' => 'required',
                     ]);
-                   
+
                     $data = ProjectFsRent::create([
                         'project_id' => $request->project_id,
                         'type' => 'amount',
                         'growth_rate_rent' => $request->growth_rate_rent,
                         'value' => $request->rental_cost,
                     ]);
-                    foreach (years()['years'] as $year) {
+                    foreach (years($pro_id)['years'] as $year) {
                         ProjectFsRentIncrementalsDetails::query()->create([
                             'project_id' => 1,
                             'rent_id' => $data->id,
@@ -112,6 +112,7 @@ class ProjectFsRentController extends Controller
                     }
                 }
             }
+            //dd($data);
             return response()->json([
                 'status' => 1, 'success' => 'تمت الاضافة بنجاح',
                 'data' => $data,

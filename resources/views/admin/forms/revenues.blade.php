@@ -234,12 +234,36 @@
                                     <div class="mb-3 price col-10">
 
                                         <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                            <input placeholder="نسبة نمو الإيرادات" style="background-color: #FAFAFA;" type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                            <input placeholder="نسبة نمو الإيرادات" value="{{$projectFsGeneralIncomeIncremental->incremental}}" style="background-color: #FAFAFA;" type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                             <span class="input-group-addon bootstrap-touchspin-postfix input-group-append" style="background-color: #FAFAFA;">
                                                     <span class="input-group-text black_text " style="font-weight: 500;">%</span></span>
                                         </div>
                                         <span class="text-danger error-text value_incremental_error"></span>
                                     </div></div>
+                                    @if($projectFsGeneralIncomeIncrementalDetail->isNotEmpty())
+                                    <div class="table-responsive">
+                                        <table class="table align-middle table-nowrap table-check" style="width: 50%;">
+                                    <thead>
+                                    <tr style="background: rgba(244, 244, 244, 0.5);  ">
+                                        <th class="align-middle">السنة / البند</th>
+                                        <th>نسبة النمو في قيمة الإيراد</th>
+                                    </tr>
+                                    </thead>
+                             <tbody id="incrementals" style="line-height: 0px;">
+                               @foreach($projectFsGeneralIncomeIncrementalDetail as $item)
+                                <tr class=" bootstrap-touchspin bootstrap-touchspin-injected">
+                                    <input hidden name="id[]" value="{{$item->project_fs_income_incremental_id}}">
+                                    <td>{{$item->year}} <input hidden name="year[]" value="{{$item->year}}"></td>
+                                    <td>
+                         <input style="background-color: #FAFAFA;" type="text" name="value_incremental[]" class="form-control" value="{{$item->incremental}} " >
+                                    </td>
+                                </tr>
+                                @endforeach
+
+                             </tbody>
+                                </table>
+                                </div>
+                                @else
                                 <div class="d-flex justify-content-end">
                                     <button type="button" value="حفظ ومتابعة ->" name="value_incremental_button" style="    font-size: 13px;font-weight: 600;
                                         background: none;
@@ -251,6 +275,8 @@
                                         تخصيص نسبة النمو +
                                     </button>
                                 </div>
+                                @endif
+
 
                                 <div class="row">
 
@@ -306,6 +332,8 @@
 
                                         </tr>
                                         </thead>
+
+
                                         <tbody id="incremental_data" style="color: #0A0A0A; font-weight: 400">
 
                                         </tbody>
@@ -437,11 +465,11 @@
                                     </tr>
                                     </thead>
                                     <tbody data-repeater-list="inner-group" class="inner ">
-                                    @if(isset($projectIncomes))
-                                        @if($projectIncomes->count()>0)
+                                    @if(isset($projectEXpIncomes))
+                                        @if($projectEXpIncomes->count()>0)
 
 
-                                            @foreach($projectIncomes as $projectIncome)
+                                            @foreach($projectEXpIncomes as $projectIncome)
                                                 <div data-repeater-item  class=" row add_income_expenses_item">
                                                     <tr>
                                                         <input hidden name="item_id[]" value="{{$projectIncome->id}}">
@@ -451,8 +479,8 @@
                                                         <td>
 
                                                             <select style="background-color: #FAFAFA;" class="form-control" name="expensis_type[]">
-                                                                <option value="0" @if ($projectIncome->value == "0") {{ 'selected' }} @endif >مبلغ ثابت</option>
-                                                                <option value="1" @if ($projectIncome->value == "1") {{ 'selected' }} @endif>نسبة من ايرادات المنتج</option>
+                                                                <option value="0" @if ($projectIncome->expensis_type == "0") {{ 'selected' }} @endif >مبلغ ثابت</option>
+                                                                <option value="1" @if ($projectIncome->expensis_type == "1") {{ 'selected' }} @endif>نسبة من ايرادات المنتج</option>
                                                                 {{-- <option value="2" @if ($projectIncome->value == "2") {{ 'selected' }} @endif>نسبة من ايرادات العامة</option> --}}
                                                             </select>
                                                             <span class="text-danger error-text item_error"></span>
@@ -497,11 +525,55 @@
                                             {{--                                            </div>--}}
 
                                         @else
+                                        @foreach($projectIncomes as $projectIncome)
+                                        <div data-repeater-item  class=" row add_income_expenses_item">
                                             <tr>
-                                                <td colspan="12"
-                                                    class="text-center font-weight-bold " id="emptyincome_expenses" style="color:   rgba(10, 10, 10, 0.6);font-weight: 500">{{'أضف منتجات / خدمات مشروعك'}}</td>
+                                                <input hidden name="item_id[]" value="{{$projectIncome->id}}">
 
+                                                <td> <input style="background-color: #FAFAFA;" type="text" name="item[]" value="{{$projectIncome->item}}" class="form-control" id="verticalnav-pancard-input">
+                                                    <span class="text-danger error-text item_error"></span></td>
+                                                <td>
+
+                                                    <select style="background-color: #FAFAFA;" class="form-control" name="expensis_type[]">
+                                                        <option value="0" @if ($projectIncome->value == "0") {{ 'selected' }} @endif >مبلغ ثابت</option>
+                                                        <option value="1" @if ($projectIncome->value == "1") {{ 'selected' }} @endif>نسبة من ايرادات المنتج</option>
+                                                        {{-- <option value="2" @if ($projectIncome->value == "2") {{ 'selected' }} @endif>نسبة من ايرادات العامة</option> --}}
+                                                    </select>
+                                                    <span class="text-danger error-text item_error"></span>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                        <input style="background-color: #FAFAFA;" type="text" name="value[]" value="{{$projectIncome->value}}"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                                        <span class="input-group-addon bootstrap-touchspin-postfix input-group-append" style="background-color: #FAFAFA;">
+                                                        @if ($projectIncome->expensis_type == 0)
+                                                                <span class="input-group-text black_text " style="font-weight: 500;"> @if($project->currency == "ksa")
+                                                                        ر.س
+                                                                    @else
+                                                                        USD
+                                                                    @endif
+                                                            </span></span>
+                                                        @else
+                                                            <span class="input-group-text black_text " style="font-weight: 500;">%</span></span>
+                                                        @endif
+
+                                                    </div>
+
+
+
+                                                    <span class="text-danger error-text value_error"></span></td>
+                                                <td> <input style="background-color: #FAFAFA;" type="text" readonly name="quantity[]" value="{{$projectIncome->quantity}}"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                                    <span class="text-danger error-text quantity_error"></span></td>
+                                                <td>     <button class="text-danger rounded-circle"
+                                                                 type="button" id="delete_income_expenses_item" style="cursor: pointer;    background: none;
+                                                                                                    border: none;">
+                                                        <i class="mdi mdi-delete font-size-20"></i></button>
+                                                    <span class="text-danger error-text sale_channels_error"></span>
+                                                </td>
                                             </tr>
+
+                                        </div>
+
+                                    @endforeach
                                         @endif
                                     @endif
 
@@ -614,16 +686,43 @@
                             <form id="form_4" name="form_4" class="form-horizontal">
                                 <div class="mb-3 price">
                                     <label for="verticalnav-pancard-input"><strong>نسبة نمو التكاليف</strong></label>
-                                    <input type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                    <input type="text" value="{{$projectExpGeneralIncomeIncremental->incremental}}" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                     <span class="text-danger error-text value_incremental_error"></span>
                                     <span class="ral text-center pt-2">٪</span>
                                 </div>
+                                @if($projectExpGeneralIncomeIncrementalDetail->isNotEmpty())
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-nowrap table-check" style="width: 50%;">
+                                <thead>
+                                <tr style="background: rgba(244, 244, 244, 0.5);  ">
+                                    <th class="align-middle">السنة / البند</th>
+                                    <th>نسبة النمو في قيمة الإيراد</th>
+                                </tr>
+                                </thead>
+                         <tbody id="incrementals" style="line-height: 0px;">
+                            @foreach($projectExpGeneralIncomeIncrementalDetail as $item)
+                            <tr class=" bootstrap-touchspin bootstrap-touchspin-injected">
+                                <input hidden name="id[]" value="{{$item->project_exp_income_incremental_id}}">
+                                <td>{{$item->year}} <input hidden name="year[]" value="{{$item->year}}"></td>
+                                <td>
+                     <input style="background-color: #FAFAFA;" type="text" name="value_incremental[]" class="form-control" value="{{$item->incremental}} " >
+                                </td>
+                            </tr>
+                            @endforeach
+                         </tbody>
+                            </table>
+                            </div>
+                            @else
+                            <div class="d-flex justify-content-end">
                                 <button type="button" value="حفظ ومتابعة ->" name="value_exp_incremental_button" style="    font-size: 17px;
-                                        background: none;
-                                        border: none;
-                                        color: rgb(249 170 28);" class="" id="value_exp_incremental_button" >
-                                    تخصيص نسبة التكاليف +
-                                </button>
+                                    background: none;
+                                    border: none;
+                                    color: rgb(249 170 28);" class="" id="value_exp_incremental_button" >
+                                تخصيص نسبة التكاليف +
+                            </button>
+                            </div>
+                            @endif
+
 
 
                                 <div class="row">
@@ -879,8 +978,8 @@
             if (e.target.id == 'add_income_expenses_item') {
                 $("#emptyincome_expenses").hide()
                 $(".expensis_typerepeater").append(`
-                   <tr data-repeater-item class="inner mb-4">\
-                                        <td>\
+                   <tr data-repeater-item class="inner mb-4">
+                                        <td>
                                      <div class="d-flex flex-row"  id="sales_channels">
                                     <div id="mapDiv" class="col-12">
                                        <select style="background-color: #FAFAFA;" onchange="checkAlert(event)" id="executive"  class="form-select my-2"  name="item[]">
@@ -893,13 +992,14 @@
                 <span class="text-danger error-text item_error"></span>
                     </div>
                     </div>
-               </td>\
-                <td>\
+               </td>
+                <td>
                <select style="background-color: #FAFAFA;" class="form-select" name="expensis_type[]">
                 <option value="0">مبلغ ثابت</option>
                 <option value="1">نسبة من ايرادات المنتج</option>
                 <option value="2">نسبة من ايرادات العامة</option>
             </select>
+            <input hidden name="item_id[]" value="0">
             <span class="text-danger error-text item_error"></span> </div>
             </td>
             <td>

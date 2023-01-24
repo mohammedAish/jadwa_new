@@ -85,17 +85,17 @@ class ProjectFsSellingAndMarketingCostController extends Controller
             'marketing_growth_rate' => $marketing_growth_rate,
         ]);
     }
-    public function fetch_marketing_details(Request $request)
+    public function fetch_marketing_details(Request $request,$pro_id)
     {
         $data = ProjectFsSellingAndMarketingCost::where('project_id', $request->id)->first();
         $item = 0;
 
         $item = ProjectFsSellingAndMarketingCost::where('project_id', $request->id)->first();
         $current_value = $item->marketing_amount;
-        $growth = ProjectFsSellingAndMarketingCost::where('project_id', '1')->first();
-      
+        $growth = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
+
         $prev = 0;
-        foreach (years()['years'] as $key => $year) {
+        foreach (years($pro_id)['years'] as $key => $year) {
             $prev = $current_value * (1 + ($growth->marketing_growth_rate / 100));
             $nxt1 = $prev * (1 + ($growth->marketing_growth_rate / 100));
             $nxt2 = $nxt1 * (1 + ($growth->marketing_growth_rate / 100));
@@ -105,14 +105,14 @@ class ProjectFsSellingAndMarketingCostController extends Controller
 
         $pre = 0;
         $current = ($current_value / 500) * 100;
-        foreach (years()['years'] as $key => $year) {
+        foreach (years($pro_id)['years'] as $key => $year) {
             $pre =    ($prev / 500) * 100;
             $next1 =  ($nxt1 / 500) * 100;;
             $next2 =  ($nxt2 / 500) * 100;;
             $next3 =  ($nxt3 / 500) * 100;;
             $next4 =  ($nxt4 / 500) * 100;;
         }
-        
+
         return response()->json([
             'message' => 'success',
             'item' => $item,

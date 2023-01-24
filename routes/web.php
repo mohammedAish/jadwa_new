@@ -166,32 +166,37 @@ Route::group([
 //*************************************************************** General Project Income ****************************************************************************************
 Route::post('general_project_value_incremental_store',[GeneralProjectIncomeController::class,'value_incremental_store'])->name('general_project_income.value_incremental_store');
 
+Route::group([
+    'prefix' => '/project/{pro_id}',
+  ], function () {
+    Route::post('project_fs_general_expenses_incremental',[ProjectFsGeneralExpensesIncrementalsController::class,'store'])->name('project_fs_general_expenses_incremental');
+    Route::get('fetch_administrative_expenses_incremintal',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_administrative_expenses_incremintal'])->name('fetch_administrative_expenses_incremintal');
+    Route::get('fetch_administrative_expenses',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_administrative_expenses'])->name('fetch_administrative_expenses');
+    Route::resource('project_rent',ProjectFsRentController::class);
+    Route::get('fetch_rent_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_rent_details'])->name('fetch_rent_details');
+    Route::post('project_fs_utilities_incremental',[ProjectFsUtilitiesIncrementalsDetailsController::class,'store'])->name('project_fs_utilities_incremental');
+    Route::get('fetch_utilities_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_utilities_details'])->name('fetch_utilities_details');
+    Route::get('fetch_marketing_details',[ProjectFsSellingAndMarketingCostController::class,'fetch_marketing_details'])->name('fetch_marketing_details');
+    Route::post('project_fs_OtherExpenses_incremental',[ProjectFsOtherExpensesIncrementalsDetailsController::class,'store'])->name('project_fs_other_expenses_incremental');
+    Route::get('fetch_other_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_other_details'])->name('fetch_other_details');
+    Route::get('fetch_all_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_all_details'])->name('fetch_all_details');
+    Route::resource('project_administrative_expenses',ProjectFsGeneralAdministrativeExpensesController::class);
+    Route::get('fetch_rent',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_rent'])->name('fetch_rent');
+
+});
 
 
 Route::resource('general_project_income',GeneralProjectIncomeController::class);
-Route::resource('project_administrative_expenses',ProjectFsGeneralAdministrativeExpensesController::class);
-Route::get('fetch_administrative_expenses',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_administrative_expenses'])->name('fetch_administrative_expenses');
-Route::get('fetch_administrative_expenses_incremintal',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_administrative_expenses_incremintal'])->name('fetch_administrative_expenses_incremintal');
 Route::get('fetch_other_incremintal',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_other_incremintal'])->name('fetch_other_incremintal');
-Route::resource('project_rent',ProjectFsRentController::class);
 Route::post('project_fs_rent_incremental',[ProjectFsRentIncrementalsDetailsController::class,'store'])->name('project_fs_rent_incremental');
-Route::get('fetch_rent',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_rent'])->name('fetch_rent');
-Route::get('fetch_rent_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_rent_details'])->name('fetch_rent_details');
 Route::resource('project_utilities',ProjectFsUtilitiesController::class);
-Route::post('project_fs_utilities_incremental',[ProjectFsUtilitiesIncrementalsDetailsController::class,'store'])->name('project_fs_utilities_incremental');
 Route::get('fetch_utilities',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_utilities'])->name('fetch_utilities');
-Route::get('fetch_utilities_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_utilities_details'])->name('fetch_utilities_details');
-Route::get('fetch_other_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_other_details'])->name('fetch_other_details');
-Route::post('project_fs_general_expenses_incremental',[ProjectFsGeneralExpensesIncrementalsController::class,'store'])->name('project_fs_general_expenses_incremental');
 Route::post('general_project_income_store_incremental',[GeneralProjectIncomeController::class,'general_project_income_store_incremental'])->name('general_project_income_store_incremental');
 Route::get('view_general_project_income_incremental',[GeneralProjectIncomeController::class,'general_project_income_incremental'])->name('view_general_project_income_incremental');
 Route::get('total_revenue',[GeneralProjectIncomeController::class,'total_revenue'])->name('total_revenue');
 Route::resource('project_selling_marketing',ProjectFsSellingAndMarketingCostController::class);
 Route::get('fetch_marketing',[ProjectFsSellingAndMarketingCostController::class,'fetch_marketing'])->name('fetch_marketing');
-Route::get('fetch_marketing_details',[ProjectFsSellingAndMarketingCostController::class,'fetch_marketing_details'])->name('fetch_marketing_details');
 Route::resource('project_other_expenses',ProjectFsOtherExpensesController::class);
-Route::post('project_fs_OtherExpenses_incremental',[ProjectFsOtherExpensesIncrementalsDetailsController::class,'store'])->name('project_fs_other_expenses_incremental');
-Route::get('fetch_all_details',[ProjectFsGeneralAdministrativeExpensesController::class,'fetch_all_details'])->name('fetch_all_details');
 
 //*************************************************************** General Project Income Expenses ****************************************************************************************
 

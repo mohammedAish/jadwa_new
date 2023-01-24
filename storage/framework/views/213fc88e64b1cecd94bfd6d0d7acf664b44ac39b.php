@@ -220,6 +220,8 @@
 
                         <h4 class="card-title mt-0 "style="font-size:13px; text-align:center ">دراسة الجدوى (Feasibility Study)
                             
+
+
                         </h4>
 
                         <a href="<?php echo e(route('feasibility-study', $project->id)); ?>"

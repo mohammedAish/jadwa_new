@@ -38,7 +38,7 @@ class ProjectFsGeneralExpensesIncrementalsController extends Controller
      * @param  \App\Http\Requests\StoreProjectFsGeneralExpensesIncrementalsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProjectFsGeneralExpensesIncrementalsRequest $request)
+    public function store(StoreProjectFsGeneralExpensesIncrementalsRequest $request,$pro_id)
     {
         $counRequest = count($request->all());
         // dd($counRequest);
@@ -46,16 +46,16 @@ class ProjectFsGeneralExpensesIncrementalsController extends Controller
             $result = ProjectFsGeneralExpensesIncrementals::where('project_id', 1)->delete();
             $previos = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id','1')->delete();
             $projectFsGeneralIncomeIncremental = ProjectFsGeneralExpensesIncrementals::query()->updateOrCreate([
-                'project_id'   => 1,
+                'project_id'   => $pro_id,
             ], [
-                'project_id' => '1',
+                'project_id' => $pro_id,
                 'incremental' => $request->one_value_incremental,
             ]);
             // dd($projectFsGeneralIncomeIncremental);
             $result = ProjectFsGeneralExpensesIncrementalsDetails::where('general_expenses_id', $projectFsGeneralIncomeIncremental->id)->delete();
-            foreach (years()['years'] as $year) {
+            foreach (years($pro_id)['years'] as $year) {
                 ProjectFsGeneralExpensesIncrementalsDetails::query()->create([
-                    'project_id' => 1,
+                    'project_id' => $pro_id,
                     'general_expenses_id' => $projectFsGeneralIncomeIncremental->id,
                     'year' => $year,
                     'incremental' => $projectFsGeneralIncomeIncremental->incremental,
@@ -66,18 +66,18 @@ class ProjectFsGeneralExpensesIncrementalsController extends Controller
                 'year', 'id', 'one_value_incremental', 'value_incremental' , 'project_id'
             ]);
             // dd($data);
-            $previos = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id','1')->delete();
+            $previos = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id',$pro_id)->delete();
             foreach ($data['year'] as $key => $year) {
                 ProjectFsGeneralExpensesIncrementalsDetails::create([
                     'general_expenses_id' => $data['id'],
                     'year' => $year,
-                    'project_id' => 1,
+                    'project_id' => $pro_id,
                     'incremental' => $data['value_incremental'][$key],
                 ]);
             }
 
             }
-            $project = Project::where('id', 1)->first();
+            $project = Project::where('id', $pro_id)->first();
 
             $projectStartDate = new DateTime($project->start_date);
 
@@ -92,7 +92,7 @@ class ProjectFsGeneralExpensesIncrementalsController extends Controller
             $remainingDays =  round($datediff / (60 * 60 * 24));
 
             $remainingmonths =  round($datediff / (60 * 60 * 24 * 30));
-            $data = ProjectFsGeneralExpensesIncrementals::where('project_id', 1)->get();
+            $data = ProjectFsGeneralExpensesIncrementals::where('project_id', $pro_id)->get();
             $totleIncomeMounth = 0;
             $totleIncomeToEndYear = 0;
             $totleIncomeYear = 0;
@@ -101,8 +101,8 @@ class ProjectFsGeneralExpensesIncrementalsController extends Controller
                 $totleIncomeToEndYear += ($dataa->value * $dataa->quantity) * $remainingmonths;
                 $totleIncomeYear += ($dataa->value * $dataa->quantity) * 12;
             };
-            
-        
+
+
         return response()->json([
                 'message' => 'success', 'data' => $data,
                 'remainingmonths' => $remainingmonths, 'totleIncomeMounth' => $totleIncomeMounth, 'totleIncomeToEndYear' => $totleIncomeToEndYear, 'totleIncomeYear' => $totleIncomeYear,
