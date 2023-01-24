@@ -85,7 +85,7 @@
                                                         <button type="button" class="edit" title="تعديل" style="cursor: pointer; border-radius:60%;
                                             border: none;"
                                                                 data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger ">
-                                                            <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="show_edit(this.id)"></i>
+                                                            <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="show_edit({{$projectIncome->id}})"></i>
                                                         </button>
                                                         <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
                                             border: none;"
@@ -103,7 +103,7 @@
                                                         <button type="button" class="" title="تعديل" style="cursor: pointer; border-radius:60%;
                                             border: none;"
                                                                 data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger ">
-                                                            <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="editInput(this.id)"></i>
+                                                            <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="editInput({{$projectIncome->id}})"></i>
                                                         </button>
                                                         <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
                                             border: none;"
@@ -1115,13 +1115,13 @@
         //     });
 
 
-        function show_edit(id) {
+        function show_edit(editId) {
             // alert("lable_"+id);
-            $("#lable_"+id).attr("style", "display:none");
-            $("#input_"+id).removeAttr("style");
+            $("#lable_"+editId).attr("style", "display:none");
+            $("#input_"+editId).removeAttr("style");
 
         }
-        function editInput(id) {
+        function editInput(editId) {
             // $("#lable_"+id).removeAttr("style");
             //                  $("#input_"+id).attr("style", "display:none");
             //                  $(".edit").attr("style", "background-color: green");
@@ -1130,21 +1130,25 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+{{--           {{route('project_fs_general_income_update',['pro_id'=>$project->id,'id'=>$projectIncome->id]) }}--}}
             var formData = $('#form_1').serialize();
+            var url =  '{{route('project_fs_general_income_update',['pro_id'=>$project->id,':id']) }}';
+            url = url.replace(':id', editId);
+            console.log(url);
             jQuery.ajax({
-                url: 'project_fs_general_income_update/'+id,
+                url:url,
                 method: 'post',
                 data: formData,
                 dataType: 'json',
                 success: function (result) {
                     console.log(result)
-                    $("lable_"+id).empty()
+                    $("lable_"+editId).empty()
                     toastr.success("تمت العملية بنجاح", "تم تخزين البيانات بنجاح");
                     //$("#form_1 :input").prop("disabled", true);
-                    $("#lable_"+id).removeAttr("style");
-                    $("#input_"+id).attr("style", "display:none");
+                    $("#lable_"+editId).removeAttr("style");
+                    $("#input_"+editId).attr("style", "display:none");
                     $(".edit").attr("style", "background-color: green");
-                    $("tbody").append('<tr id=lable_'+id+'></tr>');
+                    $("tbody").append('<tr id=lable_'+editId+'></tr>');
                 }
             });
         }
