@@ -72,7 +72,7 @@
 
                     <div class="col-sm center">
 
-                        <a href="{{ route('generalAdministrativeExpenses') }}" class="btn btn-outline-warning">المصاريف الإدارية والعمومية</a>
+                        <a href="{{ route('generalAdministrativeExpenses', $project->id) }}" class="btn btn-outline-warning">المصاريف الإدارية والعمومية</a>
                     </div>
                     <span class="font-size-20" style="color: green;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 

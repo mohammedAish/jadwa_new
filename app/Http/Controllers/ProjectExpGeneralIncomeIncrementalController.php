@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class ProjectExpGeneralIncomeIncrementalController extends Controller
 {
     public function project_exp_general_income_icremental_store(Request $request, $pro_id){
-        //dd($request->all());
+       // dd($request->all());
                 $request->validate([
                     'one_value_incremental' => 'required',
 
@@ -98,7 +98,7 @@ class ProjectExpGeneralIncomeIncrementalController extends Controller
 
                             }
 
-                 
+
 
                 }
 

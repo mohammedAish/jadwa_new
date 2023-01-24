@@ -70,7 +70,22 @@
                 <div class="card-body ">
 
                     <div class="col-sm center">
+
+                        <a href="<?php echo e(route('generalAdministrativeExpenses', $project->id)); ?>" class="btn btn-outline-warning">المصاريف الإدارية والعمومية</a>
+                    </div>
+                    <span class="font-size-20" style="color: green;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center" style="border: 3px solid #F9AA1C ;border-radius: 7px;">
+                <div class="card-body ">
+
+                    <div class="col-sm center">
+
                         <a href="<?php echo e(route('revenues', $project->id)); ?>" class="btn btn-outline-warning">الإيرادات وتكاليف الإيرادات</a>
+
                     </div>
                     <span class="font-size-20" style="color: grey;font-size: 40px !important;"> <i class="fas fa-check-circle"></i></span>
 

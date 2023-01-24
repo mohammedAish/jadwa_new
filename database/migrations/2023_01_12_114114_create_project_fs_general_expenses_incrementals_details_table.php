@@ -16,12 +16,11 @@ return new class extends Migration
         Schema::create('project_fs_general_expenses_incrementals_details', function (Blueprint $table) {
             $table->id();
             $table->Integer('general_expenses_id');
-            $table->unsignedBigInteger('project_id');
+            $table->Integer('project_id');
             $table->integer('year');
             $table->integer('incremental');
             $table->timestamps();
 
-            $table->foreign('project_id')->references('id')->on('projects')->cascadeOnDelete();
         });
     }
 

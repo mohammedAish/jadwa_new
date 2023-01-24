@@ -7,7 +7,12 @@ use App\Models\AdministExpen;
 use App\Models\FeasibilityStudy;
 use App\Models\GeneralProjectIncome;
 use App\Models\ProjectBpChannelResource;
+use App\Models\ProjectExpGeneralIncome;
+use App\Models\ProjectExpGeneralIncomeIncremental;
+use App\Models\ProjectExpGeneralIncomeIncrementalDetail;
 use App\Models\ProjectFsGeneralIncome;
+use App\Models\ProjectFsGeneralIncomeIncremental;
+use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
 use App\Models\ProjectProductDetail;
 use Illuminate\Http\Request;
 
@@ -68,6 +73,8 @@ class FeasibilityStudiesController extends Controller
         $main_activity = ProjectBpChannelResource::query()->where('type' , 'main_activity')->get();
         $project_product_details = ProjectProductDetail::query()->where('project_id',1)->get();
 
+                $project_product_details = ProjectProductDetail::query()->where('project_id',1)->get();
+
         return view('admin.forms.administrators',compact('marketing_channels','income_sources','expenses_modal','main_activity','project_product_details'));
 
     }
@@ -78,7 +85,14 @@ class FeasibilityStudiesController extends Controller
         $project=Project::findOrFail($pro_id);
 
         $projectIncomes = ProjectFsGeneralIncome::where('project_id',$project->id)->get();
-        return view('admin.forms.revenues',compact('project','projectIncomes'));
+        $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$project->id)->first();
+        $projectFsGeneralIncomeIncrementalDetail = ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get();
+        $projectEXpIncomes = ProjectExpGeneralIncome::where('project_id',$project->id)->get();
+        $projectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',$project->id)->first();
+
+        $projectExpGeneralIncomeIncrementalDetail = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$projectExpGeneralIncomeIncremental->id)->get();
+
+        return view('admin.forms.revenues',compact('project','projectIncomes','projectEXpIncomes','projectFsGeneralIncomeIncrementalDetail','projectFsGeneralIncomeIncremental','projectExpGeneralIncomeIncremental','projectExpGeneralIncomeIncrementalDetail'));
 
     }
 
@@ -164,11 +178,12 @@ class FeasibilityStudiesController extends Controller
         ]);
     }
 
-    public function generalAdministrativeExpenses()
+    public function generalAdministrativeExpenses($pro_id)
     {
-        $project=Project::findOrFail(1);
+       // dd('d');
+        $project=Project::findOrFail($pro_id);
 
-        $projectIncomes = ProjectFsGeneralIncome::where('project_id',1)->get();
+        $projectIncomes = ProjectFsGeneralIncome::where('project_id',$pro_id)->get();
         $AdministExpen = AdministExpen::get();
         return view('admin.forms.generalAdministrativeExpenses',compact('project','projectIncomes','AdministExpen'));
     }

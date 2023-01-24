@@ -1,8 +1,7 @@
-@extends('layouts.master')
+<?php $__env->startSection('title'); ?>
+    <?php echo e('المصاريف الإدارية والعمومية'); ?>
 
-@section('title')
-    {{ 'المصاريف الإدارية والعمومية' }}
-@endsection
+<?php $__env->stopSection(); ?>
 <style>
     .display {
         display: none;
@@ -24,15 +23,17 @@
         padding: 2px;
     }  */
 </style>
-@section('content')
-    @component('components.breadcrumb')
-        @slot('title')
-            {{ 'دراسة جدوى' }}
-        @endslot
-        @slot('name')
-            {{ 'المصاريف الإدارية والعمومية' }}
-        @endslot
-    @endcomponent
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('title'); ?>
+            <?php echo e('دراسة جدوى'); ?>
+
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('name'); ?>
+            <?php echo e('المصاريف الإدارية والعمومية'); ?>
+
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
 
     <div class="row">
         <div class="col-lg-12">
@@ -44,7 +45,7 @@
                             <h4 class="mb-4"><strong>المصاريف الادارية</strong></h4>
                             <form id="form_1" name="form_1" class="form-horizontal">
                                 <input type="hidden" value="1" name="project_id" id="project_id">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <div class="row">
                                     <div class="inner-repeater mb-4">
                                         <div data-repeater-list="inner-group" class="inner mb-4">
@@ -74,12 +75,12 @@
                                                                 id="expense_amount">
                                                             <span
                                                                 class="text-danger error-text expense_amount_error"></span>
-                                                            @if ($project->currency == 'ksa')
+                                                            <?php if($project->currency == 'ksa'): ?>
                                                                 <button class="btn btn-light" type="button">ر.س</button>
-                                                            @else
+                                                            <?php else: ?>
                                                                 <button class="btn btn-light" type="button"><i
                                                                         class="mdi mdi-currency-usd"></i></button>
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                     <div class="display" id="expense_ratio_div">
@@ -87,7 +88,14 @@
                                                                 الإيرادات</strong></label>
                                                         <div class="mb-3 input-group">
                                                             <input type="text" name="expense_ratio"
-                                                                class="form-control @error('expense_ratio') is-invalid @enderror"
+                                                                class="form-control <?php $__errorArgs = ['expense_ratio'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                                 id="expense_ratio" placeholder="نسبة النمو السنوي المتوقع"
                                                                 aria-label="expense_ratio">
                                                             <button class="btn btn-light" type="button"><i
@@ -111,10 +119,10 @@
                                                         <tr>
                                                             <td> <select class="form-control" name="expensis_type[]">
                                                                     <option value="-1">اختر</option>
-                                                                    @foreach ($AdministExpen as $itm)
-                                                                        <option value="{{ $itm->id }}">
-                                                                            {{ $itm->item }}</option>
-                                                                    @endforeach
+                                                                    <?php $__currentLoopData = $AdministExpen; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <option value="<?php echo e($itm->id); ?>">
+                                                                            <?php echo e($itm->item); ?></option>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     <option value="0">أخرى</option>
                                                                 </select>
                                                             </td>
@@ -152,7 +160,7 @@
                         <section id="forms_2">
                             <h4 class="mb-4"><strong>نسبة نمو المصاريف الادارية</strong></h4>
                             <form id="form_2" name="form_2" class="form-horizontal">
-                                {{-- <input type="hidden" name="project_id" value="1"> --}}
+                                
                                 <label for="verticalnav-pancard-input"><strong>نسبة نمو الايرادات</strong></label>
                                 <div class="mb-3 price input-group">
                                     <input type="text" name="one_value_incremental"
@@ -188,7 +196,7 @@
                                     <button style="float: left" type="button" value="حفظ والتالي" name="save_btn_2"
                                         class="btn btn-warning" id="save_btn_2">
                                         حفظ ومتابعة
-                                        {{-- <span class="spinner-border spinner-border-sm" id="spinner_2" role="status" aria-hidden="true"></span> --}}
+                                        
                                     </button>
 
 
@@ -233,7 +241,7 @@
                         <section id="forms_3">
                             <h4 class="mb-4"><strong>الايجارات</strong></h4>
                             <form id="form_3" name="form_3" class="form-horizontal">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="project_id" value="1">
                                 <div class="d-flex">
                                     <input type="checkbox" name="no_rent" id="no_rent" value="1"
@@ -253,7 +261,7 @@
                                                         <select class="form-control" name="rent_type" id="rent_type">
                                                             <option selected disabled>اختر</option>
                                                             <option value="1">مبلغ ثابت</option>
-                                                            {{-- <option value="2">نسبة من ايرادات المنتج</option> --}}
+                                                            
                                                             <option value="3">تخصيص </option>
                                                         </select>
                                                         <span class="text-danger error-text item_error"></span>
@@ -273,14 +281,14 @@
                                                                             class="form-control" id="rental_cost">
                                                                         <span
                                                                             class="text-danger error-text rental_cost_error"></span>
-                                                                        @if ($project->currency == 'ksa')
+                                                                        <?php if($project->currency == 'ksa'): ?>
                                                                             <button class="btn btn-light"
                                                                                 type="button">ر.س</button>
-                                                                        @else
+                                                                        <?php else: ?>
                                                                             <button class="btn btn-light" type="button">
                                                                                 <i
                                                                                     class="mdi mdi-currency-usd"></i></button>
-                                                                        @endif
+                                                                        <?php endif; ?>
 
                                                                     </div>
                                                                 </div>
@@ -289,7 +297,14 @@
                                                                             النمو</strong></label>
                                                                     <div class="mb-2 input-group">
                                                                         <input type="text" name="growth_rate_rent"
-                                                                            class="form-control @error('growth_rate_rent') is-invalid @enderror"
+                                                                            class="form-control <?php $__errorArgs = ['growth_rate_rent'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                                             id="growth_rate_rent"
                                                                             placeholder="نسبة النمو "
                                                                             aria-label="growth_rate_rent">
@@ -372,64 +387,7 @@
                     </form>
                     </section>
 
-                    {{-- <h3>نسبة النمو في تكلفة الايجارات</h3>
-                        <section>
-                            <h4 class="mb-4"><strong>نسبة النمو في تكلفة الايجارات</strong></h4>
-                            <form id="form_4" name="form_4" class="form-horizontal">
-                                @csrf
-                                <input type="hidden" name="project_id" value="1">
-                            <div id="repppppp">
-                                <div class="row">
-                                    <table class="table table-bordered" style="text-align: center !important"
-                                        id="investmentTable">
-                                        <thead style="background-color: #F4F4F4B2">
-                                            <tr>
-                                                <th class="align-middle"> السنة </th>
-                                                <th class="align-middle">تكلفة الايجارات </th>
-                                                <th class="align-middle">نسبة الزيادةالسنوية</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodyInvestment">
-                                            @foreach (years($project->id)['years'] as $year)
-                                                <tr>
-                                                    <td style="width: 35%"><input type="text" name="year[]"
-                                                        class="form-control" id="year"
-                                                        aria-label="year[]" readonly value="{{ $year }}"></td>
-                                                    <td style="width: 35%"><input type="text" name="value[]"
-                                                            class="form-control" id="value"
-                                                            aria-label="value[]"></td>
-                                                    <td style="width: 35%">
-                                                        <div class="mb-3 input-group">
-                                                            <input type="text" name="incremental[]"
-                                                                class="form-control" id="incremental">
-                                                            <button class="btn btn-light" type="button"><i
-                                                                    class="mdi mdi-percent"></i></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                            </div>
-
-                            <div class="d-flex justify-content-between">
-
-                                <button type="button" value="السابق" name="previous_2" class="btn btn-warning"
-                                    id="previous_2">
-                                    السابق
-                                </button>
-                                <button type="button" style="float: left" value="التالي" name="save_btn_4"
-                                    class="btn btn-warning" id="save_btn_4">
-                                    التالي
-                                </button>
-
-                            </form>
-                            </div>
-                        </section> --}}
+                    
                     <h3>ملخص الايجارات</h3>
                     <section>
                         <h4 class="mb-4"><strong>ملخص الايجارات</strong></h4>
@@ -461,7 +419,7 @@
                     <section id="forms_2">
                         <h4 class="mb-4"><strong>المرافق </strong></h4>
                         <form id="form_6" name="form_6" class="form-horizontal">
-                            @csrf
+                            <?php echo csrf_field(); ?>
                             <input type="hidden" name="project_id" value="1">
 
                             <div class="d-flex">
@@ -533,7 +491,7 @@
                     <section id="forms_7">
                         <h4 class="mb-4"><strong>نسبة نمو المرافق</strong></h4>
                         <form id="form_7" name="form_7" class="form-horizontal">
-                            {{-- <input type="hidden" name="project_id" value="1"> --}}
+                            
                             <label for="verticalnav-pancard-input"><strong>نسبة نمو المرافق</strong></label>
                             <div class="mb-3 price input-group">
                                 <input type="text" name="one_value_incremental_utilities" class="form-control"
@@ -568,7 +526,7 @@
                                 <button style="float: left" type="button" value="حفظ والتالي" name="save_btn_7"
                                     class="btn btn-warning" id="save_btn_7">
                                     حفظ ومتابعة
-                                    {{-- <span class="spinner-border spinner-border-sm" id="spinner_2" role="status" aria-hidden="true"></span> --}}
+                                    
                                 </button>
                             </div>
                         </form>
@@ -597,7 +555,7 @@
                             <button style="float: left" type="button" value="حفظ والتالي" name="next_btn_3"
                                 class="btn btn-warning" id="next_btn_3">
                                 حفظ ومتابعة
-                                {{-- <span class="spinner-border spinner-border-sm" id="spinner_2" role="status" aria-hidden="true"></span> --}}
+                                
                             </button>
                         </div>
                         <br>
@@ -607,7 +565,7 @@
                         <h4 class="mb-4"><strong> تكلفة البيع والتسويق</strong></h4>
                         <form id="form_9" name="form_9" class="form-horizontal">
                             <input type="hidden" value="1" name="project_id" id="project_id">
-                            @csrf
+                            <?php echo csrf_field(); ?>
                             <div class="row">
                                 <div class="inner-repeater mb-4">
                                     <div data-repeater-list="inner-group" class="inner mb-4">
@@ -621,12 +579,12 @@
                                                         class="form-control" id="marketing_amount"
                                                         placeholder="مبلغ مخصص للتسويق سنوياً">
                                                     <span class="text-danger error-text marketing_amount_error"></span>
-                                                    @if ($project->currency == 'ksa')
+                                                    <?php if($project->currency == 'ksa'): ?>
                                                         <button class="btn btn-light" type="button">ر.س</button>
-                                                    @else
+                                                    <?php else: ?>
                                                         <button class="btn btn-light" type="button"><i
                                                                 class="mdi mdi-currency-usd"></i></button>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -634,7 +592,14 @@
                                                         الايرادات</strong></label>
                                                 <div class="mb-3 input-group">
                                                     <input type="text" name="marketing_ratio"
-                                                        class="form-control @error('marketing_ratio') is-invalid @enderror"
+                                                        class="form-control <?php $__errorArgs = ['marketing_ratio'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                         id="marketing_ratio" placeholder="نسبة التسويق من الايرادات"
                                                         aria-label="marketing_ratio">
                                                     <button class="btn btn-light" type="button"><i
@@ -647,7 +612,14 @@
                                                         سنويا</strong></label>
                                                 <div class="mb-3 input-group">
                                                     <input type="text" name="marketing_growth_rate"
-                                                        class="form-control @error('marketing_growth_rate') is-invalid @enderror"
+                                                        class="form-control <?php $__errorArgs = ['marketing_growth_rate'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                         id="marketing_growth_rate"
                                                         placeholder="نسبة نمو تكاليف التسويق  سنويا"
                                                         aria-label="marketing_growth_rate">
@@ -671,7 +643,7 @@
                                 <button style="float: left" type="button" value="حفظ والتالي" name="save_btn_9"
                                     class="btn btn-warning" id="save_btn_9">
                                     حفظ ومتابعة
-                                    {{-- <span class="spinner-border spinner-border-sm" id="spinner_2" role="status" aria-hidden="true"></span> --}}
+                                    
                                 </button>
                             </div>
                         </form>
@@ -698,7 +670,7 @@
                             <button style="float: left" type="button" value="حفظ والتالي" name="next_btn_4"
                                 class="btn btn-warning" id="next_btn_4">
                                 حفظ ومتابعة
-                                {{-- <span class="spinner-border spinner-border-sm" id="spinner_2" role="status" aria-hidden="true"></span> --}}
+                                
                             </button>
                         </div>
                         <br>
@@ -710,7 +682,7 @@
                             <div class="inner-repeater mb-4">
                                 <div data-repeater-list="inner-group" class="inner mb-4">
                                     <form id="form_10" name="form_10" class="form-horizontal">
-                                        @csrf
+                                        <?php echo csrf_field(); ?>
                                         <input type="hidden" name="project_id" value="1">
                                         <table class="table table-bordered" style="text-align: center !important"
                                             id="otherTable">
@@ -751,7 +723,7 @@
                             <button type="button" style="float: left" value="حفظ ومتابعة" name="save_btn_10"
                                 class="btn btn-warning" id="save_btn_10">
                                 حفظ ومتابعة
-                                {{-- <span class="spinner-border spinner-border-sm" id="spinner_4" role="status" aria-hidden="true"></span> --}}
+                                
                             </button>
                         </div>
                         </form>
@@ -762,7 +734,7 @@
                         <h4 class="mb-4"><strong>نسبة نمو مصاريف أخرى </strong></h4>
 
                          <form id="form_11" name="form_11" class="form-horizontal">
-                            {{-- <input type="hidden" name="project_id" value="1">  --}}
+                            
                             <label for="verticalnav-pancard-input"><strong>نسبة نمو الايرادات</strong></label>
                             <div class="mb-3 price input-group">
                                 <input type="text" name="one_value_incremental_other_expenses"
@@ -797,7 +769,7 @@
                                                     <button style="float: left" type="button" value="حفظ والتالي" name="save_btn_11"
                                                         class="btn btn-warning" id="save_btn_11">
                                                         حفظ ومتابعة
-                                                        {{-- <span class="spinner-border spinner-border-sm" id="spinner_2" role="status" aria-hidden="true"></span> --}}
+                                                        
                                                     </button>
 
 
@@ -828,7 +800,7 @@
                                 <button type="button" style="float: left" value="حفظ ومتابعة" name="next_btn_5"
                                     class="btn btn-warning" id="next_btn_5">
                                     حفظ ومتابعة
-                                    {{-- <span class="spinner-border spinner-border-sm" id="spinner_4" role="status" aria-hidden="true"></span> --}}
+                                    
                                 </button>
                             </div>
 
@@ -851,7 +823,7 @@
                                 <button type="button" style="float: left" value="حفظ ومتابعة" name="save_btn_13"
                                     class="btn btn-warning" id="save_btn_13">
                                     حفظ ومتابعة
-                                    {{-- <span class="spinner-border spinner-border-sm" id="spinner_4" role="status" aria-hidden="true"></span> --}}
+                                    
                                 </button>
                             </div>
                         </form>
@@ -864,13 +836,13 @@
     </div>
     <!-- end col -->
     </div>
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
     <!-- form wizard init -->
-    <script src="{{ asset('assets/js/pages/form-wizard.init.js') }}"></script>
-    <script src="{{ asset('assets/libs/jquery-steps/jquery-steps.min.js') }}"></script>
+    <script src="<?php echo e(asset('assets/js/pages/form-wizard.init.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/libs/jquery-steps/jquery-steps.min.js')); ?>"></script>
     <script>
         $(document).ready(function() {
             $('#vertical-example-t-0').parent().attr('class', 'current');
@@ -1071,7 +1043,7 @@
             $('#save_btn_1').click(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('project_administrative_expenses.store',$project->id) }}",
+                    url: "<?php echo e(route('project_administrative_expenses.store',$project->id)); ?>",
                     method: 'post',
                     data: new FormData(form_1),
                     processData: false,
@@ -1106,7 +1078,7 @@
                 });
                 var formData = $('#form_2').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_general_expenses_incremental',$project->id) }}",
+                    url: "<?php echo e(route('project_fs_general_expenses_incremental',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1125,7 +1097,7 @@
             $('#save_btn_3').click(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('project_rent.store',$project->id) }}",
+                    url: "<?php echo e(route('project_rent.store',$project->id)); ?>",
                     method: 'post',
                     data: new FormData(form_3),
                     processData: false,
@@ -1161,7 +1133,7 @@
                 });
                 var formData = $('#form_4').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_rent_incremental') }}",
+                    url: "<?php echo e(route('project_fs_rent_incremental')); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1187,7 +1159,7 @@
             $('#save_btn_6').click(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('project_utilities.store') }}",
+                    url: "<?php echo e(route('project_utilities.store')); ?>",
                     method: 'post',
                     data: new FormData(form_6),
                     processData: false,
@@ -1223,7 +1195,7 @@
                 });
                 var formData = $('#form_7').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_utilities_incremental',$project->id) }}",
+                    url: "<?php echo e(route('project_fs_utilities_incremental',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1248,7 +1220,7 @@
             $('#save_btn_9').click(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('project_selling_marketing.store') }}",
+                    url: "<?php echo e(route('project_selling_marketing.store')); ?>",
                     method: 'post',
                     data: new FormData(form_9),
                     processData: false,
@@ -1280,7 +1252,7 @@
             $('#save_btn_10').click(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('project_other_expenses.store') }}",
+                    url: "<?php echo e(route('project_other_expenses.store')); ?>",
                     method: 'post',
                     data: new FormData(form_10),
                     processData: false,
@@ -1317,7 +1289,7 @@
                 });
                 var formData = $('#form_11').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_other_expenses_incremental',$project->id) }}",
+                    url: "<?php echo e(route('project_fs_other_expenses_incremental',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -1343,7 +1315,7 @@
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_administrative_expenses',$project->id) }}",
+                    url: "<?php echo e(route('fetch_administrative_expenses',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1419,7 +1391,7 @@
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_administrative_expenses_incremintal',$project->id) }}",
+                    url: "<?php echo e(route('fetch_administrative_expenses_incremintal',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1455,7 +1427,7 @@
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_other_incremintal',$project->id) }}",
+                    url: "<?php echo e(route('fetch_other_incremintal',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1493,7 +1465,7 @@
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_other_details',$project->id) }}",
+                    url: "<?php echo e(route('fetch_other_details',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1505,9 +1477,9 @@
                                                 <tr style="background-color:#F5F5F5">\
                                                     <th>السنة</th>\
                                                     <td>' + response.year + '</td>\
-                                                    @foreach(years($project->id)['years'] as $year)\
-                                                    <td>' + {{$year}} + '</td>\
-                                                    @endforeach\
+                                                    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                    <td>' + <?php echo e($year); ?> + '</td>\
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                                 </tr>\
                                             </thead>\
                                             <tbody id="view_other_data">\
@@ -1534,7 +1506,7 @@
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_administrative_expenses',$project->id) }}",
+                    url: "<?php echo e(route('fetch_administrative_expenses',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1547,9 +1519,9 @@
                                                 <tr style="background-color:#F5F5F5">\
                                                     <th>السنة</th>\
                                                     <td>' + response.year + '</td>\
-                                                    @foreach(years($project->id)['years'] as $year)\
-                                                    <td>' + {{$year}} + '</td>\
-                                                    @endforeach\
+                                                    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                    <td>' + <?php echo e($year); ?> + '</td>\
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                                 </tr>\
                                             </thead>\
                                             <tbody id="view_incremental_data">\
@@ -1592,7 +1564,7 @@
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_rent',$project->id) }}",
+                    url: "<?php echo e(route('fetch_rent',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1652,7 +1624,7 @@
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_rent_details',$project->id) }}",
+                    url: "<?php echo e(route('fetch_rent_details',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1666,9 +1638,9 @@
                                                 <tr style="background-color:#F5F5F5">\
                                                     <th>السنة</th>\
                                                     <td>' + response.year + '</td>\
-                                                    @foreach(years($project->id)['years'] as $year)\
-                                                    <td>' + {{$year}} + '</td>\
-                                                    @endforeach\
+                                                    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                    <td>' + <?php echo e($year); ?> + '</td>\
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                                 </tr>\
                                             </thead>\
                                             <tbody id="view_incremental_data">\
@@ -1710,9 +1682,9 @@
                                                 <tr style="background-color:#F5F5F5">\
                                                     <th>السنة</th>\
                                                     <td>' + response.year + '</td>\
-                                                    @foreach(years($project->id)['years'] as $year)\
-                                                    <td>' + {{$year}} + '</td>\
-                                                    @endforeach\
+                                                    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                    <td>' + <?php echo e($year); ?> + '</td>\
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                                 </tr>\
                                             </thead>\
                                             <tbody id="view_rent_data">\
@@ -1744,7 +1716,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_utilities') }}",
+                    url: "<?php echo e(route('fetch_utilities')); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1781,7 +1753,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_utilities_details',$project->id) }}",
+                    url: "<?php echo e(route('fetch_utilities_details',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1793,9 +1765,9 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                                 <tr style="background-color:#F5F5F5">\
                                                     <th>السنة</th>\
                                                     <td>' + response.year + '</td>\
-                                                    @foreach(years($project->id)['years'] as $year)\
-                                                    <td>' + {{$year}} + '</td>\
-                                                    @endforeach\
+                                                    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                    <td>' + <?php echo e($year); ?> + '</td>\
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                                 </tr>\
                                             </thead>\
                                             <tbody id="view_utilit_data">\
@@ -1822,7 +1794,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_marketing') }}",
+                    url: "<?php echo e(route('fetch_marketing')); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1880,7 +1852,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_marketing_details',$project->id) }}",
+                    url: "<?php echo e(route('fetch_marketing_details',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1893,9 +1865,9 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                                 <tr style="background-color:#F5F5F5">\
                                                     <th>السنة</th>\
                                                     <td>' + response.year + '</td>\
-                                                    @foreach(years($project->id)['years'] as $year)\
-                                                    <td>' + {{$year}} + '</td>\
-                                                    @endforeach\
+                                                    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                    <td>' + <?php echo e($year); ?> + '</td>\
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                                 </tr>\
                                             </thead>\
                                             <tbody id="view_incremental_data">\
@@ -1937,7 +1909,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 let id = $('#project_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('fetch_all_details',$project->id) }}",
+                    url: "<?php echo e(route('fetch_all_details',$project->id)); ?>",
                     data: {id: id},
                     dataType: "json",
                     success: function (response) {
@@ -1948,9 +1920,9 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                                 <tr style="background-color:#F5F5F5">\
                                                     <th>السنة</th>\
                                                     <td>' + response.year + '</td>\
-                                                    @foreach(years($project->id)['years'] as $year)\
-                                                    <td>' + {{$year}} + '</td>\
-                                                    @endforeach\
+                                                    <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                    <td>' + <?php echo e($year); ?> + '</td>\
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                                 </tr>\
                                             </thead>\
                                             <tbody id="view_incremental_data">\
@@ -2035,10 +2007,10 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 $('#tbodyExpenseTable').append(`<tr>
                                                             <td> <select class="form-control" name="expensis_type[]">
                                                                     <option value="-1">اختر</option>
-                                                                    @foreach ($AdministExpen as $itm)
-                                                                        <option value="{{ $itm->id }}">
-                                                                            {{ $itm->item }}</option>
-                                                                    @endforeach
+                                                                    <?php $__currentLoopData = $AdministExpen; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <option value="<?php echo e($itm->id); ?>">
+                                                                            <?php echo e($itm->item); ?></option>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     <option value="0">أخرى</option>
                                                                 </select>
                                                             </td>
@@ -2128,7 +2100,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 });
                 var formData = $('#form_2').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_general_expenses_incremental',$project->id) }}",
+                    url: "<?php echo e(route('project_fs_general_expenses_incremental',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -2145,18 +2117,18 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                 </tr>\
                                 </thead>\
                                 <tbody id="incrementals">\
-                                @foreach(years($project->id)['years'] as $year)\
+                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
                                 <tr>\
-                                    <td>' + {{$year}} + '</td>\
+                                    <td>' + <?php echo e($year); ?> + '</td>\
                                 <td>\
-                                    <input type="hidden" name="year[]" value="{{$year}}" />\
+                                    <input type="hidden" name="year[]" value="<?php echo e($year); ?>" />\
                                     <input type="hidden" name="id" class="form-control" value="' + result.data[0].id + '">\
                                         <input type="text" name="value_incremental[]" class="form-control" value="' + result.data[0].incremental + '" >\
                                 </td>\
                                 <td>\
                                 </td>\
                                 </tr>\
-                                @endforeach\
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                 </tbody>\
                                 </table>');
 
@@ -2172,7 +2144,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 });
                 var formData = $('#form_7').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_utilities_incremental',$project->id) }}",
+                    url: "<?php echo e(route('project_fs_utilities_incremental',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -2190,18 +2162,18 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                 </tr>\
                                 </thead>\
                                 <tbody id="incrementals">\
-                                @foreach(years($project->id)['years'] as $year)\
+                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
                                 <tr>\
-                                    <td>' + {{$year}} + '</td>\
+                                    <td>' + <?php echo e($year); ?> + '</td>\
                                 <td>\
-                                    <input type="hidden" name="year[]" value="{{$year}}" />\
+                                    <input type="hidden" name="year[]" value="<?php echo e($year); ?>" />\
                                     <input type="hidden" name="id" class="form-control" value="' + result.data[0].id + '">\
                                         <input type="text" name="value_incremental_utilities[]" class="form-control" value="' + result.data[0].incremental + '" >\
                                 </td>\
                                 <td>\
                                 </td>\
                                 </tr>\
-                                @endforeach\
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                 </tbody>\
                                 </table>');
 
@@ -2217,7 +2189,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                 });
                 var formData = $('#form_11').serialize();
                 jQuery.ajax({
-                    url: "{{ route('project_fs_other_expenses_incremental',$project->id) }}",
+                    url: "<?php echo e(route('project_fs_other_expenses_incremental',$project->id)); ?>",
                     method: 'post',
                     data: formData,
                     dataType: 'json',
@@ -2235,18 +2207,18 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                 </tr>\
                                 </thead>\
                                 <tbody id="incrementals">\
-                                @foreach(years($project->id)['years'] as $year)\
+                                <?php $__currentLoopData = years($project->id)['years']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
                                 <tr>\
-                                    <td>' + {{$year}} + '</td>\
+                                    <td>' + <?php echo e($year); ?> + '</td>\
                                 <td>\
-                                    <input type="hidden" name="year[]" value="{{$year}}" />\
+                                    <input type="hidden" name="year[]" value="<?php echo e($year); ?>" />\
                                     <input type="hidden" name="id" class="form-control" value="' + result.data[0].id + '">\
                                         <input type="text" name="value_incremental_other_expenses[]" class="form-control" value="' + result.data[0].incremental + '" >\
                                 </td>\
                                 <td>\
                                 </td>\
                                 </tr>\
-                                @endforeach\
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                 </tbody>\
                                 </table>');
                     }
@@ -2257,4 +2229,6 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
         });
         const formatter = new Intl.NumberFormat('en-US');
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/mac/Documents/GitHub/jadwa_new/resources/views/admin/forms/generalAdministrativeExpenses.blade.php ENDPATH**/ ?>

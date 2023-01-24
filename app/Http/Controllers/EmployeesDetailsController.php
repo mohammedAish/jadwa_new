@@ -233,6 +233,7 @@ foreach($data as $dataa){
 
 };
 $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$pro_id)->first();
+//dd($projectFsGeneralIncomeIncremental);
 $projectFsGeneralIncomeIncrementalDetail =ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get()->toArray();
 $prev=$totleIncomeYear;
 $totleIncomeAvaragee=0;

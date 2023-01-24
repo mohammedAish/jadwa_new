@@ -23,7 +23,9 @@ use App\Models\ProjectFsUtilitiesIncrementalsDetails;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\ProjectFsGeneralIncome;
+use App\Models\ProjectFsGeneralIncomeIncremental;
+use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
 class ProjectFsGeneralAdministrativeExpensesController extends Controller
 {
     /**
@@ -52,7 +54,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
      * @param  \App\Http\Requests\StoreProjectFsGeneralAdministrativeExpensesRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProjectFsGeneralAdministrativeExpensesRequest $request)
+    public function store(StoreProjectFsGeneralAdministrativeExpensesRequest $request,$pro_id)
     {
 
         $validator = Validator::make($request->all(), [
@@ -116,20 +118,22 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
         }
     }
 
-    public function fetch_administrative_expenses(Request $request)
+    public function fetch_administrative_expenses(Request $request,$pro_id)
     {
-        $data = ProjectFsGeneralAdministrativeExpenses::where('project_id', $request->id)->first();
+     
+        $data = ProjectFsGeneralAdministrativeExpenses::where('project_id',$pro_id)->first();
+       // dd($data);
         $item = 0;
         if ($data->type == 'custom') {
-            $item = ProjectFsGeneralAdministrativeExpensesDetails::with('expenses')->where('project_id', $request->id)->get();
+            $item = ProjectFsGeneralAdministrativeExpensesDetails::with('expenses')->where('project_id', $pro_id)->get();
             $current_value = 0;
             foreach ($item as $i) {
                 $current_value += $i->value;
             }
 
-            $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id', '1')->get();
+            $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id',$pro_id)->get();
             $prev = 0;
-            foreach (years()['years'] as $key => $year) {
+            foreach (years($pro_id)['years'] as $key => $year) {
                 $prev = $current_value * (1 + ($growth[$key]->incremental / 100));
                 $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
                 $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
@@ -139,7 +143,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
 
             $pre = 0;
             $current = ($current_value / 500) * 100;
-            foreach (years()['years'] as $key => $year) {
+            foreach (years($pro_id)['years'] as $key => $year) {
                 $pre =    ($prev / 500) * 100;
                 $next1 =  ($nxt1 / 500) * 100;;
                 $next2 =  ($nxt2 / 500) * 100;;
@@ -149,10 +153,10 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
         }
         if ($data->type == 'amount') {
             $current_value = $data->value;
-            $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id', '1')->get();
+            $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id', $pro_id)->get();
 
             $prev = 0;
-            foreach (years()['years'] as $key => $year) {
+            foreach (years($pro_id)['years'] as $key => $year) {
                 $prev = $current_value * (1 + ($growth[$key]->incremental / 100));
                 $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
                 $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
@@ -162,7 +166,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
 
             $pre = 0;
             $current = ($current_value / 500) * 100;
-            foreach (years()['years'] as $key => $year) {
+            foreach (years($pro_id)['years'] as $key => $year) {
                 $pre =    ($prev / 500) * 100;
                 $next1 =  ($nxt1 / 500) * 100;;
                 $next2 =  ($nxt2 / 500) * 100;;
@@ -172,9 +176,9 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
         }
         if ($data->type == 'ratio') {
             $current_value = ($data->value / 100);
-            $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id', '1')->get();
+            $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id', $pro_id)->get();
             $prev = 0;
-            foreach (years()['years'] as $key => $year) {
+            foreach (years($pro_id)['years'] as $key => $year) {
                 $prev = $current_value * (1 + ($growth[$key]->incremental / 100));
                 $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
                 $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
@@ -184,7 +188,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
 
             $pre = 0;
             $current = ($current_value / 500) * 100;
-            foreach (years()['years'] as $key => $year) {
+            foreach (years($pro_id)['years'] as $key => $year) {
                 $pre =    ($prev / 500) * 100;
                 $next1 =  ($nxt1 / 500) * 100;;
                 $next2 =  ($nxt2 / 500) * 100;;
@@ -215,9 +219,10 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
     }
     //     return response()->json(['data' => $data]);
     // }
-    public function fetch_administrative_expenses_incremintal(Request $request)
+    public function fetch_administrative_expenses_incremintal(Request $request,$pro_id)
     {
         $data = ProjectFsGeneralExpensesIncrementals::where('project_id', $request->id)->first();
+       // dd($data);
         $details = ProjectFsGeneralExpensesIncrementalsDetails::where('general_expenses_id', $data->id)->get();
         return response()->json(['data' => $details]);
     }
@@ -247,9 +252,9 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             'total' => $total,
         ]);
     }
-    public function fetch_rent_details(Request $request)
+    public function fetch_rent_details(Request $request,$pro_id)
     {
-        $rentArray = [];
+
 
         $data = ProjectFsRent::where('project_id', $request->id)->first();
         $item = 0;
@@ -269,27 +274,32 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             $current = 0;
             $prevValue = 0;
             $rentIncemental = 0;
-
+            $rentArray = array();
             foreach ($rentItems as $item) {
                 $prevValue = $item->value;
-
+                $rentArrayy = [$item->title,$prevValue];
                 $rentIncemental = $item->growth_rent;
-                foreach (years()['years'] as $key => $year) {
+               // dd(years($pro_id)['years']);
+
+                foreach (years($pro_id)['years'] as $key => $year) {
 
                     $prevValue = $prevValue * (1 + ($item->growth_rent / 100));
-                    array_push($rentArray, $prevValue);
+                    array_push($rentArrayy, $prevValue);
                 }
+                array_push($rentArray,$rentArrayy);
+
             }
+           // dd($rentArray);
             $prev = 0;
         }
 
         if ($data->type == 'amount') {
             $current_value = $data->value;
 
-            $growth = ProjectFsRent::where('project_id', '1')->get();
+            $growth = ProjectFsRent::where('project_id', $pro_id)->get();
 
             $prev = 0;
-            foreach (years()['years'] as $key => $year) {
+            foreach (years($pro_id)['years'] as $key => $year) {
                 $prev = $current_value * (1 + ($growth[0]->growth_rate_rent / 100));
                 $nxt1 = $prev * (1 + ($growth[0]->growth_rate_rent / 100));
                 $nxt2 = $nxt1 * (1 + ($growth[0]->growth_rate_rent / 100));
@@ -299,7 +309,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
 
             $pre = 0;
             $current = ($current_value / 500) * 100;
-            foreach (years()['years'] as $key => $year) {
+            foreach (years($pro_id)['years'] as $key => $year) {
                 $pre =    ($prev / 500) * 100;
                 $next1 =  ($nxt1 / 500) * 100;;
                 $next2 =  ($nxt2 / 500) * 100;;
@@ -307,11 +317,14 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
                 $next4 =  ($nxt4 / 500) * 100;;
             }
         }
+        $yearCurrent = date('Y', strtotime('12/31'));
+
+        //dd($rentArray);
         return response()->json([
             'message' => 'success',
             'item' => $rentArray,
             'data' => $data,
-            'year' => $year,
+            'year' => $yearCurrent,
             'current_value' => $current_value,
             'prev' => $prev,
             'nxt1' => $nxt1,
@@ -349,16 +362,16 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             'total' => $total,
         ]);
     }
-    public function fetch_utilities_details(Request $request)
+    public function fetch_utilities_details(Request $request,$pro_id)
     {
         $item = ProjectFsUtilitiesDetails::where('project_id', $request->id)->get();
         $current_value = 0;
         foreach ($item as $i) {
             $current_value += $i->value;
         }
-        $growth = ProjectFsUtilitiesIncrementalsDetails::where('project_id', '1')->get();
+        $growth = ProjectFsUtilitiesIncrementalsDetails::where('project_id', $pro_id)->get();
         $prev = 0;
-        foreach (years()['years'] as $key => $year) {
+        foreach (years($pro_id)['years'] as $key => $year) {
             $prev = $current_value * (1 + ($growth[0]->incremental / 100));
             $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
             $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
@@ -378,16 +391,16 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             'success' => 'تم تخزين البيانات بنجاح'
         ]);
     }
-    public function fetch_other_details(Request $request)
+    public function fetch_other_details(Request $request,$pro_id)
     {
         $item = ProjectFsOtherExpenses::where('project_id', $request->id)->get();
         $current_value = 0;
         foreach ($item as $i) {
             $current_value += $i->value;
         }
-        $growth = ProjectFsOtherExpensesIncrementalsDetails::where('project_id', '1')->get();
+        $growth = ProjectFsOtherExpensesIncrementalsDetails::where('project_id', $pro_id)->get();
         $prev = 0;
-        foreach (years()['years'] as $key => $year) {
+        foreach (years($pro_id)['years'] as $key => $year) {
             $prev = $current_value * (1 + ($growth[0]->incremental / 100));
             $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
             $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
@@ -407,7 +420,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             'success' => 'تم تخزين البيانات بنجاح'
         ]);
     }
-    public function fetch_all_details(Request $request)
+    public function fetch_all_details(Request $request,$pro_id)
     {
 
         $data_selling_marketing_cost = ProjectFsSellingAndMarketingCost::where('project_id', $request->id)->first();
@@ -415,10 +428,10 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
 
         $item_selling_marketing_cost = ProjectFsSellingAndMarketingCost::where('project_id', $request->id)->first();
         $current_value_selling_marketing_cost = $item_selling_marketing_cost->marketing_amount;
-        $growth_selling_marketing_cost = ProjectFsSellingAndMarketingCost::where('project_id', '1')->first();
+        $growth_selling_marketing_cost = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
 
         $prev_selling_marketing_cost = 0;
-        foreach (years()['years'] as $key => $year) {
+        foreach (years($pro_id)['years'] as $key => $year) {
             $prev_selling_marketing_cost = $current_value_selling_marketing_cost * (1 + ($growth_selling_marketing_cost->marketing_growth_rate / 100));
             $nxt1_selling_marketing_cost = $prev_selling_marketing_cost * (1 + ($growth_selling_marketing_cost->marketing_growth_rate / 100));
             $nxt2_selling_marketing_cost = $nxt1_selling_marketing_cost * (1 + ($growth_selling_marketing_cost->marketing_growth_rate / 100));
@@ -428,7 +441,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
 
         $pre_selling_marketing_cost = 0;
         $current_selling_marketing_cost = ($current_value_selling_marketing_cost / 500) * 100;
-        foreach (years()['years'] as $key => $year) {
+        foreach (years($pro_id)['years'] as $key => $year) {
             $pre_selling_marketing_cost =    ($prev_selling_marketing_cost / 500) * 100;
             $next1_selling_marketing_cost =  ($nxt1_selling_marketing_cost / 500) * 100;;
             $next2_selling_marketing_cost =  ($nxt2_selling_marketing_cost / 500) * 100;;
@@ -451,7 +464,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             'next2_selling_marketing_cost' => $next2_selling_marketing_cost,
             'next3_selling_marketing_cost' => $next3_selling_marketing_cost,
             'next4_selling_marketing_cost' => $next4_selling_marketing_cost,
-            
+
         ]);
     }
     /**

@@ -2,7 +2,10 @@
 
 use App\Models\admin\Project;
 
-
+use App\Models\ProjectFsGeneralIncome;
+use App\Models\ProjectFsGeneralIncomeIncremental;
+use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
+use App\Models\ProjectFsGeneralAdministrativeExpenses;
 function projectDetail($id){
     $project = Project::where('id',$id)->where('owner_id' , Auth::user()->id)->first();
     $study_duration =$project->study_duration;
@@ -115,4 +118,59 @@ function model_assumptions($work_start_date, $development_stage, $year_days_numb
         'vat' => $vat,
     ];
 
+}
+
+function incomeData($pro_id){
+    $project = Project::where('id',$pro_id)->first();
+
+    $projectStartDate = new DateTime($project->start_date);
+
+    $operationDate = date('Y-m-d', strtotime("+".$project->development_duration." months", strtotime($project->start_date)));
+
+    //$operationDate = new DateTime($operationDate);
+    //$year= $operationDate->format('Y');
+    $year= date('Y', strtotime($operationDate));
+    $yearCurrent = date('Y', strtotime('12/31'));
+    $yearEnd = date('Y-m-d', strtotime('12/31/'.$year));
+
+    //$yearEnd = date('Y-m-d', strtotime('12/31'));
+    $datediff = strtotime($yearEnd) - strtotime($operationDate);
+
+    $remainingDays =  round($datediff / (60 * 60 * 24));
+
+    $remainingmonths =  round($datediff / (60 * 60 * 24*30));
+
+            $data = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
+            $totleIncomeMounth =0;
+            $totleIncomeToEndYear=0;
+            $totleIncomeYear=0;
+            foreach($data as $dataa){
+               $totleIncomeMounth += ($dataa->value * $dataa->quantity);
+               $totleIncomeToEndYear += ($dataa->value * $dataa->quantity) * $remainingmonths;
+               $totleIncomeYear += ($dataa->value * $dataa->quantity) * 12;
+
+            };
+            $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$pro_id)->first();
+            //dd($projectFsGeneralIncomeIncremental);
+            $projectFsGeneralIncomeIncrementalDetail =ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get()->toArray();
+            $prev=$totleIncomeYear;
+            $totleIncomeAvaragee=0;
+            $totleIncomee=0;
+            $IncomeAvargePersent=0;
+            foreach($projectFsGeneralIncomeIncrementalDetail as $item =>$val){
+
+                $IncomeAvargePersent +=$val['incremental'];
+
+                    $totleYear[$item]=
+                    ( (($val['incremental']/100 ) +1)) * $prev ;
+
+
+                $prev =$totleYear[$item];
+
+            }
+
+            return [
+                'totleYear' => $totleYear,
+                'totleIncomeToEndYear'=>$totleIncomeToEndYear,
+            ];
 }

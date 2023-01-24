@@ -182,12 +182,36 @@
                                     <div class="mb-3 price col-10">
 
                                         <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                            <input placeholder="نسبة نمو الإيرادات" style="background-color: #FAFAFA;" type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                            <input placeholder="نسبة نمو الإيرادات" value="<?php echo e($projectFsGeneralIncomeIncremental->incremental); ?>" style="background-color: #FAFAFA;" type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                             <span class="input-group-addon bootstrap-touchspin-postfix input-group-append" style="background-color: #FAFAFA;">
                                                     <span class="input-group-text black_text " style="font-weight: 500;">%</span></span>
                                         </div>
                                         <span class="text-danger error-text value_incremental_error"></span>
                                     </div></div>
+                                    <?php if($projectFsGeneralIncomeIncrementalDetail->isNotEmpty()): ?>
+                                    <div class="table-responsive">
+                                        <table class="table align-middle table-nowrap table-check" style="width: 50%;">
+                                    <thead>
+                                    <tr style="background: rgba(244, 244, 244, 0.5);  ">
+                                        <th class="align-middle">السنة / البند</th>
+                                        <th>نسبة النمو في قيمة الإيراد</th>
+                                    </tr>
+                                    </thead>
+                             <tbody id="incrementals" style="line-height: 0px;">
+                               <?php $__currentLoopData = $projectFsGeneralIncomeIncrementalDetail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr class=" bootstrap-touchspin bootstrap-touchspin-injected">
+                                    <input hidden name="id[]" value="<?php echo e($item->project_fs_income_incremental_id); ?>">
+                                    <td><?php echo e($item->year); ?> <input hidden name="year[]" value="<?php echo e($item->year); ?>"></td>
+                                    <td>
+                         <input style="background-color: #FAFAFA;" type="text" name="value_incremental[]" class="form-control" value="<?php echo e($item->incremental); ?> " >
+                                    </td>
+                                </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                             </tbody>
+                                </table>
+                                </div>
+                                <?php else: ?>
                                 <div class="d-flex justify-content-end">
                                     <button type="button" value="حفظ ومتابعة ->" name="value_incremental_button" style="    font-size: 13px;font-weight: 600;
                                         background: none;
@@ -199,6 +223,8 @@
                                         تخصيص نسبة النمو +
                                     </button>
                                 </div>
+                                <?php endif; ?>
+
 
                                 <div class="row">
 
@@ -254,6 +280,8 @@
 
                                         </tr>
                                         </thead>
+
+
                                         <tbody id="incremental_data" style="color: #0A0A0A; font-weight: 400">
 
                                         </tbody>
@@ -385,11 +413,11 @@
                                     </tr>
                                     </thead>
                                     <tbody data-repeater-list="inner-group" class="inner ">
-                                    <?php if(isset($projectIncomes)): ?>
-                                        <?php if($projectIncomes->count()>0): ?>
+                                    <?php if(isset($projectEXpIncomes)): ?>
+                                        <?php if($projectEXpIncomes->count()>0): ?>
 
 
-                                            <?php $__currentLoopData = $projectIncomes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectIncome): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $__currentLoopData = $projectEXpIncomes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectIncome): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div data-repeater-item  class=" row add_income_expenses_item">
                                                     <tr>
                                                         <input hidden name="item_id[]" value="<?php echo e($projectIncome->id); ?>">
@@ -399,8 +427,8 @@
                                                         <td>
 
                                                             <select style="background-color: #FAFAFA;" class="form-control" name="expensis_type[]">
-                                                                <option value="0" <?php if($projectIncome->value == "0"): ?> <?php echo e('selected'); ?> <?php endif; ?> >مبلغ ثابت</option>
-                                                                <option value="1" <?php if($projectIncome->value == "1"): ?> <?php echo e('selected'); ?> <?php endif; ?>>نسبة من ايرادات المنتج</option>
+                                                                <option value="0" <?php if($projectIncome->expensis_type == "0"): ?> <?php echo e('selected'); ?> <?php endif; ?> >مبلغ ثابت</option>
+                                                                <option value="1" <?php if($projectIncome->expensis_type == "1"): ?> <?php echo e('selected'); ?> <?php endif; ?>>نسبة من ايرادات المنتج</option>
                                                                 
                                                             </select>
                                                             <span class="text-danger error-text item_error"></span>
@@ -445,11 +473,55 @@
                                             
 
                                         <?php else: ?>
+                                        <?php $__currentLoopData = $projectIncomes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectIncome): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <div data-repeater-item  class=" row add_income_expenses_item">
                                             <tr>
-                                                <td colspan="12"
-                                                    class="text-center font-weight-bold " id="emptyincome_expenses" style="color:   rgba(10, 10, 10, 0.6);font-weight: 500"><?php echo e('أضف منتجات / خدمات مشروعك'); ?></td>
+                                                <input hidden name="item_id[]" value="<?php echo e($projectIncome->id); ?>">
 
+                                                <td> <input style="background-color: #FAFAFA;" type="text" name="item[]" value="<?php echo e($projectIncome->item); ?>" class="form-control" id="verticalnav-pancard-input">
+                                                    <span class="text-danger error-text item_error"></span></td>
+                                                <td>
+
+                                                    <select style="background-color: #FAFAFA;" class="form-control" name="expensis_type[]">
+                                                        <option value="0" <?php if($projectIncome->value == "0"): ?> <?php echo e('selected'); ?> <?php endif; ?> >مبلغ ثابت</option>
+                                                        <option value="1" <?php if($projectIncome->value == "1"): ?> <?php echo e('selected'); ?> <?php endif; ?>>نسبة من ايرادات المنتج</option>
+                                                        
+                                                    </select>
+                                                    <span class="text-danger error-text item_error"></span>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                        <input style="background-color: #FAFAFA;" type="text" name="value[]" value="<?php echo e($projectIncome->value); ?>"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                                        <span class="input-group-addon bootstrap-touchspin-postfix input-group-append" style="background-color: #FAFAFA;">
+                                                        <?php if($projectIncome->expensis_type == 0): ?>
+                                                                <span class="input-group-text black_text " style="font-weight: 500;"> <?php if($project->currency == "ksa"): ?>
+                                                                        ر.س
+                                                                    <?php else: ?>
+                                                                        USD
+                                                                    <?php endif; ?>
+                                                            </span></span>
+                                                        <?php else: ?>
+                                                            <span class="input-group-text black_text " style="font-weight: 500;">%</span></span>
+                                                        <?php endif; ?>
+
+                                                    </div>
+
+
+
+                                                    <span class="text-danger error-text value_error"></span></td>
+                                                <td> <input style="background-color: #FAFAFA;" type="text" readonly name="quantity[]" value="<?php echo e($projectIncome->quantity); ?>"  onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                                    <span class="text-danger error-text quantity_error"></span></td>
+                                                <td>     <button class="text-danger rounded-circle"
+                                                                 type="button" id="delete_income_expenses_item" style="cursor: pointer;    background: none;
+                                                                                                    border: none;">
+                                                        <i class="mdi mdi-delete font-size-20"></i></button>
+                                                    <span class="text-danger error-text sale_channels_error"></span>
+                                                </td>
                                             </tr>
+
+                                        </div>
+
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
                                     <?php endif; ?>
 
@@ -562,16 +634,43 @@
                             <form id="form_4" name="form_4" class="form-horizontal">
                                 <div class="mb-3 price">
                                     <label for="verticalnav-pancard-input"><strong>نسبة نمو التكاليف</strong></label>
-                                    <input type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                    <input type="text" value="<?php echo e($projectExpGeneralIncomeIncremental->incremental); ?>" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                     <span class="text-danger error-text value_incremental_error"></span>
                                     <span class="ral text-center pt-2">٪</span>
                                 </div>
+                                <?php if($projectExpGeneralIncomeIncrementalDetail->isNotEmpty()): ?>
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-nowrap table-check" style="width: 50%;">
+                                <thead>
+                                <tr style="background: rgba(244, 244, 244, 0.5);  ">
+                                    <th class="align-middle">السنة / البند</th>
+                                    <th>نسبة النمو في قيمة الإيراد</th>
+                                </tr>
+                                </thead>
+                         <tbody id="incrementals" style="line-height: 0px;">
+                            <?php $__currentLoopData = $projectExpGeneralIncomeIncrementalDetail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr class=" bootstrap-touchspin bootstrap-touchspin-injected">
+                                <input hidden name="id[]" value="<?php echo e($item->project_exp_income_incremental_id); ?>">
+                                <td><?php echo e($item->year); ?> <input hidden name="year[]" value="<?php echo e($item->year); ?>"></td>
+                                <td>
+                     <input style="background-color: #FAFAFA;" type="text" name="value_incremental[]" class="form-control" value="<?php echo e($item->incremental); ?> " >
+                                </td>
+                            </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                         </tbody>
+                            </table>
+                            </div>
+                            <?php else: ?>
+                            <div class="d-flex justify-content-end">
                                 <button type="button" value="حفظ ومتابعة ->" name="value_exp_incremental_button" style="    font-size: 17px;
-                                        background: none;
-                                        border: none;
-                                        color: rgb(249 170 28);" class="" id="value_exp_incremental_button" >
-                                    تخصيص نسبة التكاليف +
-                                </button>
+                                    background: none;
+                                    border: none;
+                                    color: rgb(249 170 28);" class="" id="value_exp_incremental_button" >
+                                تخصيص نسبة التكاليف +
+                            </button>
+                            </div>
+                            <?php endif; ?>
+
 
 
                                 <div class="row">
@@ -813,8 +912,8 @@
             if (e.target.id == 'add_income_expenses_item') {
                 $("#emptyincome_expenses").hide()
                 $(".expensis_typerepeater").append(`
-                   <tr data-repeater-item class="inner mb-4">\
-                                        <td>\
+                   <tr data-repeater-item class="inner mb-4">
+                                        <td>
                                      <div class="d-flex flex-row"  id="sales_channels">
                                     <div id="mapDiv" class="col-12">
                                        <select style="background-color: #FAFAFA;" onchange="checkAlert(event)" id="executive"  class="form-select my-2"  name="item[]">
@@ -827,13 +926,14 @@
                 <span class="text-danger error-text item_error"></span>
                     </div>
                     </div>
-               </td>\
-                <td>\
+               </td>
+                <td>
                <select style="background-color: #FAFAFA;" class="form-select" name="expensis_type[]">
                 <option value="0">مبلغ ثابت</option>
                 <option value="1">نسبة من ايرادات المنتج</option>
                 <option value="2">نسبة من ايرادات العامة</option>
             </select>
+            <input hidden name="item_id[]" value="0">
             <span class="text-danger error-text item_error"></span> </div>
             </td>
             <td>
@@ -985,10 +1085,11 @@
 
         function checkAlert(evt) {
             if (evt.target.value === "أخري") {
-               // $('#mapDiv').removeClass('col-12');
-                //$('#mapDiv').addClass('col-1');
+               $('#mapDiv').removeClass('col-12');
+                $('#mapDiv').addClass('col-1');
                 $('#executive').attr("style", "background-color:#B6B6B6;")
                 $('#sales_channels').append(`<div class="my-2 col-9"><input name="item[]" type="text" class="inner form-control"  value="" placeholder="" style="background-color:  #FAFAFA;" /></div>`);
+
                 $('#mapDiv').attr("style", "display:contents;")
                 $('#executive').disabled;
             }else{
