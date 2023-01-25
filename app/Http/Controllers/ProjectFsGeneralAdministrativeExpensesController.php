@@ -120,7 +120,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
 
     public function fetch_administrative_expenses(Request $request,$pro_id)
     {
-     
+
         $data = ProjectFsGeneralAdministrativeExpenses::where('project_id',$pro_id)->first();
        // dd($data);
         $item = 0;
@@ -142,13 +142,15 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             }
 
             $pre = 0;
-            $current = ($current_value / 500) * 100;
+            $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
             foreach (years($pro_id)['years'] as $key => $year) {
-                $pre =    ($prev / 500) * 100;
-                $next1 =  ($nxt1 / 500) * 100;;
-                $next2 =  ($nxt2 / 500) * 100;;
-                $next3 =  ($nxt3 / 500) * 100;;
-                $next4 =  ($nxt4 / 500) * 100;;
+                foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+                $pre =    ($prev / $item) * 100;
+                $next1 =  ($nxt1 / $item) * 100;;
+                $next2 =  ($nxt2 / $item) * 100;;
+                $next3 =  ($nxt3 / $item) * 100;;
+                $next4 =  ($nxt4 / $item) * 100;;
+                }
             }
         }
         if ($data->type == 'amount') {
@@ -165,14 +167,16 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             }
 
             $pre = 0;
-            $current = ($current_value / 500) * 100;
+            $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
             foreach (years($pro_id)['years'] as $key => $year) {
-                $pre =    ($prev / 500) * 100;
-                $next1 =  ($nxt1 / 500) * 100;;
-                $next2 =  ($nxt2 / 500) * 100;;
-                $next3 =  ($nxt3 / 500) * 100;;
-                $next4 =  ($nxt4 / 500) * 100;;
+                foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+                $pre =    ($prev / $item) * 100;
+                $next1 =  ($nxt1 / $item) * 100;;
+                $next2 =  ($nxt2 / $item) * 100;;
+                $next3 =  ($nxt3 / $item) * 100;;
+                $next4 =  ($nxt4 / $item) * 100;;
             }
+        }
         }
         if ($data->type == 'ratio') {
             $current_value = ($data->value / 100);
@@ -187,21 +191,25 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             }
 
             $pre = 0;
-            $current = ($current_value / 500) * 100;
+            $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
             foreach (years($pro_id)['years'] as $key => $year) {
-                $pre =    ($prev / 500) * 100;
-                $next1 =  ($nxt1 / 500) * 100;;
-                $next2 =  ($nxt2 / 500) * 100;;
-                $next3 =  ($nxt3 / 500) * 100;;
-                $next4 =  ($nxt4 / 500) * 100;;
+                foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+                $pre =    ($prev / $item) * 100;
+                $next1 =  ($nxt1 / $item) * 100;;
+                $next2 =  ($nxt2 / $item) * 100;;
+                $next3 =  ($nxt3 / $item) * 100;;
+                $next4 =  ($nxt4 / $item) * 100;;
             }
         }
+        }
+        $yearCurrent = date('Y', strtotime('12/31'));
+
 
         return response()->json([
             'message' => 'success',
             'item' => $item,
             'data' => $data,
-            'year' => $year,
+            'year' => $yearCurrent,
             'current_value' => $current_value,
             'prev' => $prev,
             'nxt1' => $nxt1,
@@ -255,7 +263,8 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
     public function fetch_rent_details(Request $request,$pro_id)
     {
 
-
+    //dd('dd');
+    $rentArray = array();
         $data = ProjectFsRent::where('project_id', $request->id)->first();
         $item = 0;
         if ($data->type == 'custom') {
@@ -274,7 +283,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             $current = 0;
             $prevValue = 0;
             $rentIncemental = 0;
-            $rentArray = array();
+//$rentArray = array();
             foreach ($rentItems as $item) {
                 $prevValue = $item->value;
                 $rentArrayy = [$item->title,$prevValue];
@@ -294,6 +303,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
         }
 
         if ($data->type == 'amount') {
+           // dd('s');
             $current_value = $data->value;
 
             $growth = ProjectFsRent::where('project_id', $pro_id)->get();
@@ -308,15 +318,18 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             }
 
             $pre = 0;
-            $current = ($current_value / 500) * 100;
+            $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
             foreach (years($pro_id)['years'] as $key => $year) {
-                $pre =    ($prev / 500) * 100;
-                $next1 =  ($nxt1 / 500) * 100;;
-                $next2 =  ($nxt2 / 500) * 100;;
-                $next3 =  ($nxt3 / 500) * 100;;
-                $next4 =  ($nxt4 / 500) * 100;;
+                foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+                $pre =    ($prev / $item) * 100;
+                $next1 =  ($nxt1 / $item) * 100;;
+                $next2 =  ($nxt2 / $item) * 100;;
+                $next3 =  ($nxt3 / $item) * 100;;
+                $next4 =  ($nxt4 / $item) * 100;;
             }
         }
+        }
+       // dd($pre);
         $yearCurrent = date('Y', strtotime('12/31'));
 
         //dd($rentArray);
@@ -378,10 +391,13 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             $nxt3 = $nxt2 * (1 + ($growth[3]->incremental / 100));
             $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
         }
+        $yearCurrent = date('Y', strtotime('12/31'));
+       // dd($pre);
+
         return response()->json([
             'message' => 'success',
             'item' => $item,
-            'year' => $year,
+            'year' => $yearCurrent,
             'current_value' => $current_value,
             'prev' => $prev,
             'nxt1' => $nxt1,
@@ -407,10 +423,12 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             $nxt3 = $nxt2 * (1 + ($growth[3]->incremental / 100));
             $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
         }
+        $yearCurrent = date('Y', strtotime('12/31'));
+
         return response()->json([
             'message' => 'success',
             'item' => $item,
-            'year' => $year,
+            'year' => $yearCurrent,
             'current_value' => $current_value,
             'prev' => $prev,
             'nxt1' => $nxt1,
@@ -423,6 +441,7 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
     public function fetch_all_details(Request $request,$pro_id)
     {
 
+       // dd('dd');
         $data_selling_marketing_cost = ProjectFsSellingAndMarketingCost::where('project_id', $request->id)->first();
         $item_selling_marketing_cost = 0;
 
@@ -440,17 +459,21 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
         }
 
         $pre_selling_marketing_cost = 0;
-        $current_selling_marketing_cost = ($current_value_selling_marketing_cost / 500) * 100;
+        $current_selling_marketing_cost = ($current_value_selling_marketing_cost /  incomeData($pro_id)['totleIncomeToEndYear']) * 100;
         foreach (years($pro_id)['years'] as $key => $year) {
-            $pre_selling_marketing_cost =    ($prev_selling_marketing_cost / 500) * 100;
-            $next1_selling_marketing_cost =  ($nxt1_selling_marketing_cost / 500) * 100;;
-            $next2_selling_marketing_cost =  ($nxt2_selling_marketing_cost / 500) * 100;;
-            $next3_selling_marketing_cost =  ($nxt3_selling_marketing_cost / 500) * 100;;
-            $next4_selling_marketing_cost =  ($nxt4_selling_marketing_cost / 500) * 100;;
+                foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+            $pre_selling_marketing_cost =    ($prev_selling_marketing_cost / $item) * 100;
+            $next1_selling_marketing_cost =  ($nxt1_selling_marketing_cost / $item) * 100;;
+            $next2_selling_marketing_cost =  ($nxt2_selling_marketing_cost / $item) * 100;;
+            $next3_selling_marketing_cost =  ($nxt3_selling_marketing_cost / $item) * 100;;
+            $next4_selling_marketing_cost =  ($nxt4_selling_marketing_cost / $item) * 100;;
         }
+    }
+        $yearCurrent = date('Y', strtotime('12/31'));
+
         return response()->json([
             'message' => 'success',
-            'year' => $year,
+            'year' => $yearCurrent,
             'item_selling_marketing_cost' => $item_selling_marketing_cost,
             'data_selling_marketing_cost' => $data_selling_marketing_cost,
             'current_value_selling_marketing_cost' => $current_value_selling_marketing_cost,

@@ -75,7 +75,7 @@ class ProjectFsSellingAndMarketingCostController extends Controller
 
         $data = ProjectFsSellingAndMarketingCost::where('project_id', $request->id)->first();
         // dd($data);
-        $marketing_ratio = ($data->marketing_ratio / 100) * 5000;
+        $marketing_ratio = ($data->marketing_ratio / 100) * incomeData($request->id)['totleIncomeToEndYear'];
         $marketing_amount = $data->marketing_amount;
         $marketing_growth_rate = $data->marketing_growth_rate;
         return response()->json([
@@ -104,20 +104,24 @@ class ProjectFsSellingAndMarketingCostController extends Controller
         }
 
         $pre = 0;
-        $current = ($current_value / 500) * 100;
+        $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
         foreach (years($pro_id)['years'] as $key => $year) {
-            $pre =    ($prev / 500) * 100;
-            $next1 =  ($nxt1 / 500) * 100;;
-            $next2 =  ($nxt2 / 500) * 100;;
-            $next3 =  ($nxt3 / 500) * 100;;
-            $next4 =  ($nxt4 / 500) * 100;;
+            foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+            $pre =    ($prev / $item) * 100;
+            $next1 =  ($nxt1 / $item) * 100;;
+            $next2 =  ($nxt2 / $item) * 100;;
+            $next3 =  ($nxt3 / $item) * 100;;
+            $next4 =  ($nxt4 / $item) * 100;;
         }
+    }
+    $yearCurrent = date('Y', strtotime('12/31'));
+
 
         return response()->json([
             'message' => 'success',
             'item' => $item,
             'data' => $data,
-            'year' => $year,
+            'year' => $yearCurrent,
             'current_value' => $current_value,
             'prev' => $prev,
             'nxt1' => $nxt1,

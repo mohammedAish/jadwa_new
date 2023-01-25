@@ -88,6 +88,7 @@ class FeasibilityStudiesController extends Controller
         $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$project->id)->first();
         $projectFsGeneralIncomeIncrementalDetail = ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get();
         $projectEXpIncomes = ProjectExpGeneralIncome::where('project_id',$project->id)->get();
+       // dd($projectEXpIncomes);
         $projectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',$project->id)->first();
 
         $projectExpGeneralIncomeIncrementalDetail = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$projectExpGeneralIncomeIncremental->id)->get();

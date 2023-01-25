@@ -32,7 +32,7 @@ $items =[];
               }
 
         }
-        // dd($data);
+    // dd($items);
         //dd($request->item[2]);
         // $data= $request->except(['item.2']);
         // $request->validate([
@@ -57,7 +57,7 @@ $items =[];
            // dd($item);
            //array_push($items, $item);
            $item_id = $request->get('item_id');
-           //dd($item_id);
+          // dd($item_id);
             $value = $request->get('value');
             //dd($value);
             $quantity = $request->get('quantity');
@@ -68,11 +68,14 @@ $items =[];
                  for($i = 0; $i<$count_items; $i++)
                  {
                   //  dd($projectExpGeneralIncome[$i]['id']);
-                    $fsIncome= ProjectFsGeneralIncome::where('item',$items[$i])->first();
+                    $fsIncome= ProjectFsGeneralIncome::where('id',$item_id[$i])->first();
+                 //dd($fsIncome);
                     if($fsIncome != null){
                        $fsIncomee =$fsIncome->id;
                     }else{
-                        $fsIncomee =0;
+                        $fsIncome= ProjectExpGeneralIncome::where('id',$item_id[$i])->first();
+
+                        $fsIncomee =$fsIncome->fsIncome_id;
                     }
                    // dd($item_id);
                     if(($count_projectExpGeneralIncome !=0) &&($item_id[$i] != 0)){

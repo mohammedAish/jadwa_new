@@ -1336,8 +1336,8 @@ unset($__errorArgs, $__bag); ?>"
                                             <tbody id="view_incremental_data">\
                                                     <th id="title_expenses">المصاريف الادارية</th>\
                                                     <th id="th_expenses1">'+response.data.value+'</th>\
-                                                    <th id="th_expenses2">500000</th>\
-                                                    <th id="total_expenses">'+response.data.value /100 * incomeData('$project->id')['totleIncomeToEndYear']+'</th>\
+                                                    <th id="th_expenses2"><?php echo e(incomeData($project->id)['totleIncomeToEndYear']); ?></th>\
+                                                    <th id="total_expenses">'+(response.data.value /100) * <?php echo e(incomeData($project->id)['totleIncomeToEndYear']); ?> +'</th>\
                                             </tbody>\
                                         </table></div>');
                             }
@@ -1354,7 +1354,7 @@ unset($__errorArgs, $__bag); ?>"
                                             <tbody id="view_incremental_data">\
                                                     <th id="title_expenses">المصاريف الادارية</th>\
                                                     <th id="th_expenses1">'+response.data.value+'</th>\
-                                                    <th id="th_expenses2">'+incomeData('$project->id')['totleIncomeToEndYear']+'</th>\
+                                                    <th id="th_expenses2"><?php echo e(incomeData($project->id)['totleIncomeToEndYear']); ?></th>\
                                             </tbody>\
                                         </table></div>');
                             }
@@ -1536,12 +1536,10 @@ unset($__errorArgs, $__bag); ?>"
                                             </tr>\
                                             <tr>\
                                                     <th id="title_expenses">الإيرادات</th>\
-                                                    <th id="th_expenses1">500</th>\
-                                                    <th id="th_expenses2">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
+                                                    <th id="th_expenses1"><?php echo e(incomeData($project->id)['totleIncomeToEndYear']); ?></th>\
+                                                            <?php $__currentLoopData = incomeData($project->id)['totleYear']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $totleYears): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                            <th id="th_expenses1">' + formatter.format(<?php echo e($totleYears); ?>)+ '</th>\
+                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                             </tr>\
                                             <tr>\
                                                     <th id="title_expenses">نسبة مصاريف إدارية<br> من الإيرادات</th>\
@@ -1655,12 +1653,10 @@ unset($__errorArgs, $__bag); ?>"
                                             </tr>\
                                             <tr>\
                                                     <th id="title_expenses">الإيرادات</th>\
-                                                    <th id="th_expenses1">500</th>\
-                                                    <th id="th_expenses2">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
+                                                    <th id="th_expenses1"><?php echo e(incomeData($project->id)['totleIncomeToEndYear']); ?></th>\
+                                                            <?php $__currentLoopData = incomeData($project->id)['totleYear']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $totleYears): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                            <th id="th_expenses1">' + formatter.format(<?php echo e($totleYears); ?>)+ '</th>\
+                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                             </tr>\
                                             <tr>\
                                                     <th id="title_expenses">نسبة الايجارات <br> من الإيرادات</th>\
@@ -1693,7 +1689,7 @@ unset($__errorArgs, $__bag); ?>"
                                         </table>\
                                     </div>');
                                     $.each(response.item, function(prefix, val) {
-                                        // console.log(response);
+                                        console.log(response);
                                             $('#view_rent_dataa').after('\
     <tr id="view_rent_dataas">\
         </tr>\
@@ -1882,12 +1878,10 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                             </tr>\
                                             <tr>\
                                                     <th id="title_expenses">الإيرادات</th>\
-                                                    <th id="th_expenses1">500</th>\
-                                                    <th id="th_expenses2">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
-                                                    <th id="total_expenses">500</th>\
+                                                    <th id="th_expenses1"><?php echo e(incomeData($project->id)['totleIncomeToEndYear']); ?></th>\
+                                                            <?php $__currentLoopData = incomeData($project->id)['totleYear']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $totleYears): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                            <th id="th_expenses1">' + formatter.format(<?php echo e($totleYears); ?>)+ '</th>\
+                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
                                             </tr>\
                                             <tr>\
                                                     <th id="title_expenses">نسبة تكاليف التسويق<br> من الإيرادات</th>\
@@ -1980,7 +1974,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                     let num4 =  parseInt($('#th_d_a').html()) + parseInt($('#th_d_b').html()) + parseInt($('#th_d_c').html())+ parseInt($('#th_d_d').html())+ parseInt($('#th_d_e').html());
                                     let num5 =  parseInt($('#th_e_a').html()) + parseInt($('#th_e_b').html()) + parseInt($('#th_e_c').html())+ parseInt($('#th_e_d').html())+ parseInt($('#th_e_e').html());
 
-
+                                    console.log(num2);
                                     $('#last').after('<tr style="background:#3CC0B9">\
                                                     <th id="title_expenses">الإجمالي </th>\
                                                     <th id="total_expenses1">' + formatter.format(num1) + '</th>\
