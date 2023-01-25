@@ -56,6 +56,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
 
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 
 //Update User Details
@@ -145,6 +146,7 @@ Route::controller(FeasibilityStudiesController::class)->group(function (){
     Route::post('update-project-product-service', 'update_service')->name('update_project_product_service');
     Route::post('delete-project-product-service', 'delete_service')->name('delete_project_product_service');
     Route::get('fetch_project_services', 'fetch_project_services')->name('fetch_project_services');
+    Route::resource('reports',\App\Http\Controllers\ReportController::class);
 });
 });
 

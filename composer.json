@@ -32,7 +32,8 @@
         },
         "files": [
             "app/helpers.php",
-            "app/fs_helpers.php"
+            "app/fs_helpers.php",
+            "app/report_helper.php"
         ]
     },
     "autoload-dev": {
