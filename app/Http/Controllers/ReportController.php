@@ -15,17 +15,31 @@ class ReportController extends Controller
      */
     public function index($pro_id)
     {
-
-       $project=
 //        echo years_selling_and_marketing_expenses_of_revenue();
-//        $project=Project::findOrFail($pro_id);
+       $project=Project::findOrFail($pro_id);
         $marketing=fetch_marketing_details($pro_id);
         $numberOfyears=numberOfyears($pro_id);
+        $firstYearEarnings=first_year_earnings($pro_id);
         $annualGrowthRateOfRevenuesDuringTheStudyPeriod=annual_growth_rate_of_revenues_during_the_study_period($pro_id);
+        $TotalAnnualRevenuesDuringTheStudyPeriod=Table_of_total_annual_revenues_during_the_study_period($pro_id);
+        $incomeData=incomeData($pro_id);
+        $firstYearJob=first_year_job($pro_id);
+        $changeNumberOfEmployee=change_number_of_employee($pro_id);
+        $change_incremental_of_employee=change_incremental_of_employee($pro_id);
+        $changeSalariesOfEmployee=change_salaries_of_employee($pro_id);
+        $sumSummaryOfChangeOfSalaries=sum_summary_of_change_of_salaries($pro_id);
         return view('admin.report.index')->with([
+            'project'=>$project,
+            'incomeData'=>$incomeData,
             'marketing'=>$marketing,
+            'firstYearEarnings'=>$firstYearEarnings,
             'numberOfyears'=>$numberOfyears,
-        'annualGrowthRateOfRevenuesDuringTheStudyPeriod'=>$annualGrowthRateOfRevenuesDuringTheStudyPeriod,
+            'annualGrowthRateOfRevenuesDuringTheStudyPeriod'=>$annualGrowthRateOfRevenuesDuringTheStudyPeriod,
+            'TotalAnnualRevenuesDuringTheStudyPeriod'=>$TotalAnnualRevenuesDuringTheStudyPeriod,
+            'firstYearJob'=>$firstYearJob,'changeNumberOfEmployee'=>$changeNumberOfEmployee,
+            'change_incremental_of_employee'=>$change_incremental_of_employee,
+            'changeSalariesOfEmployee'=>$changeSalariesOfEmployee,
+            'sumSummaryOfChangeOfSalaries'=>$sumSummaryOfChangeOfSalaries
         ]);
     }
 
