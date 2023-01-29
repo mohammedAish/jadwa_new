@@ -4,10 +4,25 @@
 use App\Models\admin\Project;
 use App\Models\Employe;
 use App\Models\EmployeesDetails;
+use App\Models\ProjectExpGeneralIncome;
+use App\Models\ProjectExpGeneralIncomeIncremental;
+use App\Models\ProjectExpGeneralIncomeIncrementalDetail;
 use App\Models\ProjectFsGeneralIncome;
 use App\Models\ProjectFsGeneralIncomeIncremental;
 use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
 use App\Models\ProjectFsSellingAndMarketingCost;
+
+function operationModel($pro_id){
+    $project = Project::where('id',$pro_id)->first();
+    $operationDate = date('Y-m-d', strtotime("+".$project->development_duration." months", strtotime($project->start_date)));
+    $year= date('Y', strtotime($operationDate));
+    $yearCurrent = date('Y', strtotime('12/31'));
+    $yearEnd = date('Y-m-d', strtotime('12/31/'.$year));
+    $datediff = strtotime($yearEnd) - strtotime($operationDate);
+    $remainingmonths =  round($datediff / (60 * 60 * 24*30));
+    $remainingFromYear =  $remainingmonths/12;
+    return['remainingmonths'=>$remainingmonths,'remainingFromYear'=>$remainingFromYear,'yearCurrent'=>$yearCurrent];
+}
 
 function numberOfyears($id): array
 
@@ -35,25 +50,22 @@ function numberOfyears($id): array
 
 function fetch_marketing_details($pro_id)
 {
-//    $data = ProjectFsSellingAndMarketingCost::where('project_id', $request->id)->first();
-    $data = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
-    $item = 0;
 
-//    $item = ProjectFsSellingAndMarketingCost::where('project_id', $request->id)->first();
+    $data = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
     $item = ProjectFsSellingAndMarketingCost::where('project_id',$pro_id)->first();
-//    $current_value = $item->marketing_amount + $item->marketing_ratio;
-    $current_value = 20000+30 ;
+    $totleIncomeToEndYear=first_year_earnings($pro_id)['totleIncomeToEndYear'];
+/*    dd($totleIncomeToEndYear);*/
+//    $current_value = ($item->marketing_amount) + (($item->marketing_ratio/100)*ٌقيمة الايراد);
+    $current_value = ($item->marketing_amount) + (($item->marketing_ratio/100)*$totleIncomeToEndYear);
+
     $growth = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
-//    $marketing_growth_rate=$growth->marketing_growth_rate;
-    $marketing_growth_rate = 10;
     $prev = 0;
     foreach (years($pro_id)['years'] as $key => $year) {
-//        $prev = $current_value * (1 + ($growth->marketing_growth_rate / 100));
-        $prev = $current_value * (1 + ($marketing_growth_rate / 100));
-        $nxt1 = $prev * (1 + ($marketing_growth_rate / 100));
-        $nxt2 = $nxt1 * (1 + ($marketing_growth_rate / 100));
-        $nxt3 = $nxt2 * (1 + ($marketing_growth_rate / 100));
-        $nxt4 = $nxt3 * (1 + ($marketing_growth_rate/ 100));
+        $prev = $current_value * (1 + ($growth->marketing_growth_rate / 100));
+        $nxt1 = $prev * (1 + ($growth->marketing_growth_rate / 100));
+        $nxt2 = $nxt1 * (1 + ($growth->marketing_growth_rate / 100));
+        $nxt3 = $nxt2 * (1 + ($growth->marketing_growth_rate / 100));
+        $nxt4 = $nxt3 * (1 + ($growth->marketing_growth_rate/ 100));
     }
 
     $pre = 0;
@@ -86,16 +98,7 @@ function fetch_marketing_details($pro_id)
 }
 
 function first_year_earnings($pro_id){
-
-    $project = Project::where('id',$pro_id)->first();
-    $operationDate = date('Y-m-d', strtotime("+".$project->development_duration." months", strtotime($project->start_date)));
-    $year= date('Y', strtotime($operationDate));
-
-    $yearEnd = date('Y-m-d', strtotime('12/31/'.$year));
-
-    $datediff = strtotime($yearEnd) - strtotime($operationDate);
-
-    $remainingmonths =  round($datediff / (60 * 60 * 24*30));
+    $remainingmonths=operationModel($pro_id)['remainingmonths'];
     $data = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
     $totleIncomeMounth =0;
     $totleIncomeToEndYear=0;
@@ -116,6 +119,7 @@ function first_year_earnings($pro_id){
 function annual_growth_rate_of_revenues_during_the_study_period($pro_id){
 
     $projectFsGeneralIncome = ProjectFsGeneralIncomeIncremental::query()->where('project_id',$pro_id)->first();
+
     $data =ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncome->id)->get();
     return ['data'=>$data,'projectFsGeneralIncome'=>$projectFsGeneralIncome];
 
@@ -143,12 +147,7 @@ function Table_of_total_annual_revenues_during_the_study_period($pro_id){
 }
 
 function first_year_job($pro_id){
-    $project = Project::where('id',$pro_id)->first();
-    $operationDate = date('Y-m-d', strtotime("+".$project->development_duration." months", strtotime($project->start_date)));
-    $year= date('Y', strtotime($operationDate));
-    $yearEnd = date('Y-m-d', strtotime('12/31/'.$year));
-    $datediff = strtotime($yearEnd) - strtotime($operationDate);
-    $remainingmonths =  round($datediff / (60 * 60 * 24*30));
+    $remainingmonths=operationModel($pro_id)['remainingmonths'];
     //get employee for first year
     $employees=\App\Models\Employe::where('project_id',$pro_id)->get();
 
@@ -199,12 +198,7 @@ function change_incremental_of_employee($pro_id){
 }
 
 function change_salaries_of_employee($pro_id){
-    $project = Project::where('id',$pro_id)->first();
-    $operationDate = date('Y-m-d', strtotime("+".$project->development_duration." months", strtotime($project->start_date)));
-    $year= date('Y', strtotime($operationDate));
-    $yearEnd = date('Y-m-d', strtotime('12/31/'.$year));
-    $datediff = strtotime($yearEnd) - strtotime($operationDate);
-    $remainingmonths =  round($datediff / (60 * 60 * 24*30));
+    $remainingmonths=operationModel($pro_id)['remainingmonths'];
     $employees = Employe::where('project_id',$pro_id)->get();
     $empDataS = array();
     $totleEmployeJobeToEndYear=0;
@@ -242,3 +236,85 @@ function sum_summary_of_change_of_salaries($pro_id){
     $sumSalaryy = array_slice($sumSalary, 1, 6);
     return['sumSalaryy'=>$sumSalaryy];
 }
+
+function first_year_expenses_incremental($pro_id){
+    $remainingmonths=operationModel($pro_id)['remainingmonths'];
+    //get expenses for first year
+    $expensesIncome = ProjectExpGeneralIncome::query()->where('project_id', $pro_id)->get();
+    // to return all sum
+    $totleIncomeMounthFS =0;
+    $totleIncomeToEndYearFS=0;
+    $totleIncomeYearFS=0;
+    foreach($expensesIncome as $expenses){
+        $totleIncomeMounthFS += ($expenses->value * $expenses->quantity);
+        $totleIncomeToEndYearFS += ($expenses->value * $expenses->quantity) * $remainingmonths;
+        $totleIncomeYearFS += ($expenses->value * $expenses->quantity) * 12;
+    }
+    return[
+        'expensesIncome'=>$expensesIncome,'totleIncomeMounthFS'=>$totleIncomeMounthFS,
+        'totleIncomeToEndYearFS'=>$totleIncomeToEndYearFS,
+        'totleIncomeYearFS'=>$totleIncomeYearFS,
+        'remainingmonths'=>$remainingmonths
+    ];
+}
+
+function Total_first_year_expenses_incremental($pro_id){
+    $firstYearExpensesIncremental=first_year_expenses_incremental($pro_id);
+    $data = ProjectExpGeneralIncome::with('fsIncome')->where('project_id', $pro_id)->get();
+    $totleIncomeMounth =0;
+    $totleIncomeToEndYear=0;
+    $totleIncomeYear=0;
+    foreach($data as $dataa){
+        $dataa->quantity = ($dataa->quantity==0)?1:$dataa->quantity;
+        if($dataa->expensis_type =='0'){
+            $expVale = $dataa->value  ;
+        } if($dataa->expensis_type =='1'){
+            $fsIncome=ProjectFsGeneralIncome::where('id',$dataa->fsIncome_id)->first();
+            $expVale=($dataa->value)* ($fsIncome->value/100) ;
+        }
+        if($dataa->expensis_type =='2'){
+            $expVale=($dataa->value/100) *$firstYearExpensesIncremental['totleIncomeMounthFS'] ;
+            $expValeEN=($dataa->value/100) *$firstYearExpensesIncremental['totleIncomeToEndYearFS'] ;
+            $expValeY=($dataa->value/100) *$firstYearExpensesIncremental['totleIncomeYearFS'] ;
+        }
+        $totleIncomeMounth += $dataa->quantity * $expVale;
+        $totleIncomeToEndYear = ($totleIncomeMounth * $firstYearExpensesIncremental['remainingmonths']) ;
+        $totleIncomeYear = ($totleIncomeMounth  * 12);
+    }
+
+    return['totleIncomeMounth'=>$totleIncomeMounth
+        ,'totleIncomeToEndYear'=>$totleIncomeToEndYear,'totleIncomeYear'=>$totleIncomeYear];
+}
+
+function growth_of_expenses_incremental($pro_id){
+    $totleIncomeYear=Total_first_year_expenses_incremental($pro_id)['totleIncomeYear'];
+    $projectExpGeneralIncome = ProjectExpGeneralIncomeIncremental::query()->where('project_id', $pro_id)->first();
+    $projectExpGeneralIncomeIncrementalDetail =ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$projectExpGeneralIncome->id)->get();
+    $IncomeAvargePersent=0;
+    $prev=$totleIncomeYear;
+    foreach($projectExpGeneralIncomeIncrementalDetail as $item =>$val){
+        $IncomeAvargePersent +=$val['incremental'];
+        $totleYear[$val['year']]=
+            ( (($val['incremental']/100 ) +1)) * $prev ;
+        $prev =$totleYear[$val['year']];
+    }
+    $IncomeAvargePersent = $IncomeAvargePersent /5;
+
+    return ['dataOfGrowthExpenses'=>$projectExpGeneralIncomeIncrementalDetail,
+        'projectExpGeneralIncome'=>$projectExpGeneralIncome,
+        'IncomeAvargePersent'=>$IncomeAvargePersent,'totleYear'=>$totleYear,
+    ];
+
+}
+
+function Total_expenses_incremental($pro_id){
+    $yearCurrent=operationModel($pro_id)['yearCurrent'];
+    $totleIncomeToEndYear= Total_first_year_expenses_incremental($pro_id)['totleIncomeToEndYear'];
+    $totleYear=growth_of_expenses_incremental($pro_id)['totleYear'];
+    return ['yearCurrent'=>$yearCurrent,'totleIncomeToEndYear'=>$totleIncomeToEndYear,
+        'totleYear'=>$totleYear
+        ];
+}
+
+
+

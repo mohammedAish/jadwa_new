@@ -28,6 +28,10 @@ class ReportController extends Controller
         $change_incremental_of_employee=change_incremental_of_employee($pro_id);
         $changeSalariesOfEmployee=change_salaries_of_employee($pro_id);
         $sumSummaryOfChangeOfSalaries=sum_summary_of_change_of_salaries($pro_id);
+        $firstYearExpensesIncremental=first_year_expenses_incremental($pro_id);
+        $totalFirstYearExpensesIncremental=Total_first_year_expenses_incremental($pro_id);
+        $growthOfExpensesIncremental=growth_of_expenses_incremental($pro_id);
+        $TotalExpensesIncremental=Total_expenses_incremental($pro_id);
         return view('admin.report.index')->with([
             'project'=>$project,
             'incomeData'=>$incomeData,
@@ -39,7 +43,11 @@ class ReportController extends Controller
             'firstYearJob'=>$firstYearJob,'changeNumberOfEmployee'=>$changeNumberOfEmployee,
             'change_incremental_of_employee'=>$change_incremental_of_employee,
             'changeSalariesOfEmployee'=>$changeSalariesOfEmployee,
-            'sumSummaryOfChangeOfSalaries'=>$sumSummaryOfChangeOfSalaries
+            'sumSummaryOfChangeOfSalaries'=>$sumSummaryOfChangeOfSalaries,
+            'firstYearExpensesIncremental'=>$firstYearExpensesIncremental,
+            'totalFirstYearExpensesIncremental'=>$totalFirstYearExpensesIncremental,
+            'growthOfExpensesIncremental'=>$growthOfExpensesIncremental,
+            'TotalExpensesIncremental'=>$TotalExpensesIncremental,
         ]);
     }
 
