@@ -220,7 +220,7 @@
                                                     <div class="col-md-6" >
 
                                                 <div class="input-group">
-                                                    <input type="text" id="project_financing" name="project_financing" disabled value="50000" class="form-control validate" >
+                                                    <input type="text" id="project_financing" name="project_financing" disabled value="{{$estimatedCostProject}}" class="form-control validate" >
                                                     <span class="text-danger error-text"></span>
                                                    </div>
                                                     </div>

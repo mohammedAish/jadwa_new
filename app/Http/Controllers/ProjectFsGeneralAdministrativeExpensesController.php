@@ -391,6 +391,17 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             $nxt3 = $nxt2 * (1 + ($growth[3]->incremental / 100));
             $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
         }
+        $prre = 0;
+        $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+            $prre =    ($prev / $item) * 100;
+            $next1 =  ($nxt1 / $item) * 100;
+            $next2 =  ($nxt2 / $item) * 100;
+            $next3 =  ($nxt3 / $item) * 100;
+            $next4 =  ($nxt4 / $item) * 100;
+        }
+    }
         $yearCurrent = date('Y', strtotime('12/31'));
        // dd($pre);
 
@@ -399,11 +410,17 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             'item' => $item,
             'year' => $yearCurrent,
             'current_value' => $current_value,
+            'current' => $current,
             'prev' => $prev,
             'nxt1' => $nxt1,
             'nxt2' => $nxt2,
             'nxt3' => $nxt3,
             'nxt4' => $nxt4,
+            'prre' => $prre,
+            'next1' => $next1,
+            'next2' => $next2,
+            'next3' => $next3,
+            'next4' => $next4,
             'success' => 'تم تخزين البيانات بنجاح'
         ]);
     }
@@ -424,17 +441,32 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
             $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
         }
         $yearCurrent = date('Y', strtotime('12/31'));
-
+        $prre = 0;
+        $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+            $prre =    ($prev / $item) * 100;
+            $next1 =  ($nxt1 / $item) * 100;
+            $next2 =  ($nxt2 / $item) * 100;
+            $next3 =  ($nxt3 / $item) * 100;
+            $next4 =  ($nxt4 / $item) * 100;
+        }}
         return response()->json([
             'message' => 'success',
             'item' => $item,
             'year' => $yearCurrent,
             'current_value' => $current_value,
+            'current' => $current,
             'prev' => $prev,
             'nxt1' => $nxt1,
             'nxt2' => $nxt2,
             'nxt3' => $nxt3,
             'nxt4' => $nxt4,
+            'prre' => $prre,
+            'next1' => $next1,
+            'next2' => $next2,
+            'next3' => $next3,
+            'next4' => $next4,
             'success' => 'تم تخزين البيانات بنجاح'
         ]);
     }

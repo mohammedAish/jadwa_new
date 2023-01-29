@@ -234,7 +234,7 @@
                                     <div class="mb-3 price col-10">
 
                                         <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                            <input placeholder="نسبة نمو الإيرادات" value="{{$projectFsGeneralIncomeIncremental->incremental}}" style="background-color: #FAFAFA;" type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                            <input placeholder="نسبة نمو الإيرادات"   @if($projectFsGeneralIncomeIncremental != null)value="{{$projectFsGeneralIncomeIncremental->incremental}}"@endif style="background-color: #FAFAFA;" type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                             <span class="input-group-addon bootstrap-touchspin-postfix input-group-append" style="background-color: #FAFAFA;">
                                                     <span class="input-group-text black_text " style="font-weight: 500;">%</span></span>
                                         </div>
@@ -465,7 +465,6 @@
                                     </tr>
                                     </thead>
                                     <tbody data-repeater-list="inner-group" class="inner ">
-                                    @if(isset($projectEXpIncomes))
                                         @if($projectEXpIncomes->count()>0)
 
 
@@ -575,7 +574,6 @@
 
                                     @endforeach
                                         @endif
-                                    @endif
 
 
                                     </tbody>
@@ -686,7 +684,7 @@
                             <form id="form_4" name="form_4" class="form-horizontal">
                                 <div class="mb-3 price">
                                     <label for="verticalnav-pancard-input"><strong>نسبة نمو التكاليف</strong></label>
-                                    <input type="text" value="{{$projectExpGeneralIncomeIncremental->incremental}}" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                    <input type="text" @if($projectExpGeneralIncomeIncremental != null)value="{{$projectExpGeneralIncomeIncremental->incremental}}"@endif name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                     <span class="text-danger error-text value_incremental_error"></span>
                                     <span class="ral text-center pt-2">٪</span>
                                 </div>

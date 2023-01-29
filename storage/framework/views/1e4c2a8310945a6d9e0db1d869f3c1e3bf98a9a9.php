@@ -86,7 +86,7 @@
                                                         <button type="button" class="edit" title="تعديل" style="cursor: pointer; border-radius:60%;
                                             border: none;"
                                                                 data-id="<?php echo e($projectIncome->id); ?>" id="<?php echo e($projectIncome->id); ?>"  class="text-danger ">
-                                                            <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="<?php echo e($projectIncome->id); ?>" onclick="show_edit(this.id)"></i>
+                                                            <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="<?php echo e($projectIncome->id); ?>" onclick="show_edit(<?php echo e($projectIncome->id); ?>)"></i>
                                                         </button>
                                                         <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
                                             border: none;"
@@ -104,7 +104,7 @@
                                                         <button type="button" class="" title="تعديل" style="cursor: pointer; border-radius:60%;
                                             border: none;"
                                                                 data-id="<?php echo e($projectIncome->id); ?>" id="<?php echo e($projectIncome->id); ?>"  class="text-danger ">
-                                                            <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="<?php echo e($projectIncome->id); ?>" onclick="editInput(this.id)"></i>
+                                                            <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="<?php echo e($projectIncome->id); ?>" onclick="editInput(<?php echo e($projectIncome->id); ?>)"></i>
                                                         </button>
                                                         <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
                                             border: none;"
@@ -182,7 +182,7 @@
                                     <div class="mb-3 price col-10">
 
                                         <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                            <input placeholder="نسبة نمو الإيرادات" value="<?php echo e($projectFsGeneralIncomeIncremental->incremental); ?>" style="background-color: #FAFAFA;" type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                            <input placeholder="نسبة نمو الإيرادات"   <?php if($projectFsGeneralIncomeIncremental != null): ?>value="<?php echo e($projectFsGeneralIncomeIncremental->incremental); ?>"<?php endif; ?> style="background-color: #FAFAFA;" type="text" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                             <span class="input-group-addon bootstrap-touchspin-postfix input-group-append" style="background-color: #FAFAFA;">
                                                     <span class="input-group-text black_text " style="font-weight: 500;">%</span></span>
                                         </div>
@@ -413,7 +413,6 @@
                                     </tr>
                                     </thead>
                                     <tbody data-repeater-list="inner-group" class="inner ">
-                                    <?php if(isset($projectEXpIncomes)): ?>
                                         <?php if($projectEXpIncomes->count()>0): ?>
 
 
@@ -523,7 +522,6 @@
 
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
-                                    <?php endif; ?>
 
 
                                     </tbody>
@@ -634,7 +632,7 @@
                             <form id="form_4" name="form_4" class="form-horizontal">
                                 <div class="mb-3 price">
                                     <label for="verticalnav-pancard-input"><strong>نسبة نمو التكاليف</strong></label>
-                                    <input type="text" value="<?php echo e($projectExpGeneralIncomeIncremental->incremental); ?>" name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
+                                    <input type="text" <?php if($projectExpGeneralIncomeIncremental != null): ?>value="<?php echo e($projectExpGeneralIncomeIncremental->incremental); ?>"<?php endif; ?> name="one_value_incremental" onkeypress="return isNumber(event)" class="form-control" id="verticalnav-pancard-input">
                                     <span class="text-danger error-text value_incremental_error"></span>
                                     <span class="ral text-center pt-2">٪</span>
                                 </div>
@@ -1049,13 +1047,13 @@
         //     });
 
 
-        function show_edit(id) {
+        function show_edit(editId) {
             // alert("lable_"+id);
-            $("#lable_"+id).attr("style", "display:none");
-            $("#input_"+id).removeAttr("style");
+            $("#lable_"+editId).attr("style", "display:none");
+            $("#input_"+editId).removeAttr("style");
 
         }
-        function editInput(id) {
+        function editInput(editId) {
             // $("#lable_"+id).removeAttr("style");
             //                  $("#input_"+id).attr("style", "display:none");
             //                  $(".edit").attr("style", "background-color: green");
@@ -1064,21 +1062,25 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
             var formData = $('#form_1').serialize();
+            var url =  '<?php echo e(route('project_fs_general_income_update',['pro_id'=>$project->id,':id'])); ?>';
+            url = url.replace(':id', editId);
+            console.log(url);
             jQuery.ajax({
-                url: 'project_fs_general_income_update/'+id,
+                url:url,
                 method: 'post',
                 data: formData,
                 dataType: 'json',
                 success: function (result) {
                     console.log(result)
-                    $("lable_"+id).empty()
+                    $("lable_"+editId).empty()
                     toastr.success("تمت العملية بنجاح", "تم تخزين البيانات بنجاح");
                     //$("#form_1 :input").prop("disabled", true);
-                    $("#lable_"+id).removeAttr("style");
-                    $("#input_"+id).attr("style", "display:none");
+                    $("#lable_"+editId).removeAttr("style");
+                    $("#input_"+editId).attr("style", "display:none");
                     $(".edit").attr("style", "background-color: green");
-                    $("tbody").append('<tr id=lable_'+id+'></tr>');
+                    $("tbody").append('<tr id=lable_'+editId+'></tr>');
                 }
             });
         }

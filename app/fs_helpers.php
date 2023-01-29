@@ -1,11 +1,18 @@
 <?php
 
 use App\Models\admin\Project;
-
+use App\Models\Employe;
+use App\Models\ProjectExpGeneralIncome;
 use App\Models\ProjectFsGeneralIncome;
 use App\Models\ProjectFsGeneralIncomeIncremental;
 use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
 use App\Models\ProjectFsGeneralAdministrativeExpenses;
+use App\Models\ProjectFsGeneralAdministrativeExpensesDetails;
+use App\Models\ProjectFsRent;
+use App\Models\ProjectFsRentDetails;
+use App\Models\ProjectFsSellingAndMarketingCost;
+use App\Models\FsAccountReceivable;
+use App\Models\FsWorkingCapital;
 function projectDetail($id){
     $project = Project::where('id',$id)->where('owner_id' , Auth::user()->id)->first();
     $study_duration =$project->study_duration;
@@ -168,9 +175,149 @@ function incomeData($pro_id){
                 $prev =$totleYear[$item];
 
             }
+            $dataFs = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
+            $totleIncomeMounthFS =0;
+            $totleIncomeToEndYearFS=0;
+            $totleIncomeYearFS=0;
+           foreach($dataFs as $dataaFS){
+               $totleIncomeMounthFS += ($dataaFS->value * $dataaFS->quantity);
+               $totleIncomeToEndYearFS += ($dataaFS->value * $dataaFS->quantity) * $remainingmonths;
+               $totleIncomeYearFS += ($dataaFS->value * $dataaFS->quantity) * 12;
+
+           };
+            $data = ProjectExpGeneralIncome::with('fsIncome')->where('project_id', $pro_id)->get();
+            $totleIncomeMounth =0;
+            $totleIncomeToEndYear=0;
+            $totleIncomeYear=0;
+            $expValeEN=0;
+            $expValeY=0;
+           foreach($data as $dataa){
+    //dd($data);
+               $dataa->quantity = ($dataa->quantity==0)?1:$dataa->quantity;
+                           if($dataa->expensis_type =='0'){
+                               $expVale = $dataa->value  ;
+                           } if($dataa->expensis_type =='1'){
+                               //dd($data);
+                               $fsIncome=ProjectFsGeneralIncome::where('id',$dataa->fsIncome_id)->first();
+                            // dd($fsIncome);
+                               $expVale=($dataa->value)* ($fsIncome->value/100) ;
+                           }
+                           if($dataa->expensis_type =='2'){
+                               $expVale=($dataa->value/100) *$totleIncomeMounthFS ;
+                               $expValeEN=($dataa->value/100) *$totleIncomeToEndYearFS ;
+                               $expValeY=($dataa->value/100) *$totleIncomeYearFS ;
+                           }
+                          // dd($expValeEN);
+
+
+               $totleIncomeMounth += $dataa->quantity * $expVale;
+               $totleIncomeToEndYear = ($totleIncomeMounth * $remainingmonths) ;
+               $totleIncomeYear = ($totleIncomeMounth  * 12);
+
+           };
 
             return [
                 'totleYear' => $totleYear,
+                'totleIncomeMounth' => $totleIncomeMounth,
                 'totleIncomeToEndYear'=>$totleIncomeToEndYear,
             ];
+}
+function projectFsRent($pro_id){
+
+$data = ProjectFsRent::where('project_id', $pro_id)->first();
+$item = ProjectFsRentDetails::where('rent_id', $data->id)->get();
+//dd($data);
+$totalRent=0;
+foreach($item as $val){
+    $totalRent += $val->value;}
+//dd($totalRent);
+return [
+    'totalRent' => $totalRent,
+
+];
+}
+function employe($pro_id){
+
+$employees = Employe::where('project_id',$pro_id)->get();
+    $totleEmployeMounth =0;
+    $totleEmployeYear=0;
+   foreach($employees as $dataEmployes){
+       $totleEmployeMounth += ($dataEmployes->annual_salary * $dataEmployes->quantity);
+       $totleEmployeYear += ($dataEmployes->annual_salary * $dataEmployes->quantity) * 12;
+
+}
+return [
+    'totleEmployeMounth' => $totleEmployeMounth,
+
+];
+}
+
+function marketingCost($pro_id){
+
+$data = ProjectFsSellingAndMarketingCost::where('project_id',$pro_id)->get();
+// dd($data);
+foreach($data as $val){
+    $marketingTotle =(($val->marketing_ratio / 100) * incomeData($pro_id)['totleIncomeToEndYear'])+$val->marketing_amount;
+}
+
+return [
+    'marketingTotle' => $marketingTotle,
+
+];
+}
+
+function administrativeExpenses($pro_id){
+    $data = ProjectFsGeneralAdministrativeExpenses::where('project_id',$pro_id)->first();
+    //dd($data);
+    if ($data->type == 'ratio') {
+        $administrativeExpensesTotle=$data->value;
+    }
+    if ($data->type == 'amount') {
+        $administrativeExpensesTotle=$data->value;
+    }
+    if ($data->type == 'custom') {
+        $item = ProjectFsGeneralAdministrativeExpensesDetails::with('expenses')->where('project_id', $pro_id)->get();
+            $administrativeExpensesTotle = 0;
+            foreach ($item as $i) {
+                $administrativeExpensesTotle += $i->value;
+            }
+    }
+    return [
+        'administrativeExpensesTotle' => $administrativeExpensesTotle,
+
+    ];
+}
+
+function fsWorkingCapital($pro_id){
+
+$project = Project::where('id',$pro_id)->first();
+
+$fsAccountReceivable=FsAccountReceivable::where('project_id',$pro_id)->get();
+$fsWorkingCapital=FsWorkingCapital::where('project_id',$pro_id)->get();
+$fsWorkingCapitalPeriod=$fsWorkingCapital->where('type','!=','spare')->pluck('period')->toArray();
+$fsWorkingCapitalSpare=$fsWorkingCapital->where('project_id',$pro_id)->where('type','spare')->pluck('period')->first();
+//dd($fsWorkingCapitalSpare);
+$sumOfWorkingCapital=0;
+foreach($fsWorkingCapital->where('type','cogs') as $workingCapital){
+    $sumOfWorkingCapital +=   $workingCapital->period * incomeData($project->id)['totleIncomeMounth'];
+}
+foreach($fsWorkingCapital->where('type','rent') as $workingCapital){
+    $sumOfWorkingCapital +=   ($workingCapital->period / 12) * projectFsRent($project->id)['totalRent'];
+}
+foreach($fsWorkingCapital->where('type','salary') as $workingCapital){
+    $sumOfWorkingCapital +=  ($workingCapital->period)*employe($project->id)['totleEmployeMounth'];
+}
+foreach($fsWorkingCapital->where('type','marketing') as $workingCapital){
+    $sumOfWorkingCapital +=   ($workingCapital->period/12)*marketingCost($project->id)['marketingTotle'];
+}
+foreach($fsWorkingCapital->where('type','admin-expenses') as $workingCapital){
+    $sumOfWorkingCapital +=   ($workingCapital->period/12)*administrativeExpenses($project->id)['administrativeExpensesTotle'];
+}
+
+  $reserveOfWorkingCapital =$sumOfWorkingCapital*($fsWorkingCapitalSpare/100);
+  $totleOfWorkingCapital =$reserveOfWorkingCapital+ $sumOfWorkingCapital ;
+  return [
+    'totleOfWorkingCapital' => $totleOfWorkingCapital,
+
+];
 }

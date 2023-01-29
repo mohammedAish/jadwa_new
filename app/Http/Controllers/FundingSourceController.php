@@ -9,6 +9,9 @@ use App\Models\admin\Project;
 use App\Models\LoanDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\FsStartupCost;
+use App\Models\BalanceProjects;
+use App\Models\FsWorkingCapital;
 
 class FundingSourceController extends Controller
 {
@@ -34,11 +37,27 @@ class FundingSourceController extends Controller
         $fundingSources=FundingSource::where('project_id',$pro_id)->get();
         $capitalStructures=CapitalStructure::where('project_id',$pro_id)->get();
         $loanDetails=LoanDetail::where('project_id',$pro_id)->get();
+        $startupCosts = FsStartupCost::where('project_id',$pro_id)->get();
+        $sumCost=0;
+        foreach ($startupCosts as $cost){
+            $sumCost+=$cost->cost;
+        }
+
+       $currentYear = date('Y', strtotime('12/31'));
+
+        $dataYearCurrent = BalanceProjects::where('project_id',$pro_id)->where('purchase_year',$currentYear)->get();
+      $sumTotleCostCurrent=0;
+        foreach($dataYearCurrent as $dataYearCurrents){
+        $sumTotleCostCurrent +=$dataYearCurrents->cost * $dataYearCurrents->quantity;
+    }
+
+        $estimatedCostProject =$sumCost + fsWorkingCapital($pro_id)['totleOfWorkingCapital']+$sumTotleCostCurrent;
        return view('admin.FundingSource.create')->with([
            'fundingSources'=>$fundingSources,
            'capitalStructures'=>$capitalStructures,
            'loanDetails'=>$loanDetails,
            'project'=>$project,
+           'estimatedCostProject' => $estimatedCostProject,
        ]);
     }
 
@@ -68,17 +87,19 @@ class FundingSourceController extends Controller
                     'minimum_cash' => $data['minimum_cash'],
                     'interest_rate' => $data['interest_rate'],
                 ]);
-                return response()->json(['status' => $pro_id, 'success' => 'تم التعديل بنجاح']);
             }else{
                 FundingSource::query()->create([
                     'project_id' => 1,
                     'minimum_cash' => $data['minimum_cash'],
                     'interest_rate' => $data['interest_rate'],
                 ]);
-                return response()->json(['status' => 1, 'success' => 'تمت الاضافة بنجاح']);
                 }
 
         }
+
+      //dd($estimatedCostProject);
+        return response()->json(['status' => $pro_id, 'success' => 'تم  بنجاح']);
+
 
        }
 

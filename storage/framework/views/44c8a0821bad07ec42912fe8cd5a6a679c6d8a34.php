@@ -424,18 +424,7 @@ unset($__errorArgs, $__bag); ?>">
                                                     </defs>
                                                 </svg>
                                                 البند</th>
-                                            <th class="align-middle">
-                                                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <g clip-path="url(#clip0_1581_101)">
-                                                        <path d="M3.50312 14.1969C3.50312 14.3937 3.55988 14.5856 3.66825 14.7497L4.20388 15.5525C4.36794 15.7986 4.74044 15.9987 5.03638 15.9987H6.96356C7.2585 15.9987 7.63106 15.7987 7.79513 15.5525L8.32887 14.75C8.42069 14.6113 8.496 14.3634 8.496 14.1969L8.5 12.9719H3.5L3.50312 14.1969ZM6 0C2.81312 0.01 0.5 2.59281 0.5 5.47188C0.5 6.85875 1.01375 8.12313 1.86125 9.09062C2.37781 9.67937 3.18438 10.9103 3.49312 11.9484C3.49409 11.9563 3.49606 11.9646 3.49703 11.9729H8.50328C8.50425 11.9646 8.50622 11.9567 8.50719 11.9484C8.81578 10.9103 9.6225 9.67937 10.1391 9.09062C10.9875 8.15 11.5 6.8875 11.5 5.47188C11.5 2.4625 9.0375 0.000125 6 0ZM9.0125 8.12813C8.52312 8.68594 7.9175 9.575 7.47969 10.4997H4.52313C4.08531 9.575 3.47969 8.68594 2.99062 8.12844C2.35125 7.4 2 6.44063 2 5.47188C2 3.54063 3.50313 1.50781 5.97188 1.5C8.20625 1.5 10 3.29375 10 5.47188C10 6.44063 9.65 7.4 9.0125 8.12813ZM5.5 2.5C4.12188 2.5 3 3.62188 3 5C3 5.27637 3.22362 5.5 3.5 5.5C3.77638 5.5 4 5.275 4 5C4 4.17281 4.67281 3.5 5.5 3.5C5.77637 3.5 6 3.27663 6 3.00031C6 2.724 5.775 2.5 5.5 2.5Z" fill="#0A0A0A" fill-opacity="0.6"/>
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_1581_101">
-                                                            <rect width="12" height="16" fill="white"/>
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
-                                                عدد الأشهر</th>
+                                         
                                             <th class="align-middle">
                                                 <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g clip-path="url(#clip0_1581_101)">
@@ -466,7 +455,7 @@ unset($__errorArgs, $__bag); ?>">
                                         </thead>
                                         <tbody>
                                         <tr style=" border: white;">
-                                            <td>تكاليف الإيرادات (200)</td>
+                                            <td>تكاليف الإيرادات </td>
                                             <?php $__currentLoopData = $fsWorkingCapital->where('type','cogs'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingCapital): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <td>
                                                 <div class="col-3 <?php $__errorArgs = ['cogs[period]'];
@@ -481,8 +470,7 @@ unset($__errorArgs, $__bag); ?>">
 
                                                 </div>
                                             </td>
-                                            <td>200</td>
-                                            <td> <?php echo e(($workingCapital->period*200)); ?></td>
+                                            <td> <?php echo e(($workingCapital->period * incomeData($project->id)['totleIncomeMounth'])); ?></td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style=" border: white;">
@@ -491,8 +479,7 @@ unset($__errorArgs, $__bag); ?>">
                                             <td>   <?php echo e($workingCapital->period); ?>
 
                                             </td>
-                                                <td>200</td>
-                                            <td> <?php echo e(($workingCapital->period*200)); ?></td>
+                                            <td> <?php echo e((( $workingCapital->period / 12) * projectFsRent($project->id)['totalRent'])); ?></td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style=" border: white;">
@@ -501,8 +488,7 @@ unset($__errorArgs, $__bag); ?>">
                                                 <td>   <?php echo e($workingCapital->period); ?>
 
                                                 </td>
-                                                <td>200</td>
-                                                <td><?php echo e(($workingCapital->period*200)); ?></td>
+                                                <td><?php echo e((($workingCapital->period)*employe($project->id)['totleEmployeMounth'])); ?></td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style=" border: white;">
@@ -512,8 +498,7 @@ unset($__errorArgs, $__bag); ?>">
                                                 <?php echo e($workingCapital->period); ?>
 
                                             </td>
-                                                <td>200</td>
-                                            <td><?php echo e(($workingCapital->period*200)); ?></td>
+                                            <td><?php echo e((($workingCapital->period/12)*marketingCost($project->id)['marketingTotle'])); ?></td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style="">
@@ -524,13 +509,11 @@ unset($__errorArgs, $__bag); ?>">
                                                 <?php echo e($workingCapital->period); ?>
 
                                             </td>
-                                                <td>200</td>
-                                            <td><?php echo e(($workingCapital->period*200)); ?></td>
+                                            <td><?php echo e((($workingCapital->period/12)*administrativeExpenses($project->id)['administrativeExpensesTotle'])); ?></td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style="">
                                             <td style="font-weight: 800;">المجموع</td>
-                                           <td></td>
                                            <td></td>
                                             <td style="font-weight: 800;"><?php echo e($sumOfWorkingCapital); ?></td>
 
@@ -540,31 +523,22 @@ unset($__errorArgs, $__bag); ?>">
                                         </tr>
                                         <tr style="">
                                             <td style="font-weight: 800;">الإحتياطي%</td>
-                                            <?php $__currentLoopData = $fsWorkingCapital->where('type','spare'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingCapital): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <td><?php echo e($workingCapital->period); ?>
 
                                                 </td>
-                                                <td></td>
-                                                <?php if(isset($fsWorkingCapitalSpare[0])): ?>
-                                                <td style="font-weight: 800;"><?php echo e((($sumOfWorkingCapital)*(($fsWorkingCapitalSpare[0]/100)))); ?>
+
+                                                <td style="font-weight: 800;"><?php echo e($reserveOfWorkingCapital); ?>
 
                                                 </td>
-                                                <?php endif; ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style=" border: white;">
                                             <td style="font-weight: 800;">الإجمالي</td>
-                                            <?php $__currentLoopData = $fsWorkingCapital->where('type','spare'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingCapital): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                                 <td>
                                                 </td>
-                                                <td></td>
-                                                <?php if(isset($fsWorkingCapitalSpare[0])): ?>
-                                                    <td style="font-weight: 800;"><?php echo e(((($sumOfWorkingCapital)*(($fsWorkingCapitalSpare[0]/100)))+($sumOfWorkingCapital))); ?>
+                                                    <td style="font-weight: 800;"><?php echo e($totleOfWorkingCapital); ?>
 
                                                     </td>
-                                                <?php endif; ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         </tbody>
                                     </table>

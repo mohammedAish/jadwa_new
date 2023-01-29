@@ -6,6 +6,8 @@ use App\Models\FsAccountReceivable;
 use App\Http\Controllers\Controller;
 use App\Models\admin\Project;
 use App\Models\FsWorkingCapital;
+use App\Models\ProjectExpGeneralIncome;
+use App\Models\ProjectFsGeneralIncome;
 use Illuminate\Http\Request;
 
 class FsAccountReceivableController extends Controller
@@ -32,15 +34,40 @@ class FsAccountReceivableController extends Controller
         $fsAccountReceivable=FsAccountReceivable::where('project_id',$pro_id)->get();
         $fsWorkingCapital=FsWorkingCapital::where('project_id',$pro_id)->get();
         $fsWorkingCapitalPeriod=$fsWorkingCapital->where('type','!=','spare')->pluck('period')->toArray();
-        $fsWorkingCapitalSpare=$fsWorkingCapital->where('type','spare')->pluck('period');
+        $fsWorkingCapitalSpare=$fsWorkingCapital->where('project_id',$pro_id)->where('type','spare')->pluck('period')->first();
+        //dd($fsWorkingCapitalSpare);
         $sumOfWorkingCapital=0;
-        foreach ($fsWorkingCapitalPeriod as $key=>$value){
-            $sumOfWorkingCapital=($sumOfWorkingCapital)+($value*200);
+        foreach($fsWorkingCapital->where('type','cogs') as $workingCapital){
+            $sumOfWorkingCapital +=   $workingCapital->period * incomeData($project->id)['totleIncomeMounth'];
         }
+        foreach($fsWorkingCapital->where('type','rent') as $workingCapital){
+            $sumOfWorkingCapital +=   ($workingCapital->period / 12) * projectFsRent($project->id)['totalRent'];
+        }
+        foreach($fsWorkingCapital->where('type','salary') as $workingCapital){
+            $sumOfWorkingCapital +=  ($workingCapital->period)*employe($project->id)['totleEmployeMounth'];
+        }
+        foreach($fsWorkingCapital->where('type','marketing') as $workingCapital){
+            $sumOfWorkingCapital +=   ($workingCapital->period/12)*marketingCost($project->id)['marketingTotle'];
+        }
+        foreach($fsWorkingCapital->where('type','admin-expenses') as $workingCapital){
+            $sumOfWorkingCapital +=   ($workingCapital->period/12)*administrativeExpenses($project->id)['administrativeExpensesTotle'];
+        }
+
+          $reserveOfWorkingCapital =$sumOfWorkingCapital*($fsWorkingCapitalSpare/100);
+          $totleOfWorkingCapital =$reserveOfWorkingCapital+ $sumOfWorkingCapital ;
+
+          // dd($sumOfWorkingCapital);
+
+        // foreach ($fsWorkingCapital as $value){
+        //     $sumOfWorkingCapital=($sumOfWorkingCapital)+($value*200);
+        // }
+
         return view('admin.FsAccountReceivable.create')->with([
             'fsAccountReceivable'=>$fsAccountReceivable,
             'fsWorkingCapital'=>$fsWorkingCapital,
+            'totleOfWorkingCapital'=>$totleOfWorkingCapital,
             'sumOfWorkingCapital'=>$sumOfWorkingCapital,
+            'reserveOfWorkingCapital'=>$reserveOfWorkingCapital,
             'fsWorkingCapitalSpare'=>$fsWorkingCapitalSpare,
             'project'=>$project
             ]);

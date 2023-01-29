@@ -85,14 +85,26 @@ class FeasibilityStudiesController extends Controller
         $project=Project::findOrFail($pro_id);
 
         $projectIncomes = ProjectFsGeneralIncome::where('project_id',$project->id)->get();
-        $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$project->id)->first();
+    //  dd($projectIncomes);
+    $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$project->id)->first();
+
+       if($projectFsGeneralIncomeIncremental !=null){
+//dd('s');
         $projectFsGeneralIncomeIncrementalDetail = ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get();
+        }else{
+            $projectFsGeneralIncomeIncrementalDetail = ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',0)->get();
+
+        }
         $projectEXpIncomes = ProjectExpGeneralIncome::where('project_id',$project->id)->get();
        // dd($projectEXpIncomes);
-        $projectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',$project->id)->first();
+       $projectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',$project->id)->first();
 
-        $projectExpGeneralIncomeIncrementalDetail = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$projectExpGeneralIncomeIncremental->id)->get();
+       if($projectExpGeneralIncomeIncremental !=null ){
 
+        $projectExpGeneralIncomeIncrementalDetail = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',0)->get();
+       }else{
+        $projectExpGeneralIncomeIncrementalDetail = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',0)->get();
+       }
         return view('admin.forms.revenues',compact('project','projectIncomes','projectEXpIncomes','projectFsGeneralIncomeIncrementalDetail','projectFsGeneralIncomeIncremental','projectExpGeneralIncomeIncremental','projectExpGeneralIncomeIncrementalDetail'));
 
     }
