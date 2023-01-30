@@ -150,7 +150,7 @@
                                 <th>الإيرادات</th>
                                 <th>{{$firstYearEarnings['totleIncomeToEndYear']}} 'ر.س'</th>
                                 @foreach($TotalAnnualRevenuesDuringTheStudyPeriod['totleYear'] as $key=>$value)
-                                    <td>{{$value}} 'ر.س'</td>
+                                    <td>{{ number_format($value,3)}} 'ر.س'</td>
                                 @endforeach
                             </tr>
                             </tbody>
@@ -326,7 +326,7 @@
                                 <tr>
                                     <td>الاجمالي</td>
                                     @foreach($sumSummaryOfChangeOfSalaries['sumSalaryy'] as $sumSalary)
-                                        <td>{{$sumSalary}} ر.س</td>
+                                        <td>{{ number_format($sumSalary,3)}} ر.س</td>
                                     @endforeach
                                 </tr>
                             </tfoot>
@@ -334,6 +334,167 @@
                         <caption>تغير الرواتب</caption>
                     </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+                        <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;">
+                        <thead>
+                        <th>البند</th>
+                        <th>عدد الوحدات شهريا</th>
+                        <th>قيمة الوحدة</th>
+                        @if($project->revenu_entry == "m")
+                            <th> التكاليف الشهرية</th>
+                        @else
+                            <th> التكاليف السنوية</th>
+                        @endif
+                        <th>التكاليف لنهاية العام</th>
+                        <th>مبيعات العام</th>
+                        </thead>
+                        <tbody id="expenses_incremental_data">
+
+                        @foreach($firstYearExpensesIncremental['expensesIncome'] as $expensesIncremental)
+                            <tr>
+                                <td>{{$expensesIncremental->item}}</td>
+                                @if($expensesIncremental->expensis_type ==  "0")
+                                    <td>{{$expensesIncremental->quantity}}</td>
+                                @elseif($expensesIncremental->expensis_type ==  "1")
+                                    <td>{{$expensesIncremental->quantity}}</td>
+                                @elseif($expensesIncremental->expensis_type ==  "2")
+                                    <td></td>
+                                @endif
+                                @if($expensesIncremental->expensis_type ==  "0")
+                                    <td>{{$expensesIncremental->value}}</td>
+                                @elseif($expensesIncremental->expensis_type ==  "1")
+                                    <td>{{($expensesIncremental->value/100 ) * ($expensesIncremental->fs_income->value)}}</td>
+                                @elseif($expensesIncremental->expensis_type ==  "2")
+                                    <td>{{($expensesIncremental->value/100 ) * ($firstYearExpensesIncremental['totleIncomeMounthFS'])}}</td>
+                                @endif
+                                @if($project->revenu_entry == "m")
+                                    @if($expensesIncremental->expensis_type ==  "0")
+                                        <td>{{($expensesIncremental->value*$expensesIncremental->quantity)}}</td>
+                                    @elseif($expensesIncremental->expensis_type ==  "1")
+                                        <td>{{($expensesIncremental->value/100 ) * ($expensesIncremental->fs_income->value)*($expensesIncremental->quantity)}}</td>
+                                    @elseif($expensesIncremental->expensis_type ==  "2")
+                                        <td>{{($expensesIncremental->value/100 ) * ($firstYearExpensesIncremental['totleIncomeMounthFS'])}}</td>
+                                    @endif
+                                @else
+                                    <td>{{($expensesIncremental->value*$expensesIncremental->quantity)*12}}</td>
+                                @endif
+                                @if($expensesIncremental->expensis_type ==  "0")
+                                    <td>{{($expensesIncremental->value)*($expensesIncremental->quantity)*($firstYearExpensesIncremental['remainingmonths'])}}</td>
+                                @elseif($expensesIncremental->expensis_type ==  "1")
+                                    <td>{{($expensesIncremental->value/100 ) * ($expensesIncremental->fs_income->value)*($expensesIncremental->quantity) *($firstYearExpensesIncremental['remainingmonths'])}}</td>
+                                @elseif($expensesIncremental->expensis_type ==  "2")
+                                    <td>{{($expensesIncremental->value/100 ) * ($firstYearExpensesIncremental['totleIncomeToEndYearFS'])}}</td>
+                                @endif
+
+                                @if($expensesIncremental->expensis_type ==  "0")
+                                    <td>{{($expensesIncremental->value*$expensesIncremental->quantity)*12}}</td>
+                                @elseif($expensesIncremental->expensis_type ==  "1")
+                                    <td>{{($expensesIncremental->value/100 ) * ($expensesIncremental->fs_income->value)*($expensesIncremental->quantity) *(12)}}</td>
+                                @elseif($expensesIncremental->expensis_type ==  "2")
+                                    <td>{{($expensesIncremental->value/100 ) * ($firstYearExpensesIncremental['totleIncomeYearFS'])}}</td>
+                                @endif
+
+
+                            </tr>
+                        @endforeach
+                        </tbody>
+                        <tfoot id="expenses_data_totle">
+                        <tr>
+                            <th>الاجمالي</th>
+                            <th></th><th></th>
+                            <th>{{$totalFirstYearExpensesIncremental['totleIncomeMounth']}}</th>
+                            <th>{{$totalFirstYearExpensesIncremental['totleIncomeToEndYear']}}</th>
+                            <th>{{$totalFirstYearExpensesIncremental['totleIncomeYear']}}</th>
+                        </tr>
+                        </tfoot>
+
+                    </table>
+                        <caption>جدول تكاليف الايرادات للسنة الاولي </caption>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+
+                        <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;" id="incremental_summry_table">
+                            <thead>
+                            <tr>
+                                <th>السنة</th>
+                                <th>نسبة النمو  السنوية</th>
+                            </tr>
+                            </thead>
+                            <tbody id="view_exp_incremental_data">
+                            @foreach($growthOfExpensesIncremental['dataOfGrowthExpenses'] as $growthOfExpenses)
+                            <tr>
+                                <td style="background: rgba(244, 244, 244, 0.5);">{{$growthOfExpenses->year}}</td>
+                                <td>{{$growthOfExpenses->incremental}} "%</td>
+                            </tr>
+                            @endforeach
+
+                            </tbody>
+
+                            <tr>
+                                <td>معدل النمو السنوي</td>
+                                <td id="view_exp_incremental_data_avareg_persent">{{$growthOfExpensesIncremental['IncomeAvargePersent']}} '%'</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                        <caption>جدول  نمو تكاليف الايرادات </caption>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+                        <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;" id="revenue_summry_table">
+                            <thead>
+
+                            <tr id="head_exp_data">
+                                <th>السنة</th>
+{{--                                <th>{{$TotalExpensesIncremental['yearCurrent']}}</th>--}}
+                                @foreach($TotalExpensesIncremental['totleYear'] as $key=>$value)
+
+                                <th id="total_exp_revenue_current_head">{{$key}}</th>
+                                @endforeach
+                            </tr>
+                            </thead>
+                            <tbody >
+
+                            <tr id="total_exp_revenue_data">
+                                <td>اجمالي التكاليف</td>
+{{--                                <td>{{$TotalExpensesIncremental['totleIncomeToEndYear']}}</td>--}}
+                                @foreach($TotalExpensesIncremental['totleYear'] as $totalExpenses)
+
+                                <td id="total_exp_revenue_current">{{ number_format($totalExpenses,3)}}</td>
+                                @endforeach
+                            </tr>
+                            </tbody>
+                        </table>
+                        <caption>جدول اجمالي تكاليف الايرادات لمدة الدراسة </caption>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -356,11 +517,11 @@
              '</tr>'+
          '<tr>'+
          '<td>' + 'تكلفة التسويق'+ '</td>'+
-         ' <td>' + {{$marketing['prev']}}  + ' </td>' +
-         ' <td>' + {{$marketing['nxt1']}} + ' </td>' +
-         ' <td>' + {{$marketing['nxt2']}} + ' </td>' +
-         ' <td>' + {{$marketing['nxt3']}} + ' </td>' +
-         ' <td>' + {{$marketing['nxt4']}} + ' </td>' +
+         ' <td>' + {{ number_format($marketing['prev'],3)}}  + ' </td>' +
+         ' <td>' + {{ number_format($marketing['nxt1'],3)}} + ' </td>' +
+         ' <td>' + {{ number_format($marketing['nxt2'],3)}} + ' </td>' +
+         ' <td>' + {{ number_format($marketing['nxt3'],3)}} + ' </td>' +
+         ' <td>' + {{ number_format($marketing['nxt4'],3)}} + ' </td>' +
          '</tr>'
 
      )
