@@ -169,6 +169,7 @@ class ProjectFsGeneralIncomeController extends Controller
     }
 
     public function project_fs_general_income_delete_item($pro_id,$id){
+        dd('s');
                 $result = ProjectFsGeneralIncome::where('id',$id)->first()->delete();
                 return response()->json(['message'=>'success','success'=>'تم  الحذف بنجاح']);
 

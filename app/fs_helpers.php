@@ -209,7 +209,7 @@ function incomeData($pro_id){
                             $expVale = $dataa->value;
                            }
                            }
-                           if($dataa->expensis_type ==1){
+                           if($dataa->expensis_type ==2){
                                $expVale=($dataa->value/100) *$totleIncomeMounthFS ;
                                $expValeEN=($dataa->value/100) *$totleIncomeToEndYearFS ;
                                $expValeY=($dataa->value/100) *$totleIncomeYearFS ;
