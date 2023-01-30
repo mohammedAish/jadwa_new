@@ -499,6 +499,414 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+                        @if($firstYearAdministrativeExpenses['data']->type=="ratio")
+                        <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;">
+                            <thead>
+                            <tr>
+                                <th>البند</th>
+                                <th>القيمة</th>
+                                <th>الايرادات</th>
+                                <th>الاجمالي</th>
+                            </tr>
+                            </thead>
+                            <tbody id="view_incremental_data">
+                            <th id="title_expenses">المصاريف الادارية</th>
+                            <th id="th_expenses1">{{$firstYearAdministrativeExpenses['data']->value}}</th>
+                            <th id="th_expenses2">{{incomeData($project->id)['totleIncomeToEndYear']}}</th>
+                            <th id="total_expenses">{{number_format(($firstYearAdministrativeExpenses['income']),3)}} </th>
+                            </tbody>
+                            <tfoot id="adexpenses_data_totle">
+
+                            </tfoot>
+
+                        </table>
+
+                        @elseif($firstYearAdministrativeExpenses['data']->type=="amount")
+                            <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;">
+                                <thead>
+                                <tr>
+                                    <th>البند</th>
+                                    <th>القيمة</th>
+                                    <th>الايرادات</th>
+
+                                </tr>
+                                </thead>
+                                <tbody id="view_incremental_data">
+                                <th id="title_expenses">المصاريف الادارية</th>
+                                <th id="th_expenses1">{{$firstYearAdministrativeExpenses['data']->value}}</th>
+                                <th id="th_expenses2">{{number_format($firstYearAdministrativeExpenses['income'],3)}}</th>
+                                </tbody>
+                                <tfoot id="adexpenses_data_totle">
+
+                                </tfoot>
+
+                            </table>
+                        @elseif($firstYearAdministrativeExpenses['data']->type=="custom")
+                            <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;">
+                                <thead>
+                                <tr>
+                                    <th>البند</th>
+                                    <th>القيمة</th>
+
+                                </tr>
+                                </thead>
+                                <tbody id="view_incremental_data">
+                                @foreach($firstYearAdministrativeExpenses['item'] as $item)
+                                 <tr>
+                                <th id="title_expenses">{{$item->expensis_type}}</th>
+                                <th id="th_expenses1">{{$item->value}}</th>
+
+                                 </tr>
+                                @endforeach
+                                 </tbody>
+                                <tfoot id="adexpenses_data_totle">
+                                <th>الاجمالي</th>
+                                <th id="th_expenses2">{{$firstYearAdministrativeExpenses['totalOfExpenses']}}</th>
+                                </tfoot>
+
+                            </table>
+                        @endif
+                        <caption>جدول المصاريف الإدارية للسنة الاولي </caption>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+
+                        <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;" id="incremental_summry_table">
+                            <thead>
+                            <tr>
+                                <th>السنة</th>
+                                <th>نسبة النمو  السنوية</th>
+                            </tr>
+                            </thead>
+                            <tbody id="view_exp_incremental_data">
+                            @foreach($growthOfAdministrativeExpenses['data'] as $growth)
+                                <tr>
+                                    <td style="background: rgba(244, 244, 244, 0.5);">{{$growth->year}}</td>
+                                    <td>{{$growth->incremental}} "%</td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+
+                            <tr>
+                                <td>معدل النمو السنوي</td>
+                                <td id="view_exp_incremental_data_avareg_persent">{{$growthOfAdministrativeExpenses['IncomeAvargePersent']}} '%'</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                        <caption>جدول  نمو المصاريف الإدارية </caption>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+                        <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;" id="">
+                            <thead>
+
+                            <tr id="head_exp_data">
+                                <th>السنة</th>
+                                <td>{{$ToltalOfAdministraitiveExpenses['year']}}</td>
+                                @foreach(numberOfyears($project->id)['years'] as $year)
+                                <td>{{$year}}</td>
+                                @endforeach
+                            </tr>
+                            </thead>
+                            <tbody >
+
+                            <tr id="total_exp_revenue_data">
+                                <th id="title_expenses">مصاريف الإدارية</th>\
+                                <th id="th_expenses_a">{{number_format($ToltalOfAdministraitiveExpenses['current_value'],3)}}</th>
+                                <th id="th_expenses_b">{{number_format($ToltalOfAdministraitiveExpenses['prev'],3)}}</th>
+                                <th id="th_expenses_c">{{number_format($ToltalOfAdministraitiveExpenses['nxt1'],3)}}</th>
+                                <th id="th_expenses_d">{{number_format($ToltalOfAdministraitiveExpenses['nxt2'],3)}}</th>
+                                <th id="th_expenses_e">{{number_format($ToltalOfAdministraitiveExpenses['nxt3'],3)}}</th>
+                                <th id="th_expenses_f">{{number_format($ToltalOfAdministraitiveExpenses['nxt4'],3)}}</th>
+                            </tr>
+                            <tr>
+                                <th id="title_expenses">الإيرادات</th>\
+                                <th id="th_expenses1">{{incomeData($project->id)['totleIncomeToEndYear']}}</th>
+                                @foreach(incomeData($project->id)['totleYear'] as $totleYears)
+                                <th id="th_expenses1">{{number_format($totleYears,3)}}</th>
+                                @endforeach
+                            </tr>
+                            <tr id="total_exp_revenue_data">
+                                <th id="title_expenses">نسبة مصاريف إدارية<br> من الإيرادات</th>
+                                <th id="th_expenses_a">{{number_format($ToltalOfAdministraitiveExpenses['current'],3)}} %</th>
+                                <th id="th_expenses_b">{{number_format($ToltalOfAdministraitiveExpenses['pre'],3)}} %</th>
+                                <th id="th_expenses_c">{{number_format($ToltalOfAdministraitiveExpenses['next1'],3)}} %</th>
+                                <th id="th_expenses_d">{{number_format($ToltalOfAdministraitiveExpenses['next2'],3)}} %</th>
+                                <th id="th_expenses_e">{{number_format($ToltalOfAdministraitiveExpenses['next3'],3)}} %</th>
+                                <th id="th_expenses_f">{{number_format($ToltalOfAdministraitiveExpenses['next4'],3)}} %</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <caption>جدول اجمالي المصاريف الإدارية لمدة الدراسة </caption>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+
+                        @if($firstYearRent['data']->type=="amount")
+                            <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;">
+                                <thead>
+                                <tr>
+                                    <th>البند</th>
+                                    <th>القيمة</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody id="view_incremental_data">
+                                <th id="th_expenses1">{{$firstYearRent['data']->value}}</th>
+                                <th id="th_expenses2">{{$firstYearRent['data']->growth_rate_rent}}</th>
+                                </tbody>
+                                <tfoot id="adexpenses_data_totle">
+
+                                </tfoot>
+
+                            </table>
+                        @elseif($firstYearRent['data']->type=="custom")
+                            <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;">
+                                <thead>
+                                <tr>
+                                    <th>البند</th>
+                                    <th>القيمة</th>
+                                    <th>نسبة النمو</th>\
+
+                                </tr>
+                                </thead>
+                                <tbody id="view_incremental_data">
+                                @foreach($firstYearRent['item'] as $item)
+                                    <tr>
+                                        <th >{{$item->title}}</th>
+                                        <th >{{$item->value}}</th>
+                                        <th >{{$item->growth_rent}}</th>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                                <tfoot id="adexpenses_data_totle">
+                                <th>الاجمالي</th>
+                                <th id="th_expenses2">{{$firstYearRent['total']}}</th>
+                                </tfoot>
+
+                            </table>
+                        @endif
+                        <caption>جدول الإيجارات للسنة الاولي </caption>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+                        @if($TotalOfRent['data']->type == "amount"){
+                        <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;" id="">
+                            <thead>
+
+                            <tr id="head_exp_data">
+                                <th>السنة</th>
+                                <td>{{$TotalOfRent['year']}}</td>
+                                @foreach(numberOfyears($project->id)['years'] as $year)
+                                    <td>{{$year}}</td>
+                                @endforeach
+                            </tr>
+                            </thead>
+                            <tbody >
+
+                            <tr id="total_exp_revenue_data">
+                                <th id="title_expenses">قيمة الايجارات</th>\
+                                <th id="th_expenses_a">{{number_format($TotalOfRent['current_value'],3)}}</th>
+                                <th id="th_expenses_b">{{number_format($TotalOfRent['prev'],3)}}</th>
+                                <th id="th_expenses_c">{{number_format($TotalOfRent['nxt1'],3)}}</th>
+                                <th id="th_expenses_d">{{number_format($TotalOfRent['nxt2'],3)}}</th>
+                                <th id="th_expenses_e">{{number_format($TotalOfRent['nxt3'],3)}}</th>
+                                <th id="th_expenses_f">{{number_format($TotalOfRent['nxt4'],3)}}</th>
+                            </tr>
+                            <tr>
+                                <th id="title_expenses">الإيرادات</th>\
+                                <th id="th_expenses1">{{incomeData($project->id)['totleIncomeToEndYear']}}</th>
+                                @foreach(incomeData($project->id)['totleYear'] as $totleYears)
+                                    <th id="th_expenses1">{{number_format($totleYears,3)}}</th>
+                                @endforeach
+                            </tr>
+                            <tr id="total_exp_revenue_data">
+                                <th id="title_expenses">نسبة مصاريف إدارية<br> من الإيرادات</th>
+                                <th id="th_expenses_a">{{number_format($TotalOfRent['current'],3)}} %</th>
+                                <th id="th_expenses_b">{{number_format($TotalOfRent['pre'],3)}} %</th>
+                                <th id="th_expenses_c">{{number_format($TotalOfRent['next1'],3)}} %</th>
+                                <th id="th_expenses_d">{{number_format($TotalOfRent['next2'],3)}} %</th>
+                                <th id="th_expenses_e">{{number_format($TotalOfRent['next3'],3)}} %</th>
+                                <th id="th_expenses_f">{{number_format($TotalOfRent['next4'],3)}} %</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        @elseif($TotalOfRent['data']->type == "custom")
+                            <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;" id="">
+                                <thead>
+
+                                <tr id="head_exp_data">
+                                    <th>السنة</th>
+                                    <td>{{$TotalOfRent['year']}}</td>
+                                    @foreach(numberOfyears($project->id)['years'] as $year)
+                                        <td>{{$year}}</td>
+                                    @endforeach
+                                </tr>
+                                </thead>
+                                <tbody >
+                                @foreach($TotalOfRent['item'] as $item)
+                                    <tr>  @foreach($item as $i)
+
+                                        @if(is_numeric($i))
+
+                                                <td> {{number_format($i,3)}}</td>
+
+                                        @else
+
+                                                <td>{{$i}}</td>
+
+                                        @endif
+
+                                    @endforeach   </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        @endif
+                        <caption>جدول اجمالي الايجارات لمدة الدراسة </caption>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+
+                            <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;">
+                                <thead>
+                                <tr>
+                                    <th>البند</th>
+                                    <th>القيمة</th>
+
+
+                                </tr>
+                                </thead>
+                                @foreach($firstYearUtilitiesTable['item'] as $item)
+                                <tr>
+                                <th id="th_expenses1">{{$item->title}}</th>
+                                <th id="th_expenses2">{{$item->value}}</th>
+                                </tr>
+                                    @endforeach
+                                <tr style="background: #413886CC;"><th id="title_rent">الاجمالي</th>
+                                    <th>{{$firstYearUtilitiesTable['total']}}</th>
+                                </tr>
+                                </tbody>
+                                <tfoot id="adexpenses_data_totle">
+
+                                </tfoot>
+
+                            </table>
+
+                        <caption>جدول المرافق للسنة الاولي </caption>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="table-responsive mt-5">
+                        <table class="table mb-0  text-center"  style="width: 100%;font-size: 15px;" id="">
+                            <thead>
+
+                            <tr id="head_exp_data">
+                                <th>السنة</th>
+                                <td>{{$totalOfUtilitiesTable['year']}}</td>
+                                @foreach(numberOfyears($project->id)['years'] as $year)
+                                    <td>{{$year}}</td>
+                                @endforeach
+                            </tr>
+                            </thead>
+                            <tbody >
+
+                            <tr id="total_exp_revenue_data">
+                                <th id="title_expenses">المرافق</th>\
+                                <th id="th_expenses_a">{{number_format($totalOfUtilitiesTable['current_value'],3)}}</th>
+                                <th id="th_expenses_b">{{number_format($totalOfUtilitiesTable['prev'],3)}}</th>
+                                <th id="th_expenses_c">{{number_format($totalOfUtilitiesTable['nxt1'],3)}}</th>
+                                <th id="th_expenses_d">{{number_format($totalOfUtilitiesTable['nxt2'],3)}}</th>
+                                <th id="th_expenses_e">{{number_format($totalOfUtilitiesTable['nxt3'],3)}}</th>
+                                <th id="th_expenses_f">{{number_format($totalOfUtilitiesTable['nxt4'],3)}}</th>
+                            </tr>
+                            <tr>
+                                <th id="title_expenses">الإيرادات</th>\
+                                <th id="th_expenses1">{{incomeData($project->id)['totleIncomeToEndYear']}}</th>
+                                @foreach(incomeData($project->id)['totleYear'] as $totleYears)
+                                    <th id="th_expenses1">{{number_format($totleYears,3)}}</th>
+                                @endforeach
+                            </tr>
+                            <tr id="total_exp_revenue_data">
+                                <th id="title_expenses">نسبة المرافق من الإيرادات</th>
+                                <th id="th_expenses_a">{{number_format($totalOfUtilitiesTable['current'],3)}} %</th>
+                                <th id="th_expenses_b">{{number_format($totalOfUtilitiesTable['prre'],3)}} %</th>
+                                <th id="th_expenses_c">{{number_format($totalOfUtilitiesTable['next1'],3)}} %</th>
+                                <th id="th_expenses_d">{{number_format($totalOfUtilitiesTable['next2'],3)}} %</th>
+                                <th id="th_expenses_e">{{number_format($totalOfUtilitiesTable['next3'],3)}} %</th>
+                                <th id="th_expenses_f">{{number_format($totalOfUtilitiesTable['next4'],3)}} %</th>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <caption>جدول اجمالي المرافق لمدة الدراسة </caption>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script-bottom')
@@ -507,16 +915,17 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.min.css">
  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
  <script>
-
      $('#expenses_incremental_data').append(
          '<tr>'+
          '<td>' + 'السنة' + '</td>'+
+         '<td>' + {{$marketing['yearCurrent']}} + '</td>'+
          @foreach($numberOfyears['years'] as $numberOfyear)
              ' <td>' + {{$numberOfyear}} + ' </td>'+
          @endforeach +
              '</tr>'+
          '<tr>'+
          '<td>' + 'تكلفة التسويق'+ '</td>'+
+         ' <td>' + {{ number_format($marketing['current_value'],3)}}  + ' </td>' +
          ' <td>' + {{ number_format($marketing['prev'],3)}}  + ' </td>' +
          ' <td>' + {{ number_format($marketing['nxt1'],3)}} + ' </td>' +
          ' <td>' + {{ number_format($marketing['nxt2'],3)}} + ' </td>' +

@@ -99,9 +99,10 @@ class ProjectFsGeneralIncomeController extends Controller
         return response()->json(['message'=>'success','success'=>'تم تخزين البيانات بنجاح']);
 
     }
-    function project_fs_general_income_update(Request $request,$id,$pro_id){
+    function project_fs_general_income_update(Request $request,$pro_id,$id){
         //dd($id);
         $projectFsGeneralIncome=ProjectFsGeneralIncome::findOrFail($id);
+
         $data = $request->only([
             'item','value','quantity',
         ]);
@@ -171,6 +172,7 @@ class ProjectFsGeneralIncomeController extends Controller
     public function project_fs_general_income_delete_item($pro_id,$id){
         dd('s');
                 $result = ProjectFsGeneralIncome::where('id',$id)->first()->delete();
+
                 return response()->json(['message'=>'success','success'=>'تم  الحذف بنجاح']);
 
 

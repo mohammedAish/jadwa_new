@@ -7,10 +7,19 @@ use App\Models\EmployeesDetails;
 use App\Models\ProjectExpGeneralIncome;
 use App\Models\ProjectExpGeneralIncomeIncremental;
 use App\Models\ProjectExpGeneralIncomeIncrementalDetail;
+use App\Models\ProjectFsGeneralAdministrativeExpenses;
+use App\Models\ProjectFsGeneralAdministrativeExpensesDetails;
+use App\Models\ProjectFsGeneralExpensesIncrementals;
+use App\Models\ProjectFsGeneralExpensesIncrementalsDetails;
 use App\Models\ProjectFsGeneralIncome;
 use App\Models\ProjectFsGeneralIncomeIncremental;
 use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
+use App\Models\ProjectFsRent;
+use App\Models\ProjectFsRentDetails;
 use App\Models\ProjectFsSellingAndMarketingCost;
+use App\Models\ProjectFsUtilities;
+use App\Models\ProjectFsUtilitiesDetails;
+use App\Models\ProjectFsUtilitiesIncrementalsDetails;
 
 function operationModel($pro_id){
     $project = Project::where('id',$pro_id)->first();
@@ -21,7 +30,8 @@ function operationModel($pro_id){
     $datediff = strtotime($yearEnd) - strtotime($operationDate);
     $remainingmonths =  round($datediff / (60 * 60 * 24*30));
     $remainingFromYear =  $remainingmonths/12;
-    return['remainingmonths'=>$remainingmonths,'remainingFromYear'=>$remainingFromYear,'yearCurrent'=>$yearCurrent];
+    $development_duration=$project->development_duration;
+    return['remainingmonths'=>$remainingmonths,'remainingFromYear'=>$remainingFromYear,'yearCurrent'=>$yearCurrent,'development_duration'=>$development_duration];
 }
 
 function numberOfyears($id): array
@@ -56,8 +66,7 @@ function fetch_marketing_details($pro_id)
     $totleIncomeToEndYear=first_year_earnings($pro_id)['totleIncomeToEndYear'];
 /*    dd($totleIncomeToEndYear);*/
 //    $current_value = ($item->marketing_amount) + (($item->marketing_ratio/100)*ٌقيمة الايراد);
-    $current_value = ($item->marketing_amount) + (($item->marketing_ratio/100)*$totleIncomeToEndYear);
-
+    $current_value = ($item->marketing_amount) ;
     $growth = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
     $prev = 0;
     foreach (years($pro_id)['years'] as $key => $year) {
@@ -77,11 +86,12 @@ function fetch_marketing_details($pro_id)
         $next3 =  ($nxt3 / 500) * 100;;
         $next4 =  ($nxt4 / 500) * 100;;
     }
-
+    $yearCurrent = date('Y', strtotime('12/31'));
     return [
         'item' => $item,
         'data' => $data,
         'year' => $year,
+        'yearCurrent'=>$yearCurrent,
         'current_value' => $current_value,
         'prev' => $prev,
         'nxt1' => $nxt1,
@@ -287,6 +297,7 @@ function Total_first_year_expenses_incremental($pro_id){
 }
 
 function growth_of_expenses_incremental($pro_id){
+    $development_duration=operationModel($pro_id)['development_duration'];
     $totleIncomeYear=Total_first_year_expenses_incremental($pro_id)['totleIncomeYear'];
     $projectExpGeneralIncome = ProjectExpGeneralIncomeIncremental::query()->where('project_id', $pro_id)->first();
     $projectExpGeneralIncomeIncrementalDetail =ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$projectExpGeneralIncome->id)->get();
@@ -298,7 +309,7 @@ function growth_of_expenses_incremental($pro_id){
             ( (($val['incremental']/100 ) +1)) * $prev ;
         $prev =$totleYear[$val['year']];
     }
-    $IncomeAvargePersent = $IncomeAvargePersent /5;
+    $IncomeAvargePersent = $IncomeAvargePersent /$development_duration;
 
     return ['dataOfGrowthExpenses'=>$projectExpGeneralIncomeIncrementalDetail,
         'projectExpGeneralIncome'=>$projectExpGeneralIncome,
@@ -316,5 +327,304 @@ function Total_expenses_incremental($pro_id){
         ];
 }
 
+function first_year_Administrative_expenses($pro_id){
+    //get Administrative expenses for first year
+    $data = ProjectFsGeneralAdministrativeExpenses::where('project_id',$pro_id)->first();
+    $item = 0;
+    $income=0;  //the value of income
+    $totalOfExpenses = 0;   // total of all expenses in custome type
+    if ($data->type == 'custom') {
+        $item = ProjectFsGeneralAdministrativeExpensesDetails::with('expenses')->where('project_id', $pro_id)->get();
+        foreach ($item as $i) {
+            $totalOfExpenses += $i->value;
+        }
+    }elseif ($data->type == 'amount') {
+        $income = incomeData($pro_id)['totleIncomeToEndYear'];
+    }
+    elseif ($data->type == 'ratio'){
+        $income = ($data->value / 100)*(incomeData($pro_id)['totleIncomeToEndYear']);
+    }
+    return[
+       'data'=>$data,'item'=>$item,'income'=>$income,'totalOfExpenses'=>$totalOfExpenses,
+    ];
+}
 
+function growth_of_Administrative_expenses($pro_id){
+    $data = ProjectFsGeneralExpensesIncrementals::where('project_id', $pro_id)->first();
+    $development_duration=operationModel($pro_id)['development_duration'];
+    $details = ProjectFsGeneralExpensesIncrementalsDetails::where('general_expenses_id', $data->id)->get();
+    $IncomeAvargePersent=0;
+    foreach($details as $item =>$val){
+        $IncomeAvargePersent +=$val['incremental'];
+    }
+    $IncomeAvargePersent = $IncomeAvargePersent /$development_duration;
+    return['data'=>$details,'IncomeAvargePersent'=>$IncomeAvargePersent];
+}
 
+function Toltal_Of_Administraitive_expenses($pro_id){
+
+    $data = ProjectFsGeneralAdministrativeExpenses::where('project_id',$pro_id)->first();
+    // dd($data);
+    $item = 0;
+    if ($data->type == 'custom') {
+        $item = ProjectFsGeneralAdministrativeExpensesDetails::with('expenses')->where('project_id', $pro_id)->get();
+        $current_value = 0;
+        foreach ($item as $i) {
+            $current_value += $i->value;
+        }
+
+        $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id',$pro_id)->get();
+        $prev = 0;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            $prev = $current_value * (1 + ($growth[$key]->incremental / 100));
+            $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
+            $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
+            $nxt3 = $nxt2 * (1 + ($growth[3]->incremental / 100));
+            $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
+        }
+
+        $pre = 0;
+        $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+                $pre =    ($prev / $item) * 100;
+                $next1 =  ($nxt1 / $item) * 100;;
+                $next2 =  ($nxt2 / $item) * 100;;
+                $next3 =  ($nxt3 / $item) * 100;;
+                $next4 =  ($nxt4 / $item) * 100;;
+            }
+        }
+    }
+    if ($data->type == 'amount') {
+        $current_value = $data->value;
+        $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id', $pro_id)->get();
+
+        $prev = 0;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            $prev = $current_value * (1 + ($growth[$key]->incremental / 100));
+            $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
+            $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
+            $nxt3 = $nxt2 * (1 + ($growth[3]->incremental / 100));
+            $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
+        }
+
+        $pre = 0;
+        $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+                $pre =    ($prev / $item) * 100;
+                $next1 =  ($nxt1 / $item) * 100;;
+                $next2 =  ($nxt2 / $item) * 100;;
+                $next3 =  ($nxt3 / $item) * 100;;
+                $next4 =  ($nxt4 / $item) * 100;;
+            }
+        }
+    }
+    if ($data->type == 'ratio') {
+        $current_value = ($data->value / 100);
+        $growth = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id', $pro_id)->get();
+        $prev = 0;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            $prev = $current_value * (1 + ($growth[$key]->incremental / 100));
+            $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
+            $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
+            $nxt3 = $nxt2 * (1 + ($growth[3]->incremental / 100));
+            $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
+        }
+
+        $pre = 0;
+        $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+                $pre =    ($prev / $item) * 100;
+                $next1 =  ($nxt1 / $item) * 100;;
+                $next2 =  ($nxt2 / $item) * 100;;
+                $next3 =  ($nxt3 / $item) * 100;;
+                $next4 =  ($nxt4 / $item) * 100;;
+            }
+        }
+    }
+    $yearCurrent = date('Y', strtotime('12/31'));
+
+    return [
+        'item' => $item,
+        'data' => $data,
+        'year' => $yearCurrent,
+        'current_value' => $current_value,
+        'prev' => $prev,
+        'nxt1' => $nxt1,
+        'nxt2' => $nxt2,
+        'nxt3' => $nxt3,
+        'nxt4' => $nxt4,
+        'pre' => $pre,
+        'next1' => $next1,
+        'next2' => $next2,
+        'next3' => $next3,
+        'next4' => $next4,
+        'current' => $current,
+    ];
+}
+
+function first_year_rent($pro_id){
+    $data = ProjectFsRent::where('project_id', $pro_id)->first();
+    if ($data->type == 'amount') {
+        $data = ProjectFsRent::where('project_id', $pro_id)->first();
+    }
+    $total = 0;
+    $item = 0;
+    if ($data->type == 'custom') {
+        $item = ProjectFsRentDetails::where('project_id', $pro_id)->get();
+
+        foreach ($item as $i) {
+            $total += $i->value;
+        }
+    }
+    return [
+        'data' => $data,
+        'item' => $item,
+        'total' => $total,
+    ];
+}
+
+function Total_of_rent($pro_id){
+
+    $rentArray = array();
+    $data = ProjectFsRent::where('project_id',$pro_id)->first();
+    $item = 0;
+    if ($data->type == 'custom') {
+        $rentItems = ProjectFsRentDetails::where('project_id',$pro_id)->get();
+
+        $current_value = 0;
+        $nxt1 = 0;
+        $nxt2 = 0;
+        $nxt3 = 0;
+        $nxt4 = 0;
+        $pre = 0;
+        $next1 = 0;
+        $next2 = 0;
+        $next3 = 0;
+        $next4 = 0;
+        $current = 0;
+        $prevValue = 0;
+        $rentIncemental = 0;
+        foreach ($rentItems as $item) {
+            $prevValue = $item->value;
+            $rentArrayy = [$item->title,$prevValue];
+            $rentIncemental = $item->growth_rent;
+            foreach (years($pro_id)['years'] as $key => $year) {
+                $prevValue = $prevValue * (1 + ($item->growth_rent / 100));
+                array_push($rentArrayy, $prevValue);
+            }
+            array_push($rentArray,$rentArrayy);
+        }
+        $prev = 0;
+    }
+    if ($data->type == 'amount') {
+        // dd('s');
+        $current_value = $data->value;
+        $growth = ProjectFsRent::where('project_id', $pro_id)->get();
+        $prev = 0;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            $prev = $current_value * (1 + ($growth[0]->growth_rate_rent / 100));
+            $nxt1 = $prev * (1 + ($growth[0]->growth_rate_rent / 100));
+            $nxt2 = $nxt1 * (1 + ($growth[0]->growth_rate_rent / 100));
+            $nxt3 = $nxt2 * (1 + ($growth[0]->growth_rate_rent / 100));
+            $nxt4 = $nxt3 * (1 + ($growth[0]->growth_rate_rent / 100));
+        }
+        $pre = 0;
+        $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+        foreach (years($pro_id)['years'] as $key => $year) {
+            foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+                $pre =    ($prev / $item) * 100;
+                $next1 =  ($nxt1 / $item) * 100;;
+                $next2 =  ($nxt2 / $item) * 100;;
+                $next3 =  ($nxt3 / $item) * 100;;
+                $next4 =  ($nxt4 / $item) * 100;;
+            }
+        }
+    }
+    $yearCurrent = date('Y', strtotime('12/31'));
+    return [
+        'item' => $rentArray,
+        'data' => $data,
+        'year' => $yearCurrent,
+        'current_value' => $current_value,
+        'prev' => $prev,
+        'nxt1' => $nxt1,
+        'nxt2' => $nxt2,
+        'nxt3' => $nxt3,
+        'nxt4' => $nxt4,
+        'pre' => $pre,
+        'next1' => $next1,
+        'next2' => $next2,
+        'next3' => $next3,
+        'next4' => $next4,
+        'current' => $current,
+    ];
+}
+
+function first_year_utilities_table($pro_id){
+    $data = ProjectFsUtilities::where('project_id', $pro_id)->first();
+    if ($data->type == 'amount') {
+        $data = ProjectFsUtilities::where('project_id', $pro_id)->first();
+    }
+    $total = 0;
+    $item = 0;
+    if ($data->type == 'custom') {
+        $item = ProjectFsUtilitiesDetails::where('project_id', $pro_id)->get();
+
+        foreach ($item as $i) {
+            $total += $i->value;
+        }
+    }
+    return [
+        'data' => $data,
+        'item' => $item,
+        'total' => $total,
+    ];
+}
+
+function total_of_utilities_table($pro_id){
+    $item = ProjectFsUtilitiesDetails::where('project_id', $pro_id)->get();
+    $current_value = 0;
+    foreach ($item as $i) {
+        $current_value += $i->value;
+    }
+    $growth = ProjectFsUtilitiesIncrementalsDetails::where('project_id', $pro_id)->get();
+    $prev = 0;
+    foreach (years($pro_id)['years'] as $key => $year) {
+        $prev = $current_value * (1 + ($growth[0]->incremental / 100));
+        $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
+        $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
+        $nxt3 = $nxt2 * (1 + ($growth[3]->incremental / 100));
+        $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
+    }
+    $prre = 0;
+    $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+    foreach (years($pro_id)['years'] as $key => $year) {
+        foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+            $prre =    ($prev / $item) * 100;
+            $next1 =  ($nxt1 / $item) * 100;
+            $next2 =  ($nxt2 / $item) * 100;
+            $next3 =  ($nxt3 / $item) * 100;
+            $next4 =  ($nxt4 / $item) * 100;
+        }
+    }
+    $yearCurrent = date('Y', strtotime('12/31'));
+    return [
+        'item' => $item,
+        'year' => $yearCurrent,
+        'current_value' => $current_value,
+        'current' => $current,
+        'prev' => $prev,
+        'nxt1' => $nxt1,
+        'nxt2' => $nxt2,
+        'nxt3' => $nxt3,
+        'nxt4' => $nxt4,
+        'prre' => $prre,
+        'next1' => $next1,
+        'next2' => $next2,
+        'next3' => $next3,
+        'next4' => $next4,
+    ];
+}

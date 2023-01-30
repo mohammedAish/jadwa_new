@@ -32,6 +32,13 @@ class ReportController extends Controller
         $totalFirstYearExpensesIncremental=Total_first_year_expenses_incremental($pro_id);
         $growthOfExpensesIncremental=growth_of_expenses_incremental($pro_id);
         $TotalExpensesIncremental=Total_expenses_incremental($pro_id);
+        $firstYearAdministrativeExpenses=first_year_Administrative_expenses($pro_id);
+        $growthOfAdministrativeExpenses=growth_of_Administrative_expenses($pro_id);
+        $ToltalOfAdministraitiveExpenses=Toltal_Of_Administraitive_expenses($pro_id);
+        $firstYearRent=first_year_rent($pro_id);
+        $TotalOfRent=Total_of_rent($pro_id);
+        $firstYearUtilitiesTable=first_year_utilities_table($pro_id);
+        $totalOfUtilitiesTable=total_of_utilities_table($pro_id);
         return view('admin.report.index')->with([
             'project'=>$project,
             'incomeData'=>$incomeData,
@@ -48,6 +55,13 @@ class ReportController extends Controller
             'totalFirstYearExpensesIncremental'=>$totalFirstYearExpensesIncremental,
             'growthOfExpensesIncremental'=>$growthOfExpensesIncremental,
             'TotalExpensesIncremental'=>$TotalExpensesIncremental,
+            'firstYearAdministrativeExpenses'=>$firstYearAdministrativeExpenses,
+            'growthOfAdministrativeExpenses'=>$growthOfAdministrativeExpenses,
+            'ToltalOfAdministraitiveExpenses'=>$ToltalOfAdministraitiveExpenses,
+            'firstYearRent'=>$firstYearRent,
+            'TotalOfRent'=>$TotalOfRent,
+            'firstYearUtilitiesTable'=>$firstYearUtilitiesTable,
+            'totalOfUtilitiesTable'=>$totalOfUtilitiesTable,
         ]);
     }
 
