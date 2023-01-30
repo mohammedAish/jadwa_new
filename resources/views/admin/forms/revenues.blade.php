@@ -88,8 +88,8 @@
                                                             <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="show_edit({{$projectIncome->id}})"></i>
                                                         </button>
                                                         <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
-                                            border: none;"
-                                                                data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger delete">
+                                                                         border: none;"
+                                                                data-id="{{$projectIncome->id}}" id="{{$projectIncome->id}}"  class="text-danger delete">
                                                             <i class="p-2 fas fa-trash-alt font-size-15" style="cursor: pointer;color: #ec6868;" id=""></i>
                                                         </button>
                                                     </td>
@@ -102,12 +102,12 @@
                                                     <td>
                                                         <button type="button" class="" title="تعديل" style="cursor: pointer; border-radius:60%;
                                             border: none;"
-                                                                data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger ">
+                                                                data-id="{{ $projectIncome->id }}" id="{{$projectIncome->id}}"  class="text-danger ">
                                                             <i class="p-2 fas fa-pen font-size-12" style="cursor: pointer;color: #200E32;"  id="{{$projectIncome->id}}" onclick="editInput({{$projectIncome->id}})"></i>
                                                         </button>
                                                         <button type="button" class="destroy" title="حذف" style="cursor: pointer; border-radius:60%;
                                             border: none;"
-                                                                data-id="{{ $projectIncome->id }}" id="{{ $projectIncome->id }}"  class="text-danger delete">
+                                                                data-id="{{ $projectIncome->id }}" id="{{$projectIncome->id}}"  class="text-danger delete">
                                                             <i class="p-2 fas fa-trash-alt font-size-15" style="cursor: pointer;color: #ec6868;" id=""></i>
                                                         </button>
 
@@ -1175,7 +1175,7 @@
 
             $('button.destroy').on('click', function(e){
                 e.preventDefault();
-                var id=this.id;
+                let id = $(this).data('id');
                 swal.fire({
                     text: 'هل انت متاكد من الحذف',
                     icon: "error",
@@ -1189,7 +1189,7 @@
                 }).then(function(status) {
                     if (status.value) {
                         $.ajax({
-                            url: 'project_fs_general_income_delete_item/'+id,
+                            url: '/project/{pro_id}/fs/income/project_fs_general_income_delete_item/'+id,
                             type: 'post',
                             data: {'id' : id},
                             dataType: 'json',

@@ -915,16 +915,17 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.min.css">
  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
  <script>
-
      $('#expenses_incremental_data').append(
          '<tr>'+
          '<td>' + 'السنة' + '</td>'+
+         '<td>' + {{$marketing['yearCurrent']}} + '</td>'+
          @foreach($numberOfyears['years'] as $numberOfyear)
              ' <td>' + {{$numberOfyear}} + ' </td>'+
          @endforeach +
              '</tr>'+
          '<tr>'+
          '<td>' + 'تكلفة التسويق'+ '</td>'+
+         ' <td>' + {{ number_format($marketing['current_value'],3)}}  + ' </td>' +
          ' <td>' + {{ number_format($marketing['prev'],3)}}  + ' </td>' +
          ' <td>' + {{ number_format($marketing['nxt1'],3)}} + ' </td>' +
          ' <td>' + {{ number_format($marketing['nxt2'],3)}} + ' </td>' +

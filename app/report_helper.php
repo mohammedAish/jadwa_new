@@ -66,8 +66,7 @@ function fetch_marketing_details($pro_id)
     $totleIncomeToEndYear=first_year_earnings($pro_id)['totleIncomeToEndYear'];
 /*    dd($totleIncomeToEndYear);*/
 //    $current_value = ($item->marketing_amount) + (($item->marketing_ratio/100)*ٌقيمة الايراد);
-    $current_value = ($item->marketing_amount) + (($item->marketing_ratio/100)*$totleIncomeToEndYear);
-
+    $current_value = ($item->marketing_amount) ;
     $growth = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
     $prev = 0;
     foreach (years($pro_id)['years'] as $key => $year) {
@@ -87,11 +86,12 @@ function fetch_marketing_details($pro_id)
         $next3 =  ($nxt3 / 500) * 100;;
         $next4 =  ($nxt4 / 500) * 100;;
     }
-
+    $yearCurrent = date('Y', strtotime('12/31'));
     return [
         'item' => $item,
         'data' => $data,
         'year' => $year,
+        'yearCurrent'=>$yearCurrent,
         'current_value' => $current_value,
         'prev' => $prev,
         'nxt1' => $nxt1,
