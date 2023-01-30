@@ -99,12 +99,17 @@ class FeasibilityStudiesController extends Controller
        // dd($projectEXpIncomes);
        $projectExpGeneralIncomeIncremental = ProjectExpGeneralIncomeIncremental::where('project_id',$project->id)->first();
 
+    //   dd($projectExpGeneralIncomeIncremental);
+
        if($projectExpGeneralIncomeIncremental !=null ){
 
-        $projectExpGeneralIncomeIncrementalDetail = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',0)->get();
+        $projectExpGeneralIncomeIncrementalDetail = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',$projectExpGeneralIncomeIncremental->id)->get();
        }else{
         $projectExpGeneralIncomeIncrementalDetail = ProjectExpGeneralIncomeIncrementalDetail::where('project_exp_income_incremental_id',0)->get();
        }
+
+
+
         return view('admin.forms.revenues',compact('project','projectIncomes','projectEXpIncomes','projectFsGeneralIncomeIncrementalDetail','projectFsGeneralIncomeIncremental','projectExpGeneralIncomeIncremental','projectExpGeneralIncomeIncrementalDetail'));
 
     }

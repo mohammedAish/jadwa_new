@@ -73,9 +73,9 @@ $items =[];
                     if($fsIncome != null){
                        $fsIncomee =$fsIncome->id;
                     }else{
-                        $fsIncome= ProjectExpGeneralIncome::where('id',$item_id[$i])->first();
-
-                        $fsIncomee =$fsIncome->fsIncome_id;
+                       // $fsIncome= ProjectExpGeneralIncome::where('id',$item_id[$i])->first();
+                       // dd($fsIncome)
+                        $fsIncomee =0;
                     }
                    // dd($item_id);
                     if(($count_projectExpGeneralIncome !=0) &&($item_id[$i] != 0)){
@@ -88,7 +88,6 @@ $items =[];
                         'value' => $value[$i] ,
                         'quantity' => $quantity[$i] ,
                         'expensis_type' => $expensis_type[$i] ,
-                        'fsIncome_id' => $fsIncomee,
 
                                  ]);
                             }else{

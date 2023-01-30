@@ -316,7 +316,7 @@
                             <div id="repppppp">
                                 <div class="row">
                                     {{--                                    GeneratedTable--}}
-                                    <table class=" table align-middle table-nowrap table-check table-bordered " id="summry_table">
+                                    <table class=" table table-bordered " id="summry_table">
                                         <thead>
                                         <tr style="background: rgba(244, 244, 244, 0.5); color:  #0A0A0A; font-weight: 700 ">
                                             <th class="align-middle">الخدمة</th>
@@ -751,7 +751,7 @@
                         <section>
                             <h4 class="mb-4"><strong>ملخص التكاليف</strong></h4>
                             <div class="row">
-                                <table class="GeneratedTable" id="summry_table_2">
+                                <table class="table table-bordered " id="summry_table_2">
                                     <thead>
                                     <th>البند</th>
                                     <th>عدد الوحدات شهريا</th>
@@ -767,7 +767,7 @@
                                     <tbody id="expenses_incremental_data">
 
                                     </tbody>
-                                    <tfoot id="expenses_data_totle">
+                                    <tfoot style=" background-color: rgba(65, 56, 134, 0.8); color: #FFFFFF;font-size: 15px;" id="expenses_data_totle">
 
                                     </tfoot>
 
@@ -777,7 +777,7 @@
                             <br>
 
                             <div class="row">
-                                <table class="GeneratedTable" id="expenses_incremental_summry_table">
+                                <table class="table table-bordered " id="expenses_incremental_summry_table">
                                     <thead>
                                     <tr  id="view_expenses_incremental_data">
 
@@ -803,7 +803,7 @@
 
                                     </tbody>
                                 </table> --}}
-                                <table class="GeneratedTable" id="incremental_summry_table">
+                                <table class="table table-bordered " id="incremental_summry_table">
                                     <thead>
                                     <tr>
                                         <th>السنة</th>
@@ -824,7 +824,7 @@
                                 </table>
                             </div>
                             <div class="row">
-                                <table class="GeneratedTable" id="revenue_summry_table">
+                                <table class="table table-bordered " id="revenue_summry_table">
                                     <thead>
 
                                     <tr id="head_exp_data">
@@ -834,7 +834,7 @@
                                     </thead>
                                     <tbody >
 
-                                    <tr id="total_exp_revenue_data">
+                                    <tr background-color: rgba(65, 56, 134, 0.8); color: #FFFFFF;font-size: 15px; id="total_exp_revenue_data">
                                         <td>اجمالي التكاليف</td>
                                         <td id="total_exp_revenue_current"></td>
 
@@ -843,22 +843,19 @@
                                 </table>
                             </div>
                             <div class="row mt-5 pt-5" >
-                                <table class="table align-middle table-nowrap table-check" style="width: 51%" id="revenue_summry_table_avarage">
+                                <table class="table table-bordered " style="width: 51%" id="revenue_summry_table_avarage">
 
                                     <tbody id="total_revenue_avarge" style="color: #0A0A0A; font-weight: 400">
                                     <tr>
-                                        <td style="background: #FCAC02;
-                                            font-size: 20px;">اجمالي التكاليف</td>
+                                        <td style="background: rgba(244, 244, 244, 0.5); color:  #0A0A0A; font-weight: 700 ">اجمالي التكاليف</td>
                                         <td id=total_exp_revenue_totle_icome></td>
                                     </tr>
                                     <tr>
-                                        <td style="background: #FCAC02;
-                                            font-size: 20px;">متوسط التكاليف</td>
+                                        <td style="background: rgba(244, 244, 244, 0.5); color:  #0A0A0A; font-weight: 700 ">متوسط التكاليف</td>
                                         <td id=total_exp_revenue_totle_icome_avarge></td>
                                     </tr>
                                     <tr>
-                                        <td style="background: #FCAC02;
-                                            font-size: 20px;">متوسط النمو</td>
+                                        <td style="background: rgba(244, 244, 244, 0.5); color:  #0A0A0A; font-weight: 700 ">متوسط النمو</td>
                                         <td id=total_exp_revenue_totle_icome_avarge_persent></td>
                                     </tr>
                                     </tbody>

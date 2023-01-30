@@ -142,17 +142,16 @@ class ProjectExpGeneralIncomeIncrementalController extends Controller
          $expValeEN=0;
          $expValeY=0;
         foreach($data as $dataa){
-//dd($data);
             $dataa->quantity = ($dataa->quantity==0)?1:$dataa->quantity;
-                        if($dataa->expensis_type =='0'){
+                        if($dataa->expensis_type ==0){
                             $expVale = $dataa->value  ;
-                        } if($dataa->expensis_type =='1'){
-                            //dd($data);
+                        } if($dataa->expensis_type ==1){
+                           // dd($dataa->fsIncome_id);
                             $fsIncome=ProjectFsGeneralIncome::where('id',$dataa->fsIncome_id)->first();
-                         // dd($fsIncome);
+                         //dd($fsIncome);
                             $expVale=($dataa->value)* ($fsIncome->value/100) ;
                         }
-                        if($dataa->expensis_type =='2'){
+                        if($dataa->expensis_type ==2){
                             $expVale=($dataa->value/100) *$totleIncomeMounthFS ;
                             $expValeEN=($dataa->value/100) *$totleIncomeToEndYearFS ;
                             $expValeY=($dataa->value/100) *$totleIncomeYearFS ;

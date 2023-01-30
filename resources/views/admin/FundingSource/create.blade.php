@@ -200,15 +200,8 @@
                                             <tr style=" border: white;">
                                                 <td>التمويل الذاتي للمشروع</td>
                                                 <td> <div class="col-6 self_financing">
-                                                        @if(isset($capitalStructures[0]))
-                                                            <input type="text" name="self_financing" value="{{$capitalStructures[0]->self_financing}}" class="form-control validate" id="self_financing">
+                                                            <input type="text" name="self_financing" value="" class="form-control validate" id="self_financing">
                                                             <span class="text-danger error-text self_financing_error"></span>
-
-                                                        @else
-                                                            <input type="text" name="self_financing" class="form-control validate" id="self_financing">
-                                                            <span class="text-danger error-text self_financing_error"></span>
-
-                                                        @endif
 
                                                     </div>
                                                 </td>
@@ -220,7 +213,7 @@
                                                     <div class="col-md-6" >
 
                                                 <div class="input-group">
-                                                    <input type="text" id="project_financing" name="project_financing" disabled value="{{$estimatedCostProject}}" class="form-control validate" >
+                                                    <input type="text" id="project_financing" name="project_financing" disabled value="{{number_format($estimatedCostProject,3)}}" class="form-control validate" >
                                                     <span class="text-danger error-text"></span>
                                                    </div>
                                                     </div>
@@ -246,7 +239,7 @@
                                                 <td>مبلغ التمويل اللازم للمشروع</td>
                                                 <td> <div class="col-6 self_financing">
                                                         <div class="input-group">
-                                                            <input disabled type="text" name="value_arrest" class="form-control validate" value="4000000" id="value_arrest">
+                                                            <input disabled type="text" name="value_arrest" class="form-control validate" value="" id="value_arrest">
 
                                                         </div>
                                                         <span class="text-danger error-text "></span>
@@ -445,7 +438,19 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
 
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#self_financing").on("input", function(){
+                var self_financing =$(this).val();
+            var project_financing = $("#project_financing").val();
+           // var self_financing_ratio=parseInt($('#self_financing_ratio').val());
+           //var self_financing_ratio = ((self_financing  / project_financing ) *100);
+            $("#self_financing_ratio").val((self_financing  / project_financing ) * 100);
+            $("#value_arrest").val(project_financing - self_financing );
 
+            });
+        });
+        </script>
 
     <script type="text/javascript">
         $.ajaxSetup({
@@ -507,20 +512,20 @@
             var end_loan = $('#end_loan') ;
             end_loan.val(start_date+Loan_repayment_period+period_of_the_year);
         }
-        function ratio(self_financing,project_financing){
-            var self_financing = parseInt($('#self_financing').val())
-            var project_financing = parseInt($('#project_financing').val())
-            var self_financing_ratio = $('#self_financing_ratio') ;
-            self_financing_ratio.val((self_financing/project_financing)*100);
-            // console.log(self_financing_ratio);
-        }
+        // function ratio(self_financing,project_financing){
+        //     var self_financing = parseInt($('#self_financing').val())
+        //     var project_financing = parseInt($('#project_financing').val())
+        //     var self_financing_ratio = $('#self_financing_ratio') ;
+        //     self_financing_ratio.val((self_financing/project_financing)*100);
+        //     // console.log(self_financing_ratio);
+        // }
 
-        function theArrest(){
-            var self_financing = parseInt($('#self_financing').val())
-            var project_financing = parseInt($('#project_financing').val())
-            var value_arrest=parseInt($('#value_arrest').val());
-            value_arrest.val(project_financing-self_financing);
-        }
+        // function theArrest(){
+        //     var self_financing = parseInt($('#self_financing').val())
+        //     var project_financing = parseInt($('#project_financing').val())
+        //     var value_arrest=parseInt($('#value_arrest').val());
+        //     value_arrest.val(project_financing-self_financing);
+        // }
 
         document.addEventListener('click', function(e) {
             var eventTarget = e.target;

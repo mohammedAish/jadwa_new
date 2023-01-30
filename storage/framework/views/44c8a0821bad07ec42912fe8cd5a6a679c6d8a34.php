@@ -424,7 +424,7 @@ unset($__errorArgs, $__bag); ?>">
                                                     </defs>
                                                 </svg>
                                                 البند</th>
-                                         
+
                                             <th class="align-middle">
                                                 <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g clip-path="url(#clip0_1581_101)">
@@ -488,7 +488,7 @@ unset($__errorArgs, $__bag); ?>">
                                                 <td>   <?php echo e($workingCapital->period); ?>
 
                                                 </td>
-                                                <td><?php echo e((($workingCapital->period)*employe($project->id)['totleEmployeMounth'])); ?></td>
+                                                <td><?php echo e(number_format((($workingCapital->period)*employe($project->id)['totleEmployeMounth']),3)); ?></td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style=" border: white;">
@@ -498,7 +498,7 @@ unset($__errorArgs, $__bag); ?>">
                                                 <?php echo e($workingCapital->period); ?>
 
                                             </td>
-                                            <td><?php echo e((($workingCapital->period/12)*marketingCost($project->id)['marketingTotle'])); ?></td>
+                                            <td><?php echo e(number_format((($workingCapital->period/12)*marketingCost($project->id)['marketingTotle']),3)); ?></td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style="">
@@ -509,13 +509,13 @@ unset($__errorArgs, $__bag); ?>">
                                                 <?php echo e($workingCapital->period); ?>
 
                                             </td>
-                                            <td><?php echo e((($workingCapital->period/12)*administrativeExpenses($project->id)['administrativeExpensesTotle'])); ?></td>
+                                            <td><?php echo e(number_format((($workingCapital->period/12)*administrativeExpenses($project->id)['administrativeExpensesTotle']),3)); ?></td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
                                         <tr style="">
                                             <td style="font-weight: 800;">المجموع</td>
                                            <td></td>
-                                            <td style="font-weight: 800;"><?php echo e($sumOfWorkingCapital); ?></td>
+                                            <td style="font-weight: 800;"><?php echo e(number_format($sumOfWorkingCapital,3)); ?></td>
 
 
 
@@ -523,11 +523,14 @@ unset($__errorArgs, $__bag); ?>">
                                         </tr>
                                         <tr style="">
                                             <td style="font-weight: 800;">الإحتياطي%</td>
-                                                <td><?php echo e($workingCapital->period); ?>
+                                            <?php $__currentLoopData = $fsWorkingCapital->where('type','spare'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingCapital): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+                                            <td><?php echo e($workingCapital->period); ?>
 
                                                 </td>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                                <td style="font-weight: 800;"><?php echo e($reserveOfWorkingCapital); ?>
+                                                <td style="font-weight: 800;"><?php echo e(number_format($reserveOfWorkingCapital,3)); ?>
 
                                                 </td>
                                         </tr>
@@ -536,7 +539,7 @@ unset($__errorArgs, $__bag); ?>">
 
                                                 <td>
                                                 </td>
-                                                    <td style="font-weight: 800;"><?php echo e($totleOfWorkingCapital); ?>
+                                                    <td style="font-weight: 800;"><?php echo e(number_format($totleOfWorkingCapital,3)); ?>
 
                                                     </td>
                                         </tr>

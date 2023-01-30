@@ -390,7 +390,7 @@
                                                     </defs>
                                                 </svg>
                                                 البند</th>
-                                         
+
                                             <th class="align-middle">
                                                 <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g clip-path="url(#clip0_1581_101)">
@@ -444,7 +444,7 @@
                                             @foreach($fsWorkingCapital->where('type','salary') as $workingCapital)
                                                 <td>   {{$workingCapital->period}}
                                                 </td>
-                                                <td>{{(($workingCapital->period)*employe($project->id)['totleEmployeMounth'])}}</td>
+                                                <td>{{number_format((($workingCapital->period)*employe($project->id)['totleEmployeMounth']),3)}}</td>
                                             @endforeach
                                         </tr>
                                         <tr style=" border: white;">
@@ -453,7 +453,7 @@
                                             <td>
                                                 {{$workingCapital->period}}
                                             </td>
-                                            <td>{{(($workingCapital->period/12)*marketingCost($project->id)['marketingTotle'])}}</td>
+                                            <td>{{number_format((($workingCapital->period/12)*marketingCost($project->id)['marketingTotle']),3)}}</td>
                                             @endforeach
                                         </tr>
                                         <tr style="">
@@ -463,13 +463,13 @@
                                             <td>
                                                 {{$workingCapital->period}}
                                             </td>
-                                            <td>{{(($workingCapital->period/12)*administrativeExpenses($project->id)['administrativeExpensesTotle'])}}</td>
+                                            <td>{{number_format((($workingCapital->period/12)*administrativeExpenses($project->id)['administrativeExpensesTotle']),3)}}</td>
                                             @endforeach
                                         </tr>
                                         <tr style="">
                                             <td style="font-weight: 800;">المجموع</td>
                                            <td></td>
-                                            <td style="font-weight: 800;">{{$sumOfWorkingCapital}}</td>
+                                            <td style="font-weight: 800;">{{number_format($sumOfWorkingCapital,3)}}</td>
 {{--                                            @if(isset($fsWorkingCapitalSpare[0]))--}}
 {{--                                            <td style="font-weight: 800;">{{(($sumOfWorkingCapital)+(($fsWorkingCapitalSpare[0]/100)*200))}}--}}
 {{--                                            </td>--}}
@@ -477,10 +477,13 @@
                                         </tr>
                                         <tr style="">
                                             <td style="font-weight: 800;">الإحتياطي%</td>
-                                                <td>{{$workingCapital->period}}
-                                                </td>
+                                            @foreach($fsWorkingCapital->where('type','spare') as $workingCapital)
 
-                                                <td style="font-weight: 800;">{{$reserveOfWorkingCapital}}
+                                            <td>{{$workingCapital->period}}
+                                                </td>
+                                                @endforeach
+
+                                                <td style="font-weight: 800;">{{number_format($reserveOfWorkingCapital,3)}}
                                                 </td>
                                         </tr>
                                         <tr style=" border: white;">
@@ -488,7 +491,7 @@
 
                                                 <td>
                                                 </td>
-                                                    <td style="font-weight: 800;">{{$totleOfWorkingCapital}}
+                                                    <td style="font-weight: 800;">{{number_format($totleOfWorkingCapital,3)}}
                                                     </td>
                                         </tr>
                                         </tbody>

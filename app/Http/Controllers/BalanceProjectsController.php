@@ -197,7 +197,7 @@ class BalanceProjectsController extends Controller
 
         $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','transport')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -303,7 +303,7 @@ class BalanceProjectsController extends Controller
 
         $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipments')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -410,7 +410,7 @@ class BalanceProjectsController extends Controller
 
         $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','furniture')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -515,7 +515,7 @@ class BalanceProjectsController extends Controller
 
         $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','intangible_assets')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));
@@ -621,7 +621,7 @@ class BalanceProjectsController extends Controller
 
         $years= years($pro_id)['years'];
         array_unshift($years,$currentYear);
-          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','equipment_buildings')->get();
+          $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type','other_assets')->get();
           foreach($allData as $data){
            $emp1 = [$data->item];
          //  dd(count(years()['years']));

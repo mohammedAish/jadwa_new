@@ -128,6 +128,7 @@ function model_assumptions($work_start_date, $development_stage, $year_days_numb
 }
 
 function incomeData($pro_id){
+    //dd($pro_id);
     $project = Project::where('id',$pro_id)->first();
 
     $projectStartDate = new DateTime($project->start_date);
@@ -148,6 +149,7 @@ function incomeData($pro_id){
     $remainingmonths =  round($datediff / (60 * 60 * 24*30));
 
             $data = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
+           // dd($data);
             $totleIncomeMounth =0;
             $totleIncomeToEndYear=0;
             $totleIncomeYear=0;
@@ -160,6 +162,7 @@ function incomeData($pro_id){
             $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$pro_id)->first();
             //dd($projectFsGeneralIncomeIncremental);
             $projectFsGeneralIncomeIncrementalDetail =ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get()->toArray();
+            //dd($projectFsGeneralIncomeIncrementalDetail);
             $prev=$totleIncomeYear;
             $totleIncomeAvaragee=0;
             $totleIncomee=0;
@@ -194,15 +197,19 @@ function incomeData($pro_id){
            foreach($data as $dataa){
     //dd($data);
                $dataa->quantity = ($dataa->quantity==0)?1:$dataa->quantity;
-                           if($dataa->expensis_type =='0'){
+                           if($dataa->expensis_type ==0){
                                $expVale = $dataa->value  ;
-                           } if($dataa->expensis_type =='1'){
+                           } if($dataa->expensis_type ==1){
                                //dd($data);
                                $fsIncome=ProjectFsGeneralIncome::where('id',$dataa->fsIncome_id)->first();
-                            // dd($fsIncome);
+                           if($fsIncome != null){
+                               // dd($fsIncome);
                                $expVale=($dataa->value)* ($fsIncome->value/100) ;
+                           }else{
+                            $expVale = $dataa->value;
                            }
-                           if($dataa->expensis_type =='2'){
+                           }
+                           if($dataa->expensis_type ==1){
                                $expVale=($dataa->value/100) *$totleIncomeMounthFS ;
                                $expValeEN=($dataa->value/100) *$totleIncomeToEndYearFS ;
                                $expValeY=($dataa->value/100) *$totleIncomeYearFS ;

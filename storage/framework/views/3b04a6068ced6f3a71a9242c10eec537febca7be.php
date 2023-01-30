@@ -1496,6 +1496,22 @@ unset($__errorArgs, $__bag); ?>"
                                                     <th id="th_other_d">'+formatter.format(response.nxt2)+'</th>\
                                                     <th id="th_other_e">'+formatter.format(response.nxt3)+'</th>\
                                                     <th id="th_other_f">'+formatter.format(response.nxt4)+'</th>\
+                                            </tr>\
+                                            <tr>\
+                                                    <th id="title_expenses">الإيرادات</th>\
+                                                    <th id="th_expenses1"><?php echo e(incomeData($project->id)['totleIncomeToEndYear']); ?></th>\
+                                                            <?php $__currentLoopData = incomeData($project->id)['totleYear']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $totleYears): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\
+                                                            <th id="th_expenses1">' + formatter.format(<?php echo e($totleYears); ?>)+ '</th>\
+                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\
+                                            </tr>\
+                                            <tr>\
+                                                    <th id="title_expenses">نسبة المرافق من الإيرادات</th>\
+                                                    <th id="th_expenses1">' + formatter.format(response.current) + ' %</th>\
+                                                    <th id="th_expenses2">' + formatter.format(response.pre) + ' %</th>\
+                                                    <th id="total_expenses">' + formatter.format(response.next1) + '%</th>\
+                                                    <th id="total_expenses">' + formatter.format(response.next2) + '%</th>\
+                                                    <th id="total_expenses">' + formatter.format(response.next3) + '%</th>\
+                                                    <th id="total_expenses">' + formatter.format(response.next4) + '%</th>\
                                             </tr>')
                                         // });
 
