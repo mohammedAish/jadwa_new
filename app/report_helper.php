@@ -2,6 +2,7 @@
 
 
 use App\Models\admin\Project;
+use App\Models\BalanceProjects;
 use App\Models\Employe;
 use App\Models\EmployeesDetails;
 use App\Models\ProjectExpGeneralIncome;
@@ -14,6 +15,8 @@ use App\Models\ProjectFsGeneralExpensesIncrementalsDetails;
 use App\Models\ProjectFsGeneralIncome;
 use App\Models\ProjectFsGeneralIncomeIncremental;
 use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
+use App\Models\ProjectFsOtherExpenses;
+use App\Models\ProjectFsOtherExpensesIncrementalsDetails;
 use App\Models\ProjectFsRent;
 use App\Models\ProjectFsRentDetails;
 use App\Models\ProjectFsSellingAndMarketingCost;
@@ -58,34 +61,52 @@ function numberOfyears($id): array
     ];
 }
 
+function first_year_sale_and_marketing($pro_id){
+    $data = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
+    $totalOfMarketing=0;
+    $marketing_ratio = ($data->marketing_ratio / 100) * incomeData($pro_id)['totleIncomeToEndYear'];
+    $marketing_amount = $data->marketing_amount;
+    $marketing_growth_rate = $data->marketing_growth_rate;
+    $totalOfMarketing=$marketing_ratio+$marketing_amount;
+    return [
+        'data' => $data,
+        'marketing_ratio' => $marketing_ratio,
+        'marketing_amount' => $marketing_amount,
+        'marketing_growth_rate' => $marketing_growth_rate,
+        'totalOfMarketing'=>$totalOfMarketing,
+    ];
+}
 function fetch_marketing_details($pro_id)
 {
 
     $data = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
-    $item = ProjectFsSellingAndMarketingCost::where('project_id',$pro_id)->first();
-    $totleIncomeToEndYear=first_year_earnings($pro_id)['totleIncomeToEndYear'];
-/*    dd($totleIncomeToEndYear);*/
-//    $current_value = ($item->marketing_amount) + (($item->marketing_ratio/100)*ٌقيمة الايراد);
-    $current_value = ($item->marketing_amount) ;
+    $item = 0;
+
+    $item = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
+    $current_value = $item->marketing_amount;
     $growth = ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
+
     $prev = 0;
     foreach (years($pro_id)['years'] as $key => $year) {
         $prev = $current_value * (1 + ($growth->marketing_growth_rate / 100));
         $nxt1 = $prev * (1 + ($growth->marketing_growth_rate / 100));
         $nxt2 = $nxt1 * (1 + ($growth->marketing_growth_rate / 100));
         $nxt3 = $nxt2 * (1 + ($growth->marketing_growth_rate / 100));
-        $nxt4 = $nxt3 * (1 + ($growth->marketing_growth_rate/ 100));
+        $nxt4 = $nxt3 * (1 + ($growth->marketing_growth_rate / 100));
     }
 
     $pre = 0;
-    $current = ($current_value / 500) * 100;
-    foreach (years(1)['years'] as $key => $year) {
-        $pre =    ($prev / 500) * 100;
-        $next1 =  ($nxt1 / 500) * 100;;
-        $next2 =  ($nxt2 / 500) * 100;;
-        $next3 =  ($nxt3 / 500) * 100;;
-        $next4 =  ($nxt4 / 500) * 100;;
+    $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+    foreach (years($pro_id)['years'] as $key => $year) {
+        foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+            $pre =    ($prev / $item) * 100;
+            $next1 =  ($nxt1 / $item) * 100;;
+            $next2 =  ($nxt2 / $item) * 100;;
+            $next3 =  ($nxt3 / $item) * 100;;
+            $next4 =  ($nxt4 / $item) * 100;;
+        }
     }
+
     $yearCurrent = date('Y', strtotime('12/31'));
     return [
         'item' => $item,
@@ -136,12 +157,15 @@ function annual_growth_rate_of_revenues_during_the_study_period($pro_id){
 }
 
 function Table_of_total_annual_revenues_during_the_study_period($pro_id){
+    $remainingmonths=operationModel($pro_id)['remainingmonths'];
     $projectFsGeneralIncomeIncremental = ProjectFsGeneralIncomeIncremental::where('project_id',$pro_id)->first();
     $yearCurrent = date('Y', strtotime('12/31'));
     $projectFsGeneralIncomeIncrementalDetail =ProjectFsGeneralIncomeIncrementalDetail::where('project_fs_income_incremental_id',$projectFsGeneralIncomeIncremental->id)->get()->toArray();
     $data = ProjectFsGeneralIncome::query()->where('project_id',$pro_id)->get();
     $totleIncomeYear=0;
+    $totleIncomeToEndYearFS=0;
     foreach($data as $dataa){
+        $totleIncomeToEndYearFS += ($dataa->value * $dataa->quantity) * $remainingmonths;
         $totleIncomeYear += ($dataa->value * $dataa->quantity) * 12;
     };
 
@@ -153,7 +177,7 @@ function Table_of_total_annual_revenues_during_the_study_period($pro_id){
             ( (($val['incremental']/100 ) +1)) * $prev ;
         $prev =$totleYear[$val['year']];
     }
-    return['totleYear'=>$totleYear,'yearCurrent'=>$yearCurrent];
+    return['totleYear'=>$totleYear,'yearCurrent'=>$yearCurrent,'totleIncomeToEndYearFS'=>$totleIncomeToEndYearFS];
 }
 
 function first_year_job($pro_id){
@@ -327,6 +351,53 @@ function Total_expenses_incremental($pro_id){
         ];
 }
 
+function all_earnings_of_project($pro_id){
+    $yearCurrent=operationModel($pro_id)['yearCurrent'];
+    $remainingFromYear=operationModel($pro_id)['remainingFromYear'];
+
+    $totleYearFs=Table_of_total_annual_revenues_during_the_study_period($pro_id)['totleYear'];
+
+    $totleIncomeeFS=  array_sum($totleYearFs);
+    $totleIncomeAvarageeFs =$totleIncomeeFS/(5+$remainingFromYear);
+
+    $totleIncomeToEndYearFS=Table_of_total_annual_revenues_during_the_study_period($pro_id)['totleIncomeToEndYearFS'];
+
+    $totleIncomeToEndYear_exp=Total_first_year_expenses_incremental($pro_id)['totleIncomeToEndYear'];
+
+    $totleYear_exp= growth_of_expenses_incremental($pro_id)['totleYear'];
+    $totleIncomeeExp=  array_sum($totleYear_exp);
+
+    $totleIncomeAvaragee_exp =$totleIncomeeExp/(5+$remainingFromYear);
+    $sumOfTotalYearFs=0;
+    $marginOfSumOfTotalYearFs=0;
+    foreach ($totleYearFs as $key=>$value){
+        $profitMarginForYearWithOutFirst=((100*($value-$totleYear_exp[$key]))/$value);
+        $sumOfTotalYearFs += $value-$totleYear_exp[$key];
+        $marginOfSumOfTotalYearFs+=((100*($value-$totleYear_exp[$key]))/$value);
+        $totalProfitForAllYearWithoutFirst[$key]=$value - $totleYear_exp[$key];
+    }
+
+    $totalProfit=($sumOfTotalYearFs+($totleIncomeToEndYearFS-$totleIncomeToEndYear_exp));
+    $theAvarageOftotalProfit=$totalProfit/(operationModel($pro_id)['development_duration']+1);
+    $theAverageOfTotalMarginProfit=(($marginOfSumOfTotalYearFs+(100*((($totleIncomeToEndYearFS)-($totleIncomeToEndYear_exp))/$totleIncomeToEndYearFS)))/(operationModel($pro_id)['development_duration']+1));
+    $totalProfitOfFirstYear=( 100 *($totleIncomeToEndYearFS-$totleIncomeToEndYear_exp)/$totleIncomeToEndYearFS);
+    $profitMarginForFirstYear = $totleIncomeToEndYearFS - $totleIncomeToEndYear_exp;
+
+    return ['totleYearFs'=>$totleYearFs
+        ,'totleYear_exp'=>$totleYear_exp,'yearCurrent'=>$yearCurrent,
+        'totleIncomeToEndYearFS'=>$totleIncomeToEndYearFS,'totleIncomeToEndYear_exp'=>$totleIncomeToEndYear_exp,
+        'totleIncomeeExp'=>$totleIncomeeExp,'totleIncomeeFS'=>$totleIncomeeFS,
+        'totleIncomeAvaragee_exp'=>$totleIncomeAvaragee_exp,'totleIncomeAvarageeFs'=>$totleIncomeAvarageeFs,
+        'profitMarginForYearWithOutFirst'=>$profitMarginForYearWithOutFirst,
+        'totalProfit'=>$totalProfit,
+        'totalProfitForAllYearWithoutFirst'=>$totalProfitForAllYearWithoutFirst,
+        'totalProfitOfFirstYear'=>$totalProfitOfFirstYear,
+        'profitMarginForFirstYear'=>$profitMarginForFirstYear,
+        'theAvarageOftotalProfit'=>$theAvarageOftotalProfit,
+        'theAverageOfTotalMarginProfit'=>$theAverageOfTotalMarginProfit,
+      ];
+}
+
 function first_year_Administrative_expenses($pro_id){
     //get Administrative expenses for first year
     $data = ProjectFsGeneralAdministrativeExpenses::where('project_id',$pro_id)->first();
@@ -364,7 +435,6 @@ function growth_of_Administrative_expenses($pro_id){
 function Toltal_Of_Administraitive_expenses($pro_id){
 
     $data = ProjectFsGeneralAdministrativeExpenses::where('project_id',$pro_id)->first();
-    // dd($data);
     $item = 0;
     if ($data->type == 'custom') {
         $item = ProjectFsGeneralAdministrativeExpensesDetails::with('expenses')->where('project_id', $pro_id)->get();
@@ -628,3 +698,144 @@ function total_of_utilities_table($pro_id){
         'next4' => $next4,
     ];
 }
+
+function first_year_other_expenses_table($pro_id){
+    $data =\App\Models\ProjectFsOtherExpenses::where('project_id', $pro_id)->get();
+    $total=0;
+    foreach ($data as $value){
+        $total +=$value->value;
+    }
+    return [
+        'data' => $data,'total'=>$total
+    ];
+}
+function growth_of_other_expenses($pro_id){
+    $development_duration=operationModel($pro_id)['development_duration'];
+    $details = ProjectFsOtherExpensesIncrementalsDetails::where('project_id', $pro_id)->get();
+    $otherExpensesAvargePersent=0;
+    foreach($details as $item =>$val){
+        $otherExpensesAvargePersent +=$val['incremental'];
+    }
+    $otherExpensesAvargePersent = $otherExpensesAvargePersent /$development_duration;
+    return ['data' => $details,'otherExpensesAvargePersent'=>$otherExpensesAvargePersent];
+}
+function total_other_expenses($pro_id){
+    $item = ProjectFsOtherExpenses::where('project_id', $pro_id)->get();
+    $current_value = 0;
+    foreach ($item as $i) {
+        $current_value += $i->value;
+    }
+    $growth = ProjectFsOtherExpensesIncrementalsDetails::where('project_id', $pro_id)->get();
+    $prev = 0;
+    foreach (years($pro_id)['years'] as $key => $year) {
+        $prev = $current_value * (1 + ($growth[0]->incremental / 100));
+        $nxt1 = $prev * (1 + ($growth[1]->incremental / 100));
+        $nxt2 = $nxt1 * (1 + ($growth[2]->incremental / 100));
+        $nxt3 = $nxt2 * (1 + ($growth[3]->incremental / 100));
+        $nxt4 = $nxt3 * (1 + ($growth[4]->incremental / 100));
+    }
+    $yearCurrent = date('Y', strtotime('12/31'));
+    $prre = 0;
+    $current = ($current_value / incomeData($pro_id)['totleIncomeToEndYear']) * 100;
+    foreach (years($pro_id)['years'] as $key => $year) {
+        foreach (incomeData($pro_id)['totleYear'] as $key => $item) {
+            $prre =    ($prev / $item) * 100;
+            $next1 =  ($nxt1 / $item) * 100;
+            $next2 =  ($nxt2 / $item) * 100;
+            $next3 =  ($nxt3 / $item) * 100;
+            $next4 =  ($nxt4 / $item) * 100;
+        }}
+    return [
+        'item' => $item,
+        'year' => $yearCurrent,
+        'current_value' => $current_value,
+        'current' => $current,
+        'prev' => $prev,
+        'nxt1' => $nxt1,
+        'nxt2' => $nxt2,
+        'nxt3' => $nxt3,
+        'nxt4' => $nxt4,
+        'pre' => $prre,
+        'next1' => $next1,
+        'next2' => $next2,
+        'next3' => $next3,
+        'next4' => $next4,
+    ];
+}
+
+function first_year_balance_projects($pro_id,string $balance_type){
+    $currentYear = date('Y', strtotime('12/31'));
+    $sumCost=0;
+    $totalCost=0;
+    $sumCostOfYear=0;
+    $totalCostOfYear=0;
+    $sumCostOfCurrentYear=0;
+    $totalCostOfCurrentYear=0;
+    $totalCostOfAllYear=0;
+    //get equipment and buildings for first year
+    $data = BalanceProjects::where('project_id',$pro_id)->where('balance_type',$balance_type)->where('purchase_year', $currentYear)->get();
+    $resultOfALlYear = BalanceProjects::where('project_id',$pro_id)->where('balance_type', $balance_type)->where('purchase_year','!=', $currentYear)->get();
+    $resultOfCurrentYearWithOutReserve = BalanceProjects::where('project_id',$pro_id)->where('balance_type','!=', 'reserve')->where('purchase_year', $currentYear)->get();
+    $resultOfALlYearWithOutReserve = BalanceProjects::where('project_id',$pro_id)->where('balance_type','!=', 'reserve')->where('purchase_year','!=', $currentYear)->get();
+
+    foreach ($data as $value){
+        $sumCost +=$value->cost;
+        $totalCost +=$value->cost * $value->quantity;
+    }
+    foreach ($resultOfALlYear as $value){
+        $sumCostOfYear +=$value->cost;
+        $totalCostOfYear +=$value->cost * $value->quantity;
+    }
+    foreach ($resultOfCurrentYearWithOutReserve as $value){
+        $totalCostOfCurrentYear +=($value->cost * $value->quantity);
+
+    }
+    foreach ($resultOfALlYearWithOutReserve as $value){
+        $totalCostOfAllYear +=($value->cost * $value->quantity);
+
+    }
+    $reserves = BalanceProjects::where('project_id',$pro_id)->where('balance_type','reserve')->first();
+    $reserve=$reserves->cost;
+    $theReserveOfCurrentYear=$totalCostOfCurrentYear-($totalCostOfCurrentYear/$reserve);
+    $theTotalOfCurrentYear=$theReserveOfCurrentYear+$totalCostOfCurrentYear;
+    $theReserveOfAllYear=$totalCostOfAllYear-($totalCostOfAllYear/$reserve);
+    $theTotalOfAllYear=$theReserveOfAllYear+$totalCostOfAllYear;
+     return['data'=>$data,'sumCost'=>$sumCost,
+         'totalCost'=>$totalCost,'resultOfALlYear'=>$resultOfALlYear,
+          'sumCostOfYear'=>$sumCostOfYear,'totalCostOfYear'=>$totalCostOfYear,
+         'totalCostOfCurrentYear'=>$totalCostOfCurrentYear,
+         'theReserveOfCurrentYear'=>$theReserveOfCurrentYear,'theTotalOfCurrentYear'=>$theTotalOfCurrentYear,
+         'resultOfCurrentYearWithOutReserve'=>$resultOfCurrentYearWithOutReserve,
+         'resultOfALlYearWithOutReserve'=>$resultOfALlYearWithOutReserve,
+         'totalCostOfAllYear'=>$totalCostOfAllYear,
+         'theReserveOfAllYear'=>$theReserveOfAllYear,'theTotalOfAllYear'=>$theTotalOfAllYear
+     ];
+}
+function total_of_balance_projects($pro_id,string $balance_type){
+    $allData = BalanceProjects::where('project_id',$pro_id)->where('balance_type',$balance_type)->get();
+    $depreciationData = array();
+    $years= years($pro_id)['years'];
+    $currentYear = date('Y', strtotime('12/31'));
+    array_unshift($years,$currentYear);
+    foreach($allData as $data){
+        $emp1 = [$data->item];
+        //  dd(count(years()['years']));
+        foreach($years as $year){
+            if($year ==$data->purchase_year){
+
+                $yearcost=$data->quantity * $data->cost;
+                $t = array_search($year, $years);
+                for($i=$t ;$i < 6; $i++){
+                    array_push($emp1, $yearcost);
+                    $yearcost= $yearcost - ( $yearcost * $data->depreciation / 100);
+                };
+            }else{
+                array_push($emp1,"0");
+            }
+        }
+        $emp = array_slice($emp1, 0, 7);
+        array_push($depreciationData,$emp);
+    }
+    return['depreciationData'=>$depreciationData];
+}
+

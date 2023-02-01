@@ -18,6 +18,7 @@ class ReportController extends Controller
 //        echo years_selling_and_marketing_expenses_of_revenue();
        $project=Project::findOrFail($pro_id);
         $marketing=fetch_marketing_details($pro_id);
+        $firstYearSaleAndMarketing=first_year_sale_and_marketing($pro_id);
         $numberOfyears=numberOfyears($pro_id);
         $firstYearEarnings=first_year_earnings($pro_id);
         $annualGrowthRateOfRevenuesDuringTheStudyPeriod=annual_growth_rate_of_revenues_during_the_study_period($pro_id);
@@ -39,6 +40,23 @@ class ReportController extends Controller
         $TotalOfRent=Total_of_rent($pro_id);
         $firstYearUtilitiesTable=first_year_utilities_table($pro_id);
         $totalOfUtilitiesTable=total_of_utilities_table($pro_id);
+        $growthOfOtherExpenses=growth_of_other_expenses($pro_id);
+        $firstYearOtherExpensesTable=first_year_other_expenses_table($pro_id);
+        $totalOtherExpenses=total_other_expenses($pro_id);
+        $firstYearEquipmentAndBuildings=first_year_balance_projects($pro_id,'equipment_buildings');
+        $totalOfEquipmentAndBuildings=total_of_balance_projects($pro_id,'equipment_buildings');
+        $firstYearTransport=first_year_balance_projects($pro_id,'transport');
+        $totalOfTransport=total_of_balance_projects($pro_id,'transport');
+        $firstYearMachinesAndEquipments=first_year_balance_projects($pro_id,'equipments');
+        $totalOfMachinesAndEquipments=total_of_balance_projects($pro_id,'equipments');
+        $firstYearFurniture=first_year_balance_projects($pro_id,'furniture');
+        $totalOfFurniture=total_of_balance_projects($pro_id,'furniture');
+        $firstYearIntangibleAssets=first_year_balance_projects($pro_id,'intangible_assets');
+        $totalOfIntangibleAssets=total_of_balance_projects($pro_id,'intangible_assets');
+        $firstYearOtherAssets=first_year_balance_projects($pro_id,'other_assets');
+        $totalOfOtherAssets=total_of_balance_projects($pro_id,'other_assets');
+        $allDataOfReserve=first_year_balance_projects($pro_id,'reserve');
+        $allEarningsOfProject=all_earnings_of_project($pro_id);
         return view('admin.report.index')->with([
             'project'=>$project,
             'incomeData'=>$incomeData,
@@ -62,6 +80,24 @@ class ReportController extends Controller
             'TotalOfRent'=>$TotalOfRent,
             'firstYearUtilitiesTable'=>$firstYearUtilitiesTable,
             'totalOfUtilitiesTable'=>$totalOfUtilitiesTable,
+            'firstYearSaleAndMarketing'=>$firstYearSaleAndMarketing,
+            'firstYearOtherExpensesTable'=>$firstYearOtherExpensesTable,
+            'growthOfOtherExpenses'=>$growthOfOtherExpenses,
+            'totalOtherExpenses'=>$totalOtherExpenses,
+            'firstYearEquipmentAndBuildings'=>$firstYearEquipmentAndBuildings,
+            'totalOfEquipmentAndBuildings'=>$totalOfEquipmentAndBuildings,
+            'firstYearTransport'=>$firstYearTransport,
+            'totalOfTransport'=>$totalOfTransport,
+            'firstYearMachinesAndEquipments'=>$firstYearMachinesAndEquipments,
+            'totalOfMachinesAndEquipments'=>$totalOfMachinesAndEquipments,
+            'firstYearFurniture'=>$firstYearFurniture,
+            'totalOfFurniture'=>$totalOfFurniture,
+            'firstYearIntangibleAssets'=>$firstYearIntangibleAssets,
+            'totalOfIntangibleAssets'=>$totalOfIntangibleAssets,
+            'firstYearOtherAssets'=>$firstYearOtherAssets,
+            'totalOfOtherAssets'=>$totalOfOtherAssets,
+            'allDataOfReserve'=>$allDataOfReserve,
+            'allEarningsOfProject'=>$allEarningsOfProject,
         ]);
     }
 
