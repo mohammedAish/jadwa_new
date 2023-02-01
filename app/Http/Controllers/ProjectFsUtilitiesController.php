@@ -38,6 +38,7 @@ class ProjectFsUtilitiesController extends Controller
      */
     public function store(StoreProjectFsUtilitiesRequest $request)
     {
+       // dd($request->all());
         $validator = Validator::make($request->all(), [
             'project_id' => 'required',
         ], [
@@ -78,10 +79,19 @@ class ProjectFsUtilitiesController extends Controller
                     ]);
                 }
             }
-            return response()->json([
-                'status' => 1, 'success' => 'تمت الاضافة بنجاح',
-                'data' => $data,
-            ]);
+            if($request->no_utilities == 1){
+                return response()->json([
+                    'status' => 0, 'success' => 'تمت الاضافة بنجاح',
+                    'data' => $data,
+                ]);
+            }
+            else{
+                return response()->json([
+                    'status' => 1, 'success' => 'تمت الاضافة بنجاح',
+                    'data' => $data,
+                ]);
+            }
+
         }
     }
 

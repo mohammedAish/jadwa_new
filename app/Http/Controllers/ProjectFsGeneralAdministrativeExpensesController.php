@@ -57,6 +57,10 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
     public function store(StoreProjectFsGeneralAdministrativeExpensesRequest $request,$pro_id)
     {
 
+     $data = $request->all();
+
+
+       // dd($expensis_type);
         $validator = Validator::make($request->all(), [
             'project_id' => 'required',
             'administrative_expenses_type' => 'required',
@@ -100,10 +104,18 @@ class ProjectFsGeneralAdministrativeExpensesController extends Controller
                     'type' => 'custom',
                 ]);
                 // dd($request->all());
-                foreach ($test['expensis_type'] as $key => $item) {
+                $del_val = 'أخري';
+                $expensis_type =[];
+                foreach ($test['expensis_type'] as $key => $item){
+                    if($item !== 'أخري'){
+                        array_push($expensis_type, $item);
+                      }
+                }
+                foreach ($expensis_type as $key => $item) {
+                   // dd($expensis_type [$key]);
                     ProjectFsGeneralAdministrativeExpensesDetails::create([
                         'gae_id' => $data->id,
-                        'expensis_type' => $test['expensis_type'][$key],
+                        'expensis_type' => $expensis_type[$key],
                         'value' => $test['value'][$key],
                         'project_id' => $request->project_id,
 

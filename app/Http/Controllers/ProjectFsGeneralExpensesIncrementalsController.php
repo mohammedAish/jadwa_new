@@ -40,18 +40,19 @@ class ProjectFsGeneralExpensesIncrementalsController extends Controller
      */
     public function store(StoreProjectFsGeneralExpensesIncrementalsRequest $request,$pro_id)
     {
+        //dd('s');
         $counRequest = count($request->all());
-        // dd($counRequest);
+        //dd($counRequest);
         if ($counRequest == 1) {
-            $result = ProjectFsGeneralExpensesIncrementals::where('project_id', 1)->delete();
-            $previos = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id','1')->delete();
+            $result = ProjectFsGeneralExpensesIncrementals::where('project_id', $pro_id)->delete();
+            $previos = ProjectFsGeneralExpensesIncrementalsDetails::where('project_id',$pro_id)->delete();
             $projectFsGeneralIncomeIncremental = ProjectFsGeneralExpensesIncrementals::query()->updateOrCreate([
                 'project_id'   => $pro_id,
             ], [
                 'project_id' => $pro_id,
                 'incremental' => $request->one_value_incremental,
             ]);
-            // dd($projectFsGeneralIncomeIncremental);
+            //dd($projectFsGeneralIncomeIncremental);
             $result = ProjectFsGeneralExpensesIncrementalsDetails::where('general_expenses_id', $projectFsGeneralIncomeIncremental->id)->delete();
             foreach (years($pro_id)['years'] as $year) {
                 ProjectFsGeneralExpensesIncrementalsDetails::query()->create([

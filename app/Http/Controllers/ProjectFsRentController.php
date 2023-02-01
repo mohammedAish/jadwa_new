@@ -112,11 +112,19 @@ class ProjectFsRentController extends Controller
                     }
                 }
             }
-            //dd($data);
+            if($request->no_rent == 1){
+                //dd('sssss');
+                return response()->json([
+                    'status' =>0, 'success' => 'تمت الاضافة بنجاح',
+                    'data' => $data,
+                ]);
+            }else{
+              //  dd('aa');
             return response()->json([
                 'status' => 1, 'success' => 'تمت الاضافة بنجاح',
                 'data' => $data,
             ]);
+        }
         }
     }
 

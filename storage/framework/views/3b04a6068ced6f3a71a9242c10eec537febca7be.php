@@ -57,7 +57,14 @@
                                                                 aria-hidden="true"></i> </label>
                                                         <select class="form-control" name="administrative_expenses_type"
                                                             id="administrative_expenses_type">
-                                                            <option selected disabled>اختر</option>
+                                                            <option   disabled>اختر</option>
+                                                            <?php if($projectFsGeneralAdministrativeExpenses->type == 'amount'): ?>
+                                                            <option selected  value="1">مبلغ ثابت</option>
+                                                            <?php elseif($projectFsGeneralAdministrativeExpenses->type == 'ratio'): ?>
+                                                            <option  selected  value="2">نسبة من ايرادات المنتج</option>
+                                                            <?php elseif($projectFsGeneralAdministrativeExpenses->type == 'custom'): ?>
+                                                            <option selected   value="3">تخصيص </option>
+                                                            <?php endif; ?>
                                                             <option value="1">مبلغ ثابت</option>
                                                             <option value="2">نسبة من ايرادات المنتج</option>
                                                             <option value="3">تخصيص </option>
@@ -66,11 +73,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <div class="display" id="expense_amount_div">
+                                                    <div  <?php if($projectFsGeneralAdministrativeExpenses->type == 'amount'): ?>  class="" <?php else: ?> class="display" <?php endif; ?> id="expense_amount_div">
                                                         <label for="expense_amount"><strong>مبلغ المصاريف
                                                                 الإدارية من الإيرادات</strong></label>
                                                         <div class="mb-2 input-group">
-                                                            <input type="text" name="expense_amount" value=""
+                                                            <input type="text" name="expense_amount" value="<?php echo e($projectFsGeneralAdministrativeExpenses->value); ?>"
                                                                 onkeypress="return isNumber(event)" class="form-control"
                                                                 id="expense_amount">
                                                             <span
@@ -83,7 +90,7 @@
                                                             <?php endif; ?>
                                                         </div>
                                                     </div>
-                                                    <div class="display" id="expense_ratio_div">
+                                                    <div <?php if($projectFsGeneralAdministrativeExpenses->type == 'ratio'): ?>  class="" <?php else: ?> class="display" <?php endif; ?> id="expense_ratio_div">
                                                         <label for="expense_ratio"><strong>نسبة المصاريف الإدارية من
                                                                 الإيرادات</strong></label>
                                                         <div class="mb-3 input-group">
@@ -105,7 +112,7 @@ unset($__errorArgs, $__bag); ?>"
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="display" id="expenseTable_div">
+                                            <div <?php if($projectFsGeneralAdministrativeExpenses->type == 'custom'): ?>  class="" <?php else: ?> class="display" <?php endif; ?> id="expenseTable_div">
                                                 <table class="table table-bordered" style="text-align: center !important"
                                                     id="expenseTable">
                                                     <thead class="table-light">
@@ -116,24 +123,42 @@ unset($__errorArgs, $__bag); ?>"
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbodyExpenseTable">
+                                                        <?php $__currentLoopData = $projectFsGeneralAdministrativeExpensesDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectFsGeneralAdministrativeExpensesDetail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                                                         <tr>
-                                                            <td> <select class="form-control" name="expensis_type[]">
-                                                                    <option value="-1">اختر</option>
+
+                                                            <td>
+                                                                <div class="d-flex flex-row"  id="sales_channels">
+                                                               <div id="mapDiv" class="col-12">
+                                                                  <select style="background-color: #FAFAFA;" onchange="checkAlert(event)" id="executive"  class="form-select my-2"  name="expensis_type[]">
+                                                                    <?php if($projectFsGeneralAdministrativeExpensesDetails->isNotEmpty()): ?>
+                                                                    <?php else: ?>
+                                                                    <option>اختر</option>
+                                                                    <?php endif; ?>
+                                                                 <option selected value="<?php echo e($projectFsGeneralAdministrativeExpensesDetail->expensis_type); ?>"><?php echo e($projectFsGeneralAdministrativeExpensesDetail->expensis_type); ?></option>
+
+
                                                                     <?php $__currentLoopData = $AdministExpen; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <option value="<?php echo e($itm->id); ?>">
-                                                                            <?php echo e($itm->item); ?></option>
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                    <option value="0">أخرى</option>
-                                                                </select>
-                                                            </td>
+                                                                    <option value="<?php echo e($itm->id); ?>">
+                                                                        <?php echo e($itm->item); ?></option>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                 <option value="أخري">أخري</option>
+                                                                       </select>
+                                           <span class="text-danger error-text item_error"></span>
+                                               </div>
+                                               </div>
+                                          </td>
                                                             <td><input type="text" name="value[]" class="form-control"
+                                                                value="<?php echo e($projectFsGeneralAdministrativeExpensesDetail); ?>"
                                                                     id="value" aria-label="value"></td>
                                                             <td> <button class="text-danger rounded-circle" type="button"
                                                                     id="delete_value"
                                                                     style="cursor: pointer; background: none; border: none;">
                                                                     <i class="mdi mdi-delete font-size-20"></i></button>
                                                             </td>
+
                                                         </tr>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </tbody>
                                                 </table>
                                                 <button type="button" value="اضافة" name="add_td_Expense"
@@ -164,11 +189,36 @@ unset($__errorArgs, $__bag); ?>"
                                 <label for="verticalnav-pancard-input"><strong>نسبة نمو الايرادات</strong></label>
                                 <div class="mb-3 price input-group">
                                     <input type="text" name="one_value_incremental"
+                                    <?php if($projectFsGeneralExpensesIncrementals != null): ?> value="<?php echo e($projectFsGeneralExpensesIncrementals->incremental); ?>"<?php endif; ?>
                                         onkeypress="return isNumber(event)" class="form-control"
                                         id="verticalnav-pancard-input">
                                     <span class="text-danger error-text value_incremental_error"></span>
                                     <button class="btn btn-light" type="button"><i class="mdi mdi-percent"></i></button>
                                 </div>
+                                <?php if($projectFsGeneralExpensesIncrementalsDetails->isNotEmpty()): ?>
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-nowrap table-check" style="width: 50%;">
+                                <thead>
+                                <tr style="background: rgba(244, 244, 244, 0.5);  ">
+                                    <th class="align-middle">السنة / البند</th>
+                                    <th>نسبة النمو في قيمة الإيراد</th>
+                                </tr>
+                                </thead>
+                         <tbody id="incrementals" style="line-height: 0px;">
+                           <?php $__currentLoopData = $projectFsGeneralExpensesIncrementalsDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr class=" bootstrap-touchspin bootstrap-touchspin-injected">
+                                <input hidden name="id" value="<?php echo e($item->general_expenses_id); ?>">
+                                <td><?php echo e($item->year); ?> <input hidden name="year[]" value="<?php echo e($item->year); ?>"></td>
+                                <td>
+                     <input style="background-color: #FAFAFA;" type="text" name="value_incremental[]" class="form-control" value="<?php echo e($item->incremental); ?> " >
+                                </td>
+                            </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                         </tbody>
+                            </table>
+                            </div>
+                            <?php else: ?>
                                 <button type="button" value="حفظ ومتابعة ->" name="value_incremental_button"
                                     style="    font-size: 17px;
                                         background: none;
@@ -177,6 +227,7 @@ unset($__errorArgs, $__bag); ?>"
                                     class="" id="value_incremental_button">
                                     تخصيص نسبة النمو +
                                 </button>
+                                <?php endif; ?>
 
 
                                 <div class="row">
@@ -259,7 +310,12 @@ unset($__errorArgs, $__bag); ?>"
                                                                 الإيجارات</strong> <i class="fa fa-lightbulb-o"
                                                                 aria-hidden="true"></i> </label>
                                                         <select class="form-control" name="rent_type" id="rent_type">
-                                                            <option selected disabled>اختر</option>
+                                                            <?php if($projectFsRent->type =='amount'): ?>
+                                                            <option selected value="1">مبلغ ثابت</option>
+                                                            <?php elseif($projectFsRent->type =='custom'): ?>
+                                                            <option selected value="3">تخصيص </option>
+                                                            <?php endif; ?>
+                                                            <option  disabled>اختر</option>
                                                             <option value="1">مبلغ ثابت</option>
                                                             
                                                             <option value="3">تخصيص </option>
@@ -267,7 +323,7 @@ unset($__errorArgs, $__bag); ?>"
                                                         <span class="text-danger error-text item_error"></span>
                                                     </div>
                                                 </div>
-                                                <div class="mb-2 display" id="div_rental_cost">
+                                                <div   <?php if($projectFsRent->type =='amount'): ?> class="mb-2" <?php else: ?> class="mb-2 display" <?php endif; ?> id="div_rental_cost">
                                                     <div class="inner-repeater mb-4">
                                                         <div data-repeater-list="inner-group" class="inner mb-4">
                                                             <div class="mb-2 row ">
@@ -276,7 +332,7 @@ unset($__errorArgs, $__bag); ?>"
                                                                             الايجارات</strong></label>
                                                                     <div class="mb-2 input-group">
                                                                         <input type="text" name="rental_cost"
-                                                                            value="" placeholder="تكلفة الايجارات"
+                                                                            value="<?php echo e($projectFsRent->value); ?>" placeholder="تكلفة الايجارات"
                                                                             onkeypress="return isNumber(event)"
                                                                             class="form-control" id="rental_cost">
                                                                         <span
@@ -306,6 +362,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
                                                                             id="growth_rate_rent"
+                                                                          value="<?php echo e($projectFsRent->growth_rate_rent); ?>"
                                                                             placeholder="نسبة النمو "
                                                                             aria-label="growth_rate_rent">
                                                                         <button class="btn btn-light" type="button"><i
@@ -322,7 +379,7 @@ unset($__errorArgs, $__bag); ?>"
 
 
                                                 </div>
-                                                <div class="display" id="rent_custom">
+                                                <div <?php if($projectFsRent->type =='custom'): ?> class="mb-2" <?php else: ?> class="mb-2 display" <?php endif; ?>  id="rent_custom">
                                                     <label for="verticalnav-pancard-input"><strong>جدول تفصيلي
                                                             للبنود</strong></label>
                                                     <table class="table table-bordered"
@@ -336,14 +393,17 @@ unset($__errorArgs, $__bag); ?>"
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tbodyRentTable">
+                                                            <?php if($projectFsRentDetails !=null): ?>
+                                                            <?php $__currentLoopData = $projectFsRentDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectFsRentDetail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <tr>
                                                                 <td style="width: 29%"><input type="text"
                                                                         name="title[]" class="form-control"
-                                                                        id="title" aria-label="title">
+                                                                        id="title" aria-label="title" value="<?php echo e($projectFsRentDetail->title); ?>">
                                                                 </td>
                                                                 <td style="width: 29%">
 
                                                                     <input type="text" name="value_rent[]"
+                                                                    value="<?php echo e($projectFsRentDetail->value); ?>"
                                                                         class="form-control" id="value_rent">
 
                                                 </div>
@@ -351,7 +411,7 @@ unset($__errorArgs, $__bag); ?>"
                                                 <td style="width: 29%">
                                                     <div class="mb-3 input-group">
                                                         <input type="text" name="growth_rent[]" class="form-control"
-                                                            id="growth_rent" aria-label="growth_rent">
+                                                            id="growth_rent" aria-label="growth_rent" value="<?php echo e($projectFsRentDetail->growth_rent); ?>">
                                                         <button class="btn btn-light" type="button"><i
                                                                 class="mdi mdi-percent"></i></button>
                                                 </td>
@@ -363,6 +423,37 @@ unset($__errorArgs, $__bag); ?>"
                                                         <i class="mdi mdi-delete font-size-20"></i></button>
                                                 </td>
                                                 </tr>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php else: ?>
+                                                <tr>
+                                                    <td style="width: 29%"><input type="text"
+                                                            name="title[]" class="form-control"
+                                                            id="title" aria-label="title" value="">
+                                                    </td>
+                                                    <td style="width: 29%">
+
+                                                        <input type="text" name="value_rent[]"
+                                                        value=""
+                                                            class="form-control" id="value_rent">
+
+                                    </div>
+                                    </td>
+                                    <td style="width: 29%">
+                                        <div class="mb-3 input-group">
+                                            <input type="text" name="growth_rent[]" class="form-control"
+                                                id="growth_rent" aria-label="growth_rent" value="">
+                                            <button class="btn btn-light" type="button"><i
+                                                    class="mdi mdi-percent"></i></button>
+                                    </td>
+
+                                    <td style="width: 13%">
+                                        <button class="text-danger rounded-circle" type="button"
+                                            id="delete_income_expenses_item"
+                                            style="cursor: pointer; background: none; border: none;">
+                                            <i class="mdi mdi-delete font-size-20"></i></button>
+                                    </td>
+                                    </tr>
+                                    <?php endif; ?>
                                                 </tbody>
                                                 </table>
                                                 <button type="button" value="اضافة" name="add_td_rent"
@@ -448,6 +539,28 @@ unset($__errorArgs, $__bag); ?>"
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbodyUtilitiesTable">
+                                                        <?php if($utilities_details != null): ?>
+                                                        <?php $__currentLoopData = $utilities_details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $utilities_details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <tr>
+                                                            <td style="width: 29%"><input type="text"
+                                                                    name="title_utilities[]" class="form-control"
+                                                                    value="<?php echo e($utilities_details->title); ?>"
+                                                                    id="title_utilities" aria-label="title_utilities">
+                                                            </td>
+                                                            <td style="width: 29%"><input type="text"
+                                                                    name="value_utilities[]" class="form-control"
+                                                                    value="<?php echo e($utilities_details->value); ?>"
+                                                                    id="value_utilities" aria-label="value_utilities">
+                                                            </td>
+                                                            <td style="width: 13%">
+                                                                <button class="text-danger rounded-circle" type="button"
+                                                                    id="delete_utilities_item"
+                                                                    style="cursor: pointer; background: none; border: none;">
+                                                                    <i class="mdi mdi-delete font-size-20"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php else: ?>
                                                         <tr>
                                                             <td style="width: 29%"><input type="text"
                                                                     name="title_utilities[]" class="form-control"
@@ -464,6 +577,7 @@ unset($__errorArgs, $__bag); ?>"
                                                                     <i class="mdi mdi-delete font-size-20"></i></button>
                                                             </td>
                                                         </tr>
+                                                        <?php endif; ?>
                                                     </tbody>
                                                 </table>
                                                 <button type="button" value="اضافة" name="add_td_utilities"
@@ -495,10 +609,35 @@ unset($__errorArgs, $__bag); ?>"
                             <label for="verticalnav-pancard-input"><strong>نسبة نمو المرافق</strong></label>
                             <div class="mb-3 price input-group">
                                 <input type="text" name="one_value_incremental_utilities" class="form-control"
-                                    id="verticalnav-pancard-input">
+                                <?php if($projectFsUtilitiesIncrementals != null): ?>value="<?php echo e($projectFsUtilitiesIncrementals->incremental); ?>"<?php endif; ?>
+                                id="verticalnav-pancard-input">
                                 <span class="text-danger error-text one_value_incremental_utilities_error"></span>
                                 <button class="btn btn-light" type="button"><i class="mdi mdi-percent"></i></button>
                             </div>
+                     <?php if($projectFsUtilitiesIncrementalsDetails->isNotEmpty()): ?>
+                            <div class="table-responsive">
+                                <table class="table align-middle table-nowrap table-check" style="width: 50%;">
+                            <thead>
+                            <tr style="background: rgba(244, 244, 244, 0.5);  ">
+                                <th class="align-middle">السنة / البند</th>
+                                <th>نسبة النمو في قيمة الإيراد</th>
+                            </tr>
+                            </thead>
+                     <tbody id="incrementals" style="line-height: 0px;">
+                       <?php $__currentLoopData = $projectFsUtilitiesIncrementalsDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <tr class=" bootstrap-touchspin bootstrap-touchspin-injected">
+                            <input hidden name="id" value="<?php echo e($item->utilities_id); ?>">
+                            <td><?php echo e($item->year); ?> <input hidden name="year[]" value="<?php echo e($item->year); ?>"></td>
+                            <td>
+                 <input style="background-color: #FAFAFA;" type="text" name="value_incremental_utilities[]" class="form-control" value="<?php echo e($item->incremental); ?> " >
+                            </td>
+                        </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                     </tbody>
+                        </table>
+                        </div>
+                        <?php else: ?>
                             <button type="button" value="حفظ ومتابعة ->" name="value_utilities_button"
                                 style="    font-size: 17px;
                                         background: none;
@@ -507,7 +646,7 @@ unset($__errorArgs, $__bag); ?>"
                                 class="" id="value_utilities_button">
                                 تخصيص نسبة النمو +
                             </button>
-
+                            <?php endif; ?>
 
                             <div class="row">
 
@@ -575,7 +714,7 @@ unset($__errorArgs, $__bag); ?>"
                                                 <label for="marketing_amount"><strong>مبلغ مخصص للتسويق
                                                         سنوياً</strong></label>
                                                 <div class="mb-2 input-group">
-                                                    <input type="text" name="marketing_amount" value=""
+                                                    <input type="text" name="marketing_amount" value="<?php echo e($projectFsSellingAndMarketingCost->marketing_amount); ?>"
                                                         class="form-control" id="marketing_amount"
                                                         placeholder="مبلغ مخصص للتسويق سنوياً">
                                                     <span class="text-danger error-text marketing_amount_error"></span>
@@ -591,7 +730,7 @@ unset($__errorArgs, $__bag); ?>"
                                                 <label for="marketing_ratio"><strong>نسبة التسويق من
                                                         الايرادات</strong></label>
                                                 <div class="mb-3 input-group">
-                                                    <input type="text" name="marketing_ratio"
+                                                    <input type="text" name="marketing_ratio" value="<?php echo e($projectFsSellingAndMarketingCost->marketing_ratio); ?>"
                                                         class="form-control <?php $__errorArgs = ['marketing_ratio'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -620,7 +759,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                                        id="marketing_growth_rate"
+                                                        id="marketing_growth_rate" value="<?php echo e($projectFsSellingAndMarketingCost->marketing_growth_rate); ?>"
                                                         placeholder="نسبة نمو تكاليف التسويق  سنويا"
                                                         aria-label="marketing_growth_rate">
                                                     <button class="btn btn-light" type="button"><i
@@ -694,17 +833,33 @@ unset($__errorArgs, $__bag); ?>"
                                                 </tr>
                                             </thead>
                                             <tbody id="tbodyOtherTable">
+                                                <?php if($projectFsOtherExpenses->isNotEmpty()): ?>
+                                                <?php $__currentLoopData = $projectFsOtherExpenses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectFsOtherExpense): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
                                                     <td><input type="text" name="title[]" class="form-control"
-                                                            id="value" aria-label="value"></td>
+                                                            id="value" aria-label="value" value="<?php echo e($projectFsOtherExpense->title); ?>"></td>
                                                     <td><input type="text" name="value[]" class="form-control"
-                                                            id="value" aria-label="value"></td>
+                                                            id="value" aria-label="value" value="<?php echo e($projectFsOtherExpense->value); ?>"></td>
                                                     <td> <button class="text-danger rounded-circle" type="button"
                                                             id="delete_value"
                                                             style="cursor: pointer; background: none; border: none;">
                                                             <i class="mdi mdi-delete font-size-20"></i></button>
                                                     </td>
                                                 </tr>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php else: ?>
+                                                <tr>
+                                                    <td><input type="text" name="title[]" class="form-control"
+                                                            id="value" aria-label="value" ></td>
+                                                    <td><input type="text" name="value[]" class="form-control"
+                                                            id="value" aria-label="value" ></td>
+                                                    <td> <button class="text-danger rounded-circle" type="button"
+                                                            id="delete_value"
+                                                            style="cursor: pointer; background: none; border: none;">
+                                                            <i class="mdi mdi-delete font-size-20"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <?php endif; ?>
                                             </tbody>
                                         </table>
                                         <button type="button" value="اضافة" name="add_td_other"
@@ -739,10 +894,35 @@ unset($__errorArgs, $__bag); ?>"
                             <div class="mb-3 price input-group">
                                 <input type="text" name="one_value_incremental_other_expenses"
                                     class="form-control"
+                                    <?php if($projectFsOtherExpensesIncrementals != null): ?>value="<?php echo e($projectFsOtherExpensesIncrementals->incremental); ?>"<?php endif; ?>
                                     id="verticalnav-pancard-input">
                                 <span class="text-danger error-text value_other_expenses_error"></span>
                                 <button class="btn btn-light" type="button"><i class="mdi mdi-percent"></i></button>
                             </div>
+                            <?php if($projectFsOtherExpensesIncrementalsDetails->isNotEmpty()): ?>
+                            <div class="table-responsive">
+                                <table class="table align-middle table-nowrap table-check" style="width: 50%;">
+                            <thead>
+                            <tr style="background: rgba(244, 244, 244, 0.5);  ">
+                                <th class="align-middle">السنة / البند</th>
+                                <th>نسبة النمو في قيمة الإيراد</th>
+                            </tr>
+                            </thead>
+                     <tbody id="incrementals" style="line-height: 0px;">
+                       <?php $__currentLoopData = $projectFsOtherExpensesIncrementalsDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <tr class=" bootstrap-touchspin bootstrap-touchspin-injected">
+                            <input hidden name="id" value="<?php echo e($item->other_expenses_id); ?>">
+                            <td><?php echo e($item->year); ?> <input hidden name="year[]" value="<?php echo e($item->year); ?>"></td>
+                            <td>
+                 <input style="background-color: #FAFAFA;" type="text" name="value_incremental_other_expenses[]" class="form-control" value="<?php echo e($item->incremental); ?> " >
+                            </td>
+                        </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                     </tbody>
+                        </table>
+                        </div>
+                        <?php else: ?>
                             <button type="button" value="حفظ ومتابعة ->" name="value_other_expenses_button"
                                 style="    font-size: 17px;
                                     background: none;
@@ -752,6 +932,7 @@ unset($__errorArgs, $__bag); ?>"
                                 تخصيص نسبة النمو +
                             </button>
 
+                            <?php endif; ?>
 
                             <div class="row">
 
@@ -844,7 +1025,22 @@ unset($__errorArgs, $__bag); ?>"
     <script src="<?php echo e(asset('assets/js/pages/form-wizard.init.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/libs/jquery-steps/jquery-steps.min.js')); ?>"></script>
     <script>
+           function checkAlert(evt) {
+            if (evt.target.value === "أخري") {
+               $('#mapDiv').removeClass('col-12');
+                $('#mapDiv').addClass('col-1');
+                $('#executive').attr("style", "background-color:#B6B6B6;")
+                $('#sales_channels').append(`<div class="my-2 col-9"><input name="expensis_type[]" type="text" class="inner form-control"  value="" placeholder="" style="background-color:  #FAFAFA;" /></div>`);
+
+                $('#mapDiv').attr("style", "display:contents;")
+                $('#executive').disabled;
+            }else{
+                $('#sales_channels').hide();  }
+        }
+    </script>
+    <script>
         $(document).ready(function() {
+
             $('#vertical-example-t-0').parent().attr('class', 'current');
             $('#administrative_expenses_type').on('change', function(e) {
                 let val = $("#administrative_expenses_type option:selected").val();
@@ -1120,6 +1316,10 @@ unset($__errorArgs, $__bag); ?>"
                             $.each(data.error, function(prefix, val) {
                                 $('span.' + prefix + '_error').text(val[0]);
                             });
+                            $('#vertical-example-p-3').attr('style', 'display:none');
+                            $('#vertical-example-p-5').removeAttr('style');
+                            $('#vertical-example-t-3').parent().removeClass('current');
+                            $('#vertical-example-t-5').parent().attr('class', 'current');
                         }
                     }
                 });
@@ -1417,7 +1617,7 @@ unset($__errorArgs, $__bag); ?>"
                                                 });
                                 $('#expenses_incremental_tbody').append('\
                                                     <tr style="background: #F9AA1C;"><th id="title_expenses">الاجمالي</th>\
-                                                    <th>'+sum+'%</th><tr>\
+                                                    <th>'+sum/5+'%</th><tr>\
                                             ');
 
                     }
@@ -1455,7 +1655,7 @@ unset($__errorArgs, $__bag); ?>"
                                                 });
                                 $('#other_incremental_tbody').append('\
                                                     <tr style="background: #F9AA1C;"><th id="title_expenses">الاجمالي</th>\
-                                                    <th>'+sum+' %</th><tr>\
+                                                    <th>'+sum/5+' %</th><tr>\
                                             ');
 
                     }
@@ -1756,7 +1956,7 @@ $('#view_rent_dataas').append('<td>' +formatter.format(i)+' </td>');
                                                 });
                                 $('#utilities_custom_tbody').append('\
                                                     <tr style="background: #413886CC;"><th id="title_rent">الاجمالي</th>\
-                                                    <th>'+sum+'</th>\
+                                                    <th>'+sum/5+'</th>\
                                                     <tr>');
                     }
                 });

@@ -10,11 +10,25 @@ use App\Models\ProjectBpChannelResource;
 use App\Models\ProjectExpGeneralIncome;
 use App\Models\ProjectExpGeneralIncomeIncremental;
 use App\Models\ProjectExpGeneralIncomeIncrementalDetail;
+use App\Models\ProjectFsGeneralAdministrativeExpenses;
+use App\Models\ProjectFsGeneralAdministrativeExpensesDetails;
 use App\Models\ProjectFsGeneralIncome;
 use App\Models\ProjectFsGeneralIncomeIncremental;
 use App\Models\ProjectFsGeneralIncomeIncrementalDetail;
 use App\Models\ProjectProductDetail;
 use Illuminate\Http\Request;
+use App\Models\ProjectFsGeneralExpensesIncrementalsDetails;
+use App\Models\ProjectFsGeneralExpensesIncrementals;
+use App\Models\ProjectFsOtherExpenses;
+use App\Models\ProjectFsRent;
+use App\Models\ProjectFsRentDetails;
+use App\Models\ProjectFsSellingAndMarketingCost;
+use App\Models\ProjectFsUtilities;
+use App\Models\ProjectFsUtilitiesDetails;
+use App\Models\ProjectFsUtilitiesIncrementalsDetails;
+use App\Models\ProjectFsUtilitiesIncrementals;
+use App\Models\ProjectFsOtherExpensesIncrementalsDetails;
+use App\Models\ProjectFsOtherExpensesIncrementals;
 
 class FeasibilityStudiesController extends Controller
 {
@@ -202,7 +216,47 @@ class FeasibilityStudiesController extends Controller
         $project=Project::findOrFail($pro_id);
 
         $projectIncomes = ProjectFsGeneralIncome::where('project_id',$pro_id)->get();
+        $projectFsGeneralAdministrativeExpenses = ProjectFsGeneralAdministrativeExpenses::where('project_id', $pro_id)->first();
+        if($projectFsGeneralAdministrativeExpenses->type == "custom"){
+            $projectFsGeneralAdministrativeExpensesDetails = ProjectFsGeneralAdministrativeExpensesDetails::where('gae_id', $projectFsGeneralAdministrativeExpenses->id)->get();
+
+        }else{
+            $projectFsGeneralAdministrativeExpensesDetails = ProjectFsGeneralAdministrativeExpensesDetails::where('gae_id', 0)->get();
+        }
+        $e = ProjectFsGeneralAdministrativeExpensesDetails::where('gae_id', $projectFsGeneralAdministrativeExpenses->id)->get();
+        $projectFsGeneralExpensesIncrementals = ProjectFsGeneralExpensesIncrementals::where('project_id', $pro_id)->first();
+        $projectFsGeneralExpensesIncrementalsDetails = ProjectFsGeneralExpensesIncrementalsDetails::where('general_expenses_id',$projectFsGeneralExpensesIncrementals->id)->get();
         $AdministExpen = AdministExpen::get();
-        return view('admin.forms.generalAdministrativeExpenses',compact('project','projectIncomes','AdministExpen'));
+        $projectFsRent = ProjectFsRent::where('project_id',$pro_id)->first();
+        if($projectFsRent->type == "custom"){
+            $projectFsRentDetails = ProjectFsRentDetails::where('rent_id',$projectFsRent->id)->get();
+        }else{
+            $projectFsRentDetails =null;
+        }
+        $utilities = ProjectFsUtilities::where('project_id', $pro_id)->first();
+        if($utilities->type == "custom"){
+        $utilities_details = ProjectFsUtilitiesDetails::where('utilities_id',$utilities->id)->get();
+    }else{
+        $utilities_details =null;
+    }
+    $projectFsUtilitiesIncrementals = ProjectFsUtilitiesIncrementals::where('project_id', $pro_id)->first();
+    if($projectFsUtilitiesIncrementals != null){
+    $projectFsUtilitiesIncrementalsDetails = ProjectFsUtilitiesIncrementalsDetails::where('utilities_id',$projectFsUtilitiesIncrementals->id)->get();
+     }else{
+        $projectFsUtilitiesIncrementalsDetails = ProjectFsUtilitiesIncrementalsDetails::where('utilities_id',0)->get();
+     }
+    // dd($projectFsUtilitiesIncrementalsDetails);
+     $projectFsSellingAndMarketingCost =ProjectFsSellingAndMarketingCost::where('project_id', $pro_id)->first();
+     $projectFsOtherExpenses = ProjectFsOtherExpenses::where('project_id' , $pro_id)->get();
+     $projectFsOtherExpensesIncrementals = ProjectFsOtherExpensesIncrementals::where('project_id', $pro_id)->first();
+     $projectFsOtherExpensesIncrementalsDetails = ProjectFsOtherExpensesIncrementalsDetails::where('project_id' , $pro_id)->get();
+
+   //  dd($projectFsOtherExpensesIncrementalsDetails);
+     return view('admin.forms.generalAdministrativeExpenses',compact('project','projectIncomes',
+        'AdministExpen','projectFsGeneralAdministrativeExpenses','projectFsRent','utilities_details',
+        'projectFsRentDetails','projectFsUtilitiesIncrementalsDetails','projectFsUtilitiesIncrementals',
+        'projectFsSellingAndMarketingCost','projectFsOtherExpenses','projectFsOtherExpensesIncrementals',
+        'projectFsOtherExpensesIncrementalsDetails','projectFsGeneralAdministrativeExpensesDetails',
+    'projectFsGeneralExpensesIncrementalsDetails','projectFsGeneralExpensesIncrementals'));
     }
 }
